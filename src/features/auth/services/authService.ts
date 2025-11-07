@@ -68,11 +68,23 @@ export const MOCK_USERS: User[] = [
  * - Use secure authentication (OAuth, JWT, etc.)
  * 
  * Learning Note:
- * Record<K, V> creates an object type with:
- * - Keys of type K (string - username)
- * - Values of type V (string - password)
+ * Record<User['username'], string> creates a type where:
+ * - Keys must be valid usernames from User type
+ * - Values are password strings
+ * 
+ * This is more type-safe than Record<string, string> because:
+ * - TypeScript ensures keys match actual usernames
+ * - Catches typos at compile time
+ * - Self-documenting (shows which users exist)
+ * 
+ * Alternative approaches:
+ * 1. Record<string, string> - too loose, any string key
+ * 2. Record<User['username'], string> - better, but username is still string
+ * 3. Record<typeof MOCK_USERS[number]['username'], string> - derives from actual users
+ * 
+ * We use approach 2 as a good balance of type safety and simplicity.
  */
-export const MOCK_CREDENTIALS: Record<string, string> = {
+export const MOCK_CREDENTIALS: Record<User['username'], string> = {
   alice: 'password123',
   bob: 'password123',
   charlie: 'password123',
