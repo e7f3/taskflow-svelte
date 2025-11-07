@@ -43,7 +43,7 @@ This plan breaks down the TaskFlow application into incremental, manageable codi
   - Include JSDoc comments explaining store pattern vs Redux
   - _Requirements: 1.2, 1.4_
 
-- [ ] 5.2 Create auth service with mock data
+- [x] 5.2 Create auth service with mock data
   - Create features/auth/services/authService.ts
   - Define MOCK_USERS array with 3 users (Alice, Bob, Charlie)
   - Define MOCK_CREDENTIALS object
