@@ -27,7 +27,7 @@ This plan breaks down the TaskFlow application into incremental, manageable codi
   - Include detailed comments explaining localStorage wrapper pattern
   - _Requirements: 8.1, 8.4, 8.5_
 
-- [ ] 4. Create global theme and CSS variables
+- [x] 4. Create global theme and CSS variables
   - Create src/styles/theme.css with CSS custom properties
   - Define color palette (primary, success, warning, danger, priority colors)
   - Define spacing scale, typography, shadows, and border radius
@@ -35,8 +35,8 @@ This plan breaks down the TaskFlow application into incremental, manageable codi
   - Import theme in main app file
   - _Requirements: 9.3 (visual feedback foundation)_
 
-- [ ] 5. Implement authentication feature
-- [ ] 5.1 Create auth store
+- [-] 5. Implement authentication feature
+- [x] 5.1 Create auth store
   - Create features/auth/stores/authStore.ts
   - Implement writable store with AuthState
   - Add setAuthenticated and clearAuthentication methods
