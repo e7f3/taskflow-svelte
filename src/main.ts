@@ -6,15 +6,23 @@
  * 2. Creates the root Svelte component
  * 3. Mounts it to the DOM
  * 
- * Learning Note:
- * Unlike React's ReactDOM.render(), Svelte uses a simple constructor.
- * The component is instantiated with a target element and optional props.
+ * Learning Note - Svelte 5 Mounting:
+ * Svelte 5 changed the mounting API from Svelte 4.
+ * 
+ * Svelte 4 way:
+ *   new App({ target: element })
+ * 
+ * Svelte 5 way:
+ *   mount(App, { target: element })
+ * 
+ * This new API is more explicit and allows better tree-shaking.
  */
 
 import './styles/theme.css';
+import { mount } from 'svelte';
 import App from './App.svelte';
 
-const app = new App({
+const app = mount(App, {
   target: document.getElementById('app')!,
 });
 
