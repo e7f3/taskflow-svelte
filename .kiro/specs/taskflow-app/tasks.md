@@ -35,7 +35,7 @@ This plan breaks down the TaskFlow application into incremental, manageable codi
   - Import theme in main app file
   - _Requirements: 9.3 (visual feedback foundation)_
 
-- [-] 5. Implement authentication feature
+- [x] 5. Implement authentication feature
 - [x] 5.1 Create auth store
   - Create features/auth/stores/authStore.ts
   - Implement writable store with AuthState
@@ -64,7 +64,7 @@ This plan breaks down the TaskFlow application into incremental, manageable codi
   - Style with CSS modules
   - _Requirements: 1.1, 1.3_
 
-- [ ] 6. Implement tasks feature foundation
+- [-] 6. Implement tasks feature foundation
 - [ ] 6.1 Create tasks store
   - Create features/tasks/stores/tasksStore.ts
   - Implement writable store with Task array
