@@ -1,0 +1,213 @@
+/**
+ * TaskCard component styles.
+ * 
+ * Learning Note:
+ * CSS Modules provide scoped styles with type safety.
+ * Class names are hashed to prevent conflicts.
+ */
+
+/**
+ * Main card container.
+ * Displays task information with hover effects and drag support.
+ */
+.card {
+  background: white;
+  border-radius: var(--border-radius);
+  padding: var(--spacing-md);
+  box-shadow: var(--shadow);
+  cursor: grab;
+  transition: transform 0.2s, box-shadow 0.2s;
+  display: flex;
+  gap: var(--spacing-sm);
+  margin-bottom: var(--spacing-sm);
+}
+
+/**
+ * Hover state - lifts card slightly for visual feedback.
+ */
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-hover);
+}
+
+/**
+ * Active drag state - changes cursor to indicate dragging.
+ */
+.card:active {
+  cursor: grabbing;
+}
+
+/**
+ * Focus state for accessibility.
+ */
+.card:focus {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+/**
+ * Vertical priority indicator bar on left side of card.
+ * Color determined by priority level.
+ */
+.priorityIndicator {
+  width: 4px;
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+
+/* Priority color variants */
+.priorityLow {
+  background: var(--priority-low);
+}
+
+.priorityMedium {
+  background: var(--priority-medium);
+}
+
+.priorityHigh {
+  background: var(--priority-high);
+}
+
+.priorityCritical {
+  background: var(--priority-critical);
+}
+
+/**
+ * Task content area containing title, description, and footer.
+ */
+.content {
+  flex: 1;
+  min-width: 0; /* Allows text truncation */
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+}
+
+/**
+ * Task title text.
+ */
+.title {
+  font-size: var(--font-size-base);
+  font-weight: 600;
+  margin: 0;
+  color: #333;
+}
+
+/**
+ * Task description text.
+ * Truncated with ellipsis if too long.
+ */
+.description {
+  font-size: var(--font-size-sm);
+  color: #666;
+  margin: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+/**
+ * Footer containing assignee and actions.
+ */
+.footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: var(--spacing-xs);
+}
+
+/**
+ * Assignee section.
+ */
+.assignee {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  font-size: var(--font-size-sm);
+}
+
+/**
+ * Avatar emoji.
+ */
+.avatar {
+  font-size: 16px;
+}
+
+/**
+ * Assignee name.
+ */
+.assigneeName {
+  color: #666;
+  font-weight: 500;
+}
+
+/**
+ * Unassigned text.
+ */
+.unassigned {
+  color: #999;
+  font-style: italic;
+}
+
+/**
+ * Actions section (priority badge + delete button).
+ */
+.actions {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+}
+
+/**
+ * Priority badge.
+ */
+.priorityBadge {
+  padding: 2px var(--spacing-xs);
+  border-radius: 4px;
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: white;
+}
+
+/**
+ * Delete button.
+ */
+.deleteButton {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: var(--spacing-xs);
+  border-radius: 4px;
+  font-size: 16px;
+  opacity: 0.6;
+  transition: opacity 0.2s, background-color 0.2s;
+}
+
+.deleteButton:hover {
+  opacity: 1;
+  background-color: #fee;
+}
+
+.deleteButton:active {
+  transform: scale(0.95);
+}
+
+/**
+ * Responsive adjustments for mobile.
+ */
+@media (max-width: 768px) {
+  .card {
+    padding: var(--spacing-sm);
+  }
+
+  .description {
+    -webkit-line-clamp: 1;
+  }
+
+  .assigneeName {
+    display: none; /* Hide name on mobile, show only avatar */
+  }
+}

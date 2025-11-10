@@ -35,6 +35,38 @@ export type TaskStatus = 'todo' | 'in-progress' | 'done';
 export type Priority = 'low' | 'medium' | 'high' | 'critical';
 
 /**
+ * Lightweight assignee info embedded in tasks.
+ * Contains just enough data for display without full User object.
+ * 
+ * Learning Note:
+ * In production, your API would return this nested in the task.
+ * This avoids N+1 queries and unnecessary lookups.
+ * 
+ * Example API response:
+ * {
+ *   "id": "1",
+ *   "title": "Task",
+ *   "assignee": { "id": "1", "name": "Alice", "avatar": "👩‍💼" }
+ * }
+ */
+export interface TaskAssignee {
+  /**
+   * User ID.
+   */
+  id: EntityId;
+
+  /**
+   * Display name.
+   */
+  name: string;
+
+  /**
+   * Avatar emoji or image URL.
+   */
+  avatar?: string;
+}
+
+/**
  * Represents a single task/work item in the system.
  * Tasks can be created, edited, moved between columns, and deleted.
  * 
@@ -107,18 +139,24 @@ export interface Task {
   priority: Priority;
 
   /**
-   * ID of the user assigned to this task.
+   * Assigned user information.
    * Null if task is unassigned.
-   * Must reference a valid user ID from the users list.
+   * 
+   * Learning Note:
+   * We embed assignee data in the task (denormalized).
+   * This is more realistic and performant than storing just an ID
+   * and doing lookups for every task card render.
+   * 
+   * In production, your API would include this nested data.
    * 
    * Used for:
    * - Displaying assignee name and avatar on task card
    * - Filtering tasks by assignee
    * - "My tasks" view
    * 
-   * Example: "1", "2", null
+   * Example: { id: "1", name: "Alice", avatar: "👩‍💼" }
    */
-  assigneeId: EntityId | null;
+  assignee: TaskAssignee | null;
 
   /**
    * Timestamp (milliseconds since epoch) when task was created.
@@ -192,7 +230,7 @@ export type CreateTaskData = Omit<
  * - taskService.updateTask()
  */
 export type UpdateTaskData = Partial<
-  Pick<Task, 'title' | 'description' | 'status' | 'priority' | 'assigneeId'>
+  Pick<Task, 'title' | 'description' | 'status' | 'priority' | 'assignee'>
 >;
 
 /**

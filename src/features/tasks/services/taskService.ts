@@ -33,7 +33,7 @@ export const INITIAL_TASKS: Task[] = [
     description: 'Initialize Git repository and set up project structure',
     status: 'done',
     priority: 'high',
-    assigneeId: '1',
+    assignee: { id: '1', name: 'Alice Johnson', avatar: '👩‍💼' },
     createdAt: Date.now() - 7 * 24 * 60 * 60 * 1000, // 7 days ago
     updatedAt: Date.now() - 6 * 24 * 60 * 60 * 1000,
     createdBy: '1',
@@ -44,7 +44,7 @@ export const INITIAL_TASKS: Task[] = [
     description: 'Create ERD and define table structures for the application',
     status: 'done',
     priority: 'high',
-    assigneeId: '2',
+    assignee: { id: '2', name: 'Bob Smith', avatar: '👨‍💻' },
     createdAt: Date.now() - 6 * 24 * 60 * 60 * 1000,
     updatedAt: Date.now() - 5 * 24 * 60 * 60 * 1000,
     createdBy: '1',
@@ -55,7 +55,7 @@ export const INITIAL_TASKS: Task[] = [
     description: 'Add login, logout, and session management functionality',
     status: 'in-progress',
     priority: 'critical',
-    assigneeId: '1',
+    assignee: { id: '1', name: 'Alice Johnson', avatar: '👩‍💼' },
     createdAt: Date.now() - 5 * 24 * 60 * 60 * 1000,
     updatedAt: Date.now() - 1 * 24 * 60 * 60 * 1000,
     createdBy: '2',
@@ -66,7 +66,7 @@ export const INITIAL_TASKS: Task[] = [
     description: 'Build RESTful API for task management operations',
     status: 'in-progress',
     priority: 'high',
-    assigneeId: '2',
+    assignee: { id: '2', name: 'Bob Smith', avatar: '👨‍💻' },
     createdAt: Date.now() - 4 * 24 * 60 * 60 * 1000,
     updatedAt: Date.now() - 2 * 60 * 60 * 1000, // 2 hours ago
     createdBy: '1',
@@ -77,7 +77,7 @@ export const INITIAL_TASKS: Task[] = [
     description: 'Add test coverage for core functionality',
     status: 'todo',
     priority: 'medium',
-    assigneeId: '3',
+    assignee: { id: '3', name: 'Charlie Davis', avatar: '👨‍🎨' },
     createdAt: Date.now() - 3 * 24 * 60 * 60 * 1000,
     updatedAt: Date.now() - 3 * 24 * 60 * 60 * 1000,
     createdBy: '2',
@@ -88,7 +88,7 @@ export const INITIAL_TASKS: Task[] = [
     description: 'Set up staging environment and deploy application',
     status: 'todo',
     priority: 'low',
-    assigneeId: null, // Unassigned
+    assignee: null, // Unassigned
     createdAt: Date.now() - 2 * 24 * 60 * 60 * 1000,
     updatedAt: Date.now() - 2 * 24 * 60 * 60 * 1000,
     createdBy: '1',
