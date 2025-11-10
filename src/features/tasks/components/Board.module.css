@@ -1,0 +1,36 @@
+/**
+ * Board component styles.
+ */
+
+/**
+ * Board container with three columns.
+ * Uses flexbox for responsive layout.
+ */
+.board {
+  display: flex;
+  gap: var(--spacing-lg);
+  padding: var(--spacing-lg);
+  height: calc(100vh - 80px); /* Account for header */
+  overflow-x: auto;
+}
+
+/**
+ * Responsive layout.
+ */
+@media (max-width: 1024px) {
+  .board {
+    gap: var(--spacing-md);
+    padding: var(--spacing-md);
+  }
+}
+
+/**
+ * Mobile: Stack columns vertically.
+ */
+@media (max-width: 768px) {
+  .board {
+    flex-direction: column;
+    height: auto;
+    overflow-x: visible;
+  }
+}
