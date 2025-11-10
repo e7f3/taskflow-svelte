@@ -11,10 +11,10 @@
  * - Coordinating multiple child components
  */
 
-import { tasksStore } from '../stores/tasksStore';
-import { taskService } from '../services/taskService';
-import type { Task, TaskStatus } from '../types/task.types';
-import Column from './Column.svelte';
+import { tasksStore } from '../../stores/tasksStore';
+import { taskService } from '../../services/taskService';
+import type { Task, TaskStatus } from '../../types/task.types';
+import Column from '../Column/Column.svelte';
 import styles from './Board.module.css';
 
 /*

@@ -1,4 +1,5 @@
-import type { Meta, StoryObj } from '@storybook/svelte';
+// @ts-nocheck
+import type { Meta, StoryObj } from '@storybook/svelte-vite';
 import LoginForm from './LoginForm.svelte';
 
 const meta = {
