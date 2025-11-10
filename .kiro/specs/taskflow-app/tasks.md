@@ -89,8 +89,8 @@ This plan breaks down the TaskFlow application into incremental, manageable codi
   - Add comments explaining mock data purpose
   - _Requirements: 2.2_
 
-- [ ] 7. Build task display components
-- [ ] 7.1 Create TaskCard component
+- [-] 7. Build task display components
+- [-] 7.1 Create TaskCard component
   - Create features/tasks/components/TaskCard.svelte
   - Create features/tasks/components/TaskCard.module.css
   - Implement props interface (task, onEdit, onDelete, onDragStart, onDragEnd)
