@@ -1,4 +1,5 @@
 import type { Preview } from '@storybook/svelte-vite';
+import '../src/styles/theme.css';
 
 const preview: Preview = {
   parameters: {
