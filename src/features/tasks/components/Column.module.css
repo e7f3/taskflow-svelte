@@ -1,0 +1,103 @@
+/**
+ * Column component styles.
+ */
+
+/**
+ * Column container.
+ */
+.column {
+  display: flex;
+  flex-direction: column;
+  background: #f5f5f5;
+  border-radius: var(--border-radius);
+  padding: var(--spacing-md);
+  min-width: 300px;
+  max-width: 350px;
+  flex: 1;
+}
+
+/**
+ * Column header with title and count.
+ */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--spacing-md);
+}
+
+/**
+ * Column title.
+ */
+.title {
+  font-size: var(--font-size-lg);
+  font-weight: 700;
+  margin: 0;
+  color: #333;
+}
+
+/**
+ * Task count badge.
+ */
+.count {
+  background: #e0e0e0;
+  color: #666;
+  padding: 2px var(--spacing-sm);
+  border-radius: 12px;
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  min-width: 24px;
+  text-align: center;
+}
+
+/**
+ * Drop zone area.
+ * This is where tasks are displayed and can be dropped.
+ */
+.dropZone {
+  flex: 1;
+  min-height: 200px;
+  border-radius: var(--border-radius);
+  transition: background-color 0.2s, box-shadow 0.2s;
+}
+
+/**
+ * Drop zone when dragging over.
+ * Provides visual feedback that this is a valid drop target.
+ */
+.dropZone:global(.dragOver) {
+  background-color: rgba(0, 115, 234, 0.05);
+  box-shadow: inset 0 0 0 2px var(--color-primary);
+}
+
+/**
+ * Empty state message.
+ */
+.emptyState {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  min-height: 150px;
+}
+
+/**
+ * Empty state text.
+ */
+.emptyText {
+  color: #999;
+  font-size: var(--font-size-sm);
+  font-style: italic;
+  margin: 0;
+}
+
+/**
+ * Responsive adjustments.
+ */
+@media (max-width: 768px) {
+  .column {
+    min-width: 100%;
+    max-width: 100%;
+    margin-bottom: var(--spacing-md);
+  }
+}
