@@ -103,7 +103,7 @@ This plan breaks down the TaskFlow application into incremental, manageable codi
   - Include comments explaining props pattern and event handlers
   - _Requirements: 2.4, 4.1, 5.1, 6.1_
 
-- [ ] 7.2 Create Column component
+- [-] 7.2 Create Column component
   - Create features/tasks/components/Column.svelte
   - Create features/tasks/components/Column.module.css
   - Implement props interface (status, title, tasks, onDrop)
