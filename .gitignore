@@ -31,3 +31,6 @@ npm-debug.log*
 # Testing
 coverage/
 .nyc_output/
+
+*storybook.log
+storybook-static
