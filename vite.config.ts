@@ -1,6 +1,6 @@
 import { defineConfig } from 'vite';
 import { svelte } from '@sveltejs/vite-plugin-svelte';
-import path from 'path';
+import { fileURLToPath, URL } from 'node:url';
 
 /**
  * Vite configuration for TaskFlow application.
@@ -16,7 +16,7 @@ export default defineConfig({
   resolve: {
     alias: {
       // Allows imports like: import { authStore } from '@/features/auth/stores/authStore'
-      '@': path.resolve(__dirname, './src')
+      '@': fileURLToPath(new URL('./src', import.meta.url))
     }
   },
   
