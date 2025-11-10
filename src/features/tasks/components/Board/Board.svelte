@@ -44,22 +44,26 @@ let todoTasks = $derived(allTasks.filter((t) => t.status === 'todo'));
 let inProgressTasks = $derived(allTasks.filter((t) => t.status === 'in-progress'));
 let doneTasks = $derived(allTasks.filter((t) => t.status === 'done'));
 
+/*
+ * Track the currently dragged task.
+ * Used to prevent highlighting the source column during drag.
+ */
+let draggedTask = $state<Task | null>(null);
+
 /**
  * Handle drag start.
- * 
- * Learning Note:
- * We could track draggedTaskId here for visual feedback,
- * but for simplicity we'll skip that for now.
+ * Track which task is being dragged for visual feedback.
  */
-function handleDragStart(_taskId: string) {
-  // Could set draggedTaskId for visual feedback
+function handleDragStart(taskId: string) {
+  draggedTask = allTasks.find(t => t.id === taskId) || null;
 }
 
 /**
  * Handle drag end.
+ * Clear the dragged task reference.
  */
 function handleDragEnd() {
-  // Could clear draggedTaskId
+  draggedTask = null;
 }
 
 /**
@@ -126,6 +130,7 @@ function handleDeleteTask(taskId: string) {
     status="todo"
     title="To Do"
     tasks={todoTasks}
+    {draggedTask}
     onDrop={handleDrop}
     onEditTask={handleEditTask}
     onDeleteTask={handleDeleteTask}
@@ -137,6 +142,7 @@ function handleDeleteTask(taskId: string) {
     status="in-progress"
     title="In Progress"
     tasks={inProgressTasks}
+    {draggedTask}
     onDrop={handleDrop}
     onEditTask={handleEditTask}
     onDeleteTask={handleDeleteTask}
@@ -148,6 +154,7 @@ function handleDeleteTask(taskId: string) {
     status="done"
     title="Done"
     tasks={doneTasks}
+    {draggedTask}
     onDrop={handleDrop}
     onEditTask={handleEditTask}
     onDeleteTask={handleDeleteTask}

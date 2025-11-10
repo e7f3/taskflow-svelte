@@ -34,6 +34,12 @@ interface Props {
   tasks: Task[];
 
   /**
+   * Currently dragged task (from parent Board component).
+   * Used to prevent highlighting when dragging within same column.
+   */
+  draggedTask: Task | null;
+
+  /**
    * Callback when a task is dropped in this column.
    */
   onDrop: (taskId: string, newStatus: TaskStatus) => void;
@@ -59,7 +65,7 @@ interface Props {
   onDragEnd: () => void;
 }
 
-let { status, title, tasks, onDrop, onEditTask, onDeleteTask, onDragStart, onDragEnd }: Props =
+let { status, title, tasks, draggedTask, onDrop, onEditTask, onDeleteTask, onDragStart, onDragEnd }: Props =
   $props();
 
 /*
@@ -75,11 +81,19 @@ let isOver = $state(false);
  * Learning Note:
  * preventDefault() is required to allow dropping.
  * Without it, the drop event won't fire!
+ * 
+ * Performance optimization:
+ * We check draggedTask.status (O(1)) instead of tasks.some() (O(n)).
+ * This is called on every mouse movement during drag, so we keep it cheap!
+ * Just a simple property comparison - no array iteration needed.
  */
 function handleDragOver(e: DragEvent) {
   e.preventDefault();
   e.dataTransfer!.dropEffect = 'move';
-  isOver = true;
+
+  // Only highlight if dragging from a different column
+  // O(1) operation - just comparing two strings!
+  isOver = draggedTask ? draggedTask.status !== status : true;
 }
 
 /**
