@@ -64,15 +64,15 @@ This plan breaks down the TaskFlow application into incremental, manageable codi
   - Style with CSS modules
   - _Requirements: 1.1, 1.3_
 
-- [-] 6. Implement tasks feature foundation
-- [ ] 6.1 Create tasks store
+- [x] 6. Implement tasks feature foundation
+- [x] 6.1 Create tasks store
   - Create features/tasks/stores/tasksStore.ts
   - Implement writable store with Task array
   - Add setTasks, addTask, updateTask, removeTask methods
   - Include JSDoc comments for each method
   - _Requirements: 2.2, 3.4, 4.3, 5.2_
 
-- [ ] 6.2 Create task service
+- [x] 6.2 Create task service
   - Create features/tasks/services/taskService.ts
   - Implement createTask method with ID generation and timestamps
   - Implement updateTask method
@@ -82,7 +82,7 @@ This plan breaks down the TaskFlow application into incremental, manageable codi
   - Add detailed comments explaining service coordination with store and storage
   - _Requirements: 3.4, 4.3, 5.2, 6.3, 8.1, 8.4_
 
-- [ ] 6.3 Create initial mock tasks data
+- [x] 6.3 Create initial mock tasks data
   - Add INITIAL_TASKS array in taskService with 5-6 sample tasks
   - Include tasks across all three status columns
   - Vary priorities and assignees
