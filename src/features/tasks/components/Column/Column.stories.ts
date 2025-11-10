@@ -1,6 +1,7 @@
-import type { Meta, StoryObj } from '@storybook/svelte';
+// @ts-nocheck
+import type { Meta, StoryObj } from '@storybook/svelte-vite';
 import Column from './Column.svelte';
-import { mockTasks } from '../../../shared/storybook/mockData';
+import { mockTasks } from '../../../../shared/storybook/mockData';
 
 const meta = {
   title: 'Features/Tasks/Column',

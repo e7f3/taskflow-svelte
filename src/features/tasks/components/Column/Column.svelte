@@ -10,8 +10,8 @@
  * - Empty state handling
  */
 
-import type { Task, TaskStatus } from '../types/task.types';
-import TaskCard from './TaskCard.svelte';
+import type { Task, TaskStatus } from '../../types/task.types';
+import TaskCard from '../TaskCard/TaskCard.svelte';
 import styles from './Column.module.css';
 
 /**

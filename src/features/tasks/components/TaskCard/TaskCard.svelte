@@ -17,7 +17,7 @@
  * - Clearer intent
  */
 
-import type { Task } from '../types/task.types';
+import type { Task } from '../../types/task.types';
 import styles from './TaskCard.module.css';
 
 /**
