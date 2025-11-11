@@ -50,7 +50,7 @@ export interface TaskService {
    * });
    * ```
    */
-  createTask(taskData: CreateTaskData): Task;
+  createTask(taskData: CreateTaskData): Promise<Task>;
 
   /**
    * Updates an existing task with new data.

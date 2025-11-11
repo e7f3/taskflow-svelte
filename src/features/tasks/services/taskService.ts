@@ -107,7 +107,7 @@ export const INITIAL_TASKS: Task[] = [
  * - Still fully type-safe!
  */
 export const taskService: TaskService = {
-  createTask(taskData: CreateTaskData): Task {
+  async createTask(taskData: CreateTaskData): Promise<Task> {
     /*
      * Get current user from auth store.
      * 
@@ -146,11 +146,17 @@ export const taskService: TaskService = {
     };
 
     /*
+     * Simulate network delay for realistic UX.
+     * In production, this would be an actual API call.
+     */
+    await new Promise((resolve) => setTimeout(resolve, 500));
+
+    /*
      * Add to store.
      * All components subscribed to tasksStore will automatically update!
      */
     tasksStore.addOne(newTask);
-
+    
     /*
      * Persist to storage.
      */
