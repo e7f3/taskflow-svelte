@@ -106,7 +106,23 @@ features/{feature}/
 
 ## Code Style
 
+### General Guidelines
 - **Comments**: JSDoc-style comments for functions and complex logic
 - **Learning Notes**: Inline comments explaining Svelte 5 patterns and best practices
 - **Minimal Code**: Focus on essential functionality, avoid over-engineering
 - **Type Safety**: Prefer explicit types over inference for public APIs
+
+### ESLint Enforced Rules
+- **Indentation**: 2 spaces
+- **Quotes**: Single quotes (except in Svelte templates - use double)
+- **Semicolons**: Always required
+- **Trailing Commas**: Required in multiline structures
+- **Import Order**: 
+  1. Built-in Node modules
+  2. External packages
+  3. Internal modules (using @/ alias)
+  4. Parent/sibling imports
+  5. Type imports
+- **No Console**: Warnings only (allow console.warn and console.error)
+- **Unused Variables**: Prefix with underscore (_) to ignore
+- **Arrow Functions**: Preferred over function expressions

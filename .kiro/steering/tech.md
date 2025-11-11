@@ -44,9 +44,21 @@ pnpm test               # Run tests once
 pnpm test:watch         # Run tests in watch mode
 pnpm test:ui            # Run tests with Vitest UI
 
-# Type Checking
+# Code Quality
+pnpm lint               # Run ESLint to check code
+pnpm lint:fix           # Run ESLint and auto-fix issues
 pnpm check              # Run svelte-check for type errors
 ```
+
+## Code Quality Tools
+
+- **ESLint**: Linting with TypeScript and Svelte support
+  - Import ordering and organization
+  - Code style enforcement (indentation, quotes, semicolons)
+  - TypeScript-specific rules
+  - Svelte 5 runes support
+- **TypeScript**: Strict mode type checking
+- **svelte-check**: Svelte-specific type validation
 
 ## Path Aliases
 
