@@ -1,6 +1,6 @@
 /**
  * Type definitions for entity store factory.
- * 
+ *
  * Learning Note:
  * Separating types from implementation provides:
  * - Better organization
@@ -8,13 +8,13 @@
  * - Clear API documentation
  */
 
-import type { Readable, Writable } from 'svelte/store';
 import type { EntityId } from '@/shared/types/common.types';
+import type { Readable, Writable } from 'svelte/store';
 
 /**
  * Entity with required id field.
  * All entities must have an id for lookup.
- * 
+ *
  * Learning Note:
  * We use EntityId from common types for consistency.
  * This ensures all entity IDs are the same type throughout the app.
@@ -30,27 +30,27 @@ export interface Entity {
 /**
  * Entity store interface with CRUD operations and selectors.
  * Similar to Redux Toolkit's EntityAdapter but simpler.
- * 
+ *
  * Learning Note:
  * This extends Writable to include set and update methods,
  * allowing direct store manipulation when needed.
- * 
+ *
  * @template T - Entity type (must have id field)
  */
 export interface EntityStore<T extends Entity> extends Writable<T[]> {
   /**
    * Get entity by ID (derived store).
    * Automatically updates when entity changes.
-   * 
+   *
    * @param id - Entity ID
    * @returns Readable store with entity or undefined
-   * 
+   *
    * @example
    * ```svelte
    * <script>
    *   let task = $derived($tasksStore.selectById('task-1'));
    * </script>
-   * 
+   *
    * {#if task}
    *   <h1>{task.title}</h1>
    * {/if}
@@ -61,9 +61,9 @@ export interface EntityStore<T extends Entity> extends Writable<T[]> {
   /**
    * Get all entities (same as subscribe).
    * Provided for API consistency with Redux Toolkit.
-   * 
+   *
    * @returns Readable store with all entities
-   * 
+   *
    * @example
    * ```svelte
    * <script>
@@ -76,10 +76,10 @@ export interface EntityStore<T extends Entity> extends Writable<T[]> {
   /**
    * Get entities by IDs.
    * Useful for selecting multiple related entities.
-   * 
+   *
    * @param ids - Array of entity IDs
    * @returns Readable store with matching entities
-   * 
+   *
    * @example
    * ```typescript
    * const selectedTasks = tasksStore.selectByIds(['1', '2', '3']);
@@ -89,9 +89,9 @@ export interface EntityStore<T extends Entity> extends Writable<T[]> {
 
   /**
    * Add one entity.
-   * 
+   *
    * @param entity - Entity to add
-   * 
+   *
    * @example
    * ```typescript
    * tasksStore.addOne({ id: '1', title: 'New task', status: 'todo' });
@@ -101,9 +101,9 @@ export interface EntityStore<T extends Entity> extends Writable<T[]> {
 
   /**
    * Add multiple entities.
-   * 
+   *
    * @param entities - Entities to add
-   * 
+   *
    * @example
    * ```typescript
    * tasksStore.addMany([task1, task2, task3]);
@@ -114,10 +114,10 @@ export interface EntityStore<T extends Entity> extends Writable<T[]> {
   /**
    * Update one entity by ID.
    * Merges changes with existing entity.
-   * 
+   *
    * @param id - Entity ID
    * @param changes - Partial entity data to merge
-   * 
+   *
    * @example
    * ```typescript
    * tasksStore.updateOne('1', { status: 'done' });
@@ -127,9 +127,9 @@ export interface EntityStore<T extends Entity> extends Writable<T[]> {
 
   /**
    * Update multiple entities.
-   * 
+   *
    * @param updates - Array of {id, changes} objects
-   * 
+   *
    * @example
    * ```typescript
    * tasksStore.updateMany([
@@ -142,9 +142,9 @@ export interface EntityStore<T extends Entity> extends Writable<T[]> {
 
   /**
    * Remove one entity by ID.
-   * 
+   *
    * @param id - Entity ID to remove
-   * 
+   *
    * @example
    * ```typescript
    * tasksStore.removeOne('1');
@@ -154,9 +154,9 @@ export interface EntityStore<T extends Entity> extends Writable<T[]> {
 
   /**
    * Remove multiple entities by IDs.
-   * 
+   *
    * @param ids - Entity IDs to remove
-   * 
+   *
    * @example
    * ```typescript
    * tasksStore.removeMany(['1', '2', '3']);
@@ -167,9 +167,9 @@ export interface EntityStore<T extends Entity> extends Writable<T[]> {
   /**
    * Replace all entities.
    * Useful for loading from storage or API.
-   * 
+   *
    * @param entities - New entity array
-   * 
+   *
    * @example
    * ```typescript
    * tasksStore.setAll(loadedTasks);
@@ -180,7 +180,7 @@ export interface EntityStore<T extends Entity> extends Writable<T[]> {
   /**
    * Remove all entities.
    * Resets store to empty state.
-   * 
+   *
    * @example
    * ```typescript
    * tasksStore.removeAll();

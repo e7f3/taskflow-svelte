@@ -1,7 +1,7 @@
 /**
  * Task service implementation.
  * Handles task CRUD operations and business logic.
- * 
+ *
  * Learning Note:
  * This service demonstrates the service layer pattern:
  * - Coordinates between stores
@@ -10,18 +10,18 @@
  * - Provides clean API for components
  */
 
-import { tasksStore } from '../stores/tasksStore';
+import { get } from 'svelte/store';
 import { authStore } from '@/features/auth/stores/authStore';
 import { storageService, STORAGE_KEYS } from '@/shared/services/storageService';
-import type { Task, TaskStatus, CreateTaskData, UpdateTaskData } from '../types/task.types';
-import type { TaskService } from './taskService.types';
 import type { EntityId } from '@/shared/types/common.types';
-import { get } from 'svelte/store';
+import { tasksStore } from '../stores/tasksStore';
+import type { TaskService } from './taskService.types';
+import type { Task, TaskStatus, CreateTaskData, UpdateTaskData } from '../types/task.types';
 
 /**
  * Initial mock tasks for demonstration.
  * Loaded on first app launch if no tasks exist in localStorage.
- * 
+ *
  * Learning Note:
  * In production, initial data would come from an API.
  * For learning, we provide some sample tasks to explore the UI.
@@ -97,7 +97,7 @@ export const INITIAL_TASKS: Task[] = [
 
 /**
  * Task service implementation.
- * 
+ *
  * Learning Note:
  * We use a plain object instead of a class because:
  * - Simpler (no 'this' binding)
@@ -110,11 +110,11 @@ export const taskService: TaskService = {
   async createTask(taskData: CreateTaskData): Promise<Task> {
     /*
      * Get current user from auth store.
-     * 
+     *
      * Learning Note - get() function:
      * Svelte's get() function reads a store's current value synchronously.
      * Use this in services/functions where you can't use $ prefix.
-     * 
+     *
      * In components: $authStore.currentUser
      * In services: get(authStore).currentUser
      */
@@ -130,7 +130,7 @@ export const taskService: TaskService = {
 
     /*
      * Create new task with generated fields.
-     * 
+     *
      * Learning Note:
      * We generate:
      * - id: Using crypto.randomUUID() (built-in browser API)
@@ -156,7 +156,7 @@ export const taskService: TaskService = {
      * All components subscribed to tasksStore will automatically update!
      */
     tasksStore.addOne(newTask);
-    
+
     /*
      * Persist to storage.
      */
@@ -168,7 +168,7 @@ export const taskService: TaskService = {
   updateTask(taskId: EntityId, changes: UpdateTaskData): void {
     /*
      * Update task in store with new updatedAt timestamp.
-     * 
+     *
      * Learning Note:
      * We always update the timestamp to track when changes were made.
      * This is useful for "last modified" displays and conflict resolution.
@@ -200,7 +200,7 @@ export const taskService: TaskService = {
     /*
      * Use the store's moveTask method.
      * This updates both status and updatedAt.
-     * 
+     *
      * Learning Note:
      * We could call updateTask() here, but using the dedicated
      * moveTask method is more semantic and clear.
@@ -248,7 +248,7 @@ export const taskService: TaskService = {
   persistTasks(): void {
     /*
      * Get current tasks from store.
-     * 
+     *
      * Learning Note:
      * We use get() to read the store synchronously.
      * This is necessary in services where we can't use $ prefix.
@@ -269,31 +269,31 @@ export type { TaskService } from './taskService.types';
 
 /*
  * Learning Note - Service Pattern Benefits:
- * 
+ *
  * 1. Separation of Concerns:
  *    - Store: Holds state
  *    - Service: Handles logic
  *    - Component: Renders UI
- * 
+ *
  * 2. Testability:
  *    - Easy to mock taskService
  *    - Test logic without UI
  *    - Test UI without real tasks
- * 
+ *
  * 3. Reusability:
  *    - Use service from any component
  *    - Use service from other services
  *    - No component coupling
- * 
+ *
  * 4. Maintainability:
  *    - Logic in one place
  *    - Easy to find and update
  *    - Clear responsibilities
- * 
+ *
  * 5. Coordination:
  *    - Coordinates multiple stores (tasks, auth)
  *    - Handles side effects (storage)
  *    - Encapsulates business rules
- * 
+ *
  * This is professional Svelte architecture!
  */

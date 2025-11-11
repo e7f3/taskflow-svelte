@@ -1,6 +1,6 @@
 /**
  * Type definitions for the authentication store.
- * 
+ *
  * Learning Note:
  * Separating store types from implementation provides:
  * - Clear API contract
@@ -9,17 +9,17 @@
  * - Self-documenting code
  */
 
-import type { Writable } from 'svelte/store';
 import type { AuthState, User } from '../types/auth.types';
+import type { Writable } from 'svelte/store';
 
 /**
  * Authentication store interface.
  * Defines all methods available on the auth store.
- * 
+ *
  * Learning Note:
  * This extends Writable to include Svelte's subscribe method,
  * plus our custom methods for auth operations.
- * 
+ *
  * In React/Redux terms, this is like:
  * - The store interface (what you can do with the store)
  * - Action creators (the methods)
@@ -30,13 +30,13 @@ export interface AuthStore extends Writable<AuthState> {
   /**
    * Sets authenticated state with user and token.
    * Called by authService after successful login.
-   * 
+   *
    * This updates the store to indicate the user is logged in
    * and stores their information and session token.
-   * 
+   *
    * @param user - Authenticated user object
    * @param token - Session token for maintaining the session
-   * 
+   *
    * @example
    * ```typescript
    * // After successful login
@@ -48,12 +48,12 @@ export interface AuthStore extends Writable<AuthState> {
   /**
    * Clears authentication state and returns to logged-out state.
    * Called by authService on logout.
-   * 
+   *
    * This resets the store to its initial state:
    * - isAuthenticated: false
    * - currentUser: null
    * - sessionToken: null
-   * 
+   *
    * @example
    * ```typescript
    * // On logout button click
@@ -65,14 +65,14 @@ export interface AuthStore extends Writable<AuthState> {
   /**
    * Updates only the current user information.
    * Keeps authentication state intact (user stays logged in).
-   * 
+   *
    * Useful for:
    * - Profile updates (name, avatar)
    * - Preference changes
    * - Any user data update that doesn't require re-authentication
-   * 
+   *
    * @param user - Updated user object
-   * 
+   *
    * @example
    * ```typescript
    * // After user updates their profile

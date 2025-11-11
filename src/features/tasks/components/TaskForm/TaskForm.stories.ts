@@ -1,14 +1,14 @@
 // @ts-nocheck
-import type { Meta, StoryObj } from '@storybook/svelte-vite';
 import TaskForm from './TaskForm.svelte';
+import type { Meta, StoryObj } from '@storybook/svelte-vite';
 
 const meta = {
   title: 'Features/Tasks/TaskForm',
   component: TaskForm,
   tags: ['autodocs'],
   parameters: {
-    layout: 'centered'
-  }
+    layout: 'centered',
+  },
 } satisfies Meta<TaskForm>;
 
 export default meta;
@@ -20,5 +20,5 @@ export const WithValidationErrors: Story = {
   play: async ({ canvasElement }) => {
     // You can add interaction tests here using @storybook/test
     // For example, submitting empty form to show validation
-  }
+  },
 };

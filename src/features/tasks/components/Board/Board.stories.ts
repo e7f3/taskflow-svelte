@@ -1,23 +1,23 @@
 // @ts-nocheck
-import type { Meta, StoryObj } from '@storybook/svelte-vite';
-import Board from './Board.svelte';
 import { mockTasks } from '@/shared/storybook/mockData';
+import Board from './Board.svelte';
 import { tasksStore } from '../../stores/tasksStore';
+import type { Meta, StoryObj } from '@storybook/svelte-vite';
 
 const meta = {
   title: 'Features/Tasks/Board',
   component: Board,
   tags: ['autodocs'],
   parameters: {
-    layout: 'fullscreen'
+    layout: 'fullscreen',
   },
   decorators: [
     (story) => {
       // Initialize store with mock data before rendering
       tasksStore.set(mockTasks);
       return story();
-    }
-  ]
+    },
+  ],
 } satisfies Meta<Board>;
 
 export default meta;
@@ -33,6 +33,6 @@ export const EmptyBoard: Story = {
       // Clear the store for empty board
       tasksStore.set([]);
       return story();
-    }
-  ]
+    },
+  ],
 };

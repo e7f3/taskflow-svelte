@@ -1,6 +1,6 @@
 /**
  * Tests for storageService.
- * 
+ *
  * Learning Note:
  * Testing services in Svelte is straightforward - they're just functions!
  * No need for React Testing Library's renderHook or complex setup.
@@ -19,12 +19,12 @@ describe('storageService', () => {
   describe('setItem', () => {
     it('should store item in localStorage', () => {
       const testData = { id: '1', name: 'Test' };
-      
+
       storageService.setItem('test-key', testData);
-      
+
       expect(localStorage.setItem).toHaveBeenCalledWith(
         'test-key',
-        JSON.stringify(testData)
+        JSON.stringify(testData),
       );
     });
 
@@ -33,11 +33,11 @@ describe('storageService', () => {
       localStorage.setItem = vi.fn(() => {
         throw new Error('Storage full');
       });
-      
+
       // Should not throw
       expect(() => storageService.setItem('key', 'value')).not.toThrow();
       expect(consoleSpy).toHaveBeenCalled();
-      
+
       consoleSpy.mockRestore();
     });
   });
@@ -46,29 +46,29 @@ describe('storageService', () => {
     it('should retrieve and parse item from localStorage', () => {
       const testData = { id: '1', name: 'Test' };
       localStorage.getItem = vi.fn(() => JSON.stringify(testData));
-      
+
       const result = storageService.getItem<typeof testData>('test-key');
-      
+
       expect(result).toEqual(testData);
     });
 
     it('should return null if item does not exist', () => {
       localStorage.getItem = vi.fn(() => null);
-      
+
       const result = storageService.getItem('nonexistent');
-      
+
       expect(result).toBeNull();
     });
 
     it('should return null if JSON parsing fails', () => {
       const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
       localStorage.getItem = vi.fn(() => 'invalid json{');
-      
+
       const result = storageService.getItem('key');
-      
+
       expect(result).toBeNull();
       expect(consoleSpy).toHaveBeenCalled();
-      
+
       consoleSpy.mockRestore();
     });
   });

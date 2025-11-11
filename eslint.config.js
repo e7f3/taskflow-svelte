@@ -22,9 +22,11 @@ export default [
       '.svelte-kit/**',
       'node_modules/**',
       'storybook-static/**',
+      '*.d.ts',
       '*.config.js',
       '*.config.ts',
       '.storybook/**',
+      '**/*.stories.ts', // Storybook files often need @ts-nocheck
     ],
   },
 
@@ -34,8 +36,21 @@ export default [
     languageOptions: {
       parser: tseslint.parser,
       parserOptions: {
-        project: './tsconfig.json',
-        extraFileExtensions: ['.svelte'],
+        projectService: true,
+        tsconfigRootDir: import.meta.dirname,
+      },
+      globals: {
+        console: 'readonly',
+        window: 'readonly',
+        document: 'readonly',
+        navigator: 'readonly',
+        localStorage: 'readonly',
+        sessionStorage: 'readonly',
+        fetch: 'readonly',
+        setTimeout: 'readonly',
+        setInterval: 'readonly',
+        clearTimeout: 'readonly',
+        clearInterval: 'readonly',
       },
     },
     plugins: {
@@ -104,8 +119,25 @@ export default [
       parser: svelteParser,
       parserOptions: {
         parser: tseslint.parser,
-        project: './tsconfig.json',
+        projectService: true,
+        tsconfigRootDir: import.meta.dirname,
         extraFileExtensions: ['.svelte'],
+      },
+      globals: {
+        console: 'readonly',
+        window: 'readonly',
+        document: 'readonly',
+        navigator: 'readonly',
+        localStorage: 'readonly',
+        sessionStorage: 'readonly',
+        fetch: 'readonly',
+        setTimeout: 'readonly',
+        setInterval: 'readonly',
+        clearTimeout: 'readonly',
+        clearInterval: 'readonly',
+        alert: 'readonly',
+        confirm: 'readonly',
+        prompt: 'readonly',
       },
     },
     plugins: {
@@ -162,6 +194,11 @@ export default [
           varsIgnorePattern: '^_|^\\$\\$',
         },
       ],
+      
+      // Disable conflicting rules for Svelte
+      'indent': 'off',
+      'quotes': 'off',
+      'semi': 'off',
 
       // Import ordering (same as TS files)
       'import/order': [
