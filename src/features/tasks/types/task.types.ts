@@ -22,6 +22,8 @@ import type { EntityId, Timestamp } from '@/shared/types/common.types';
  */
 export type TaskStatus = 'todo' | 'in-progress' | 'done';
 
+export const PRIORITY_VALUES = ['low', 'medium', 'high', 'critical'] as const;
+
 /**
  * Priority level for task urgency and importance.
  * Used for visual indicators (colored bars) and filtering.
@@ -32,7 +34,7 @@ export type TaskStatus = 'todo' | 'in-progress' | 'done';
  * - 'high' → Red (#ff6b6b)
  * - 'critical' → Dark Red (#e44258)
  */
-export type Priority = 'low' | 'medium' | 'high' | 'critical';
+export type Priority = typeof PRIORITY_VALUES[number];
 
 /**
  * Lightweight assignee info embedded in tasks.
@@ -249,3 +251,15 @@ export type UpdateTaskData = Partial<
  * }
  */
 export type TasksByStatus = Record<TaskStatus, Task[]>;
+
+/**
+ * Result of submitting new / edited task
+ */
+export type TaskSaveResult =
+| {
+  success: true;
+  task: Task;
+} | {
+  success: false;
+  error: string;
+}

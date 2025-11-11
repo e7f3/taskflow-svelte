@@ -131,7 +131,7 @@ This plan breaks down the TaskFlow application into incremental, manageable codi
   - _Requirements: 2.1, 2.2, 6.3, 7.4, 7.5_
 
 - [ ] 8. Implement task creation and editing
-- [ ] 8.1 Create TaskForm component
+- [x] 8.1 Create TaskForm component
   - Create features/tasks/components/TaskForm.svelte
   - Create features/tasks/components/TaskForm.module.css
   - Implement props interface (task optional, onSave, onCancel)
