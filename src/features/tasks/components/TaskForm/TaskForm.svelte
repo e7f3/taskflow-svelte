@@ -32,6 +32,10 @@
    */
 
   import { authService } from '@/features/auth/services/authService';
+  import Button from '@/shared/components/Button/Button.svelte';
+  import Input from '@/shared/components/Input/Input.svelte';
+  import Select from '@/shared/components/Select/Select.svelte';
+  import Textarea from '@/shared/components/Textarea/Textarea.svelte';
   import type { EntityId } from '@/shared/types/common.types';
   import styles from './TaskForm.module.css';
   import { PRIORITY_VALUES } from '../../types/task.types';
@@ -108,7 +112,6 @@
   /**
    * DOM element references.
    */
-  let titleInputElement = $state<HTMLInputElement | null>(null);
   let dialogElement = $state<HTMLDialogElement | null>(null);
 
   /**
@@ -142,16 +145,7 @@
     assigneeId ? (availableUsers.find((u) => u.id === assigneeId) ?? null) : null,
   );
 
-  /**
-   * Focus the title input when component mounts.
-   *
-   * Learning Note - $effect:
-   * Runs after component is mounted and DOM is ready.
-   * No dependency array needed - Svelte tracks dependencies automatically.
-   */
-  $effect(() => {
-    titleInputElement?.focus();
-  });
+
 
   /**
    * Manage dialog lifecycle.
@@ -276,44 +270,34 @@
       <label for="title" class={styles.label}>
         Title <span class={styles.required}>*</span>
       </label>
-      <input
+      <Input
         id="title"
         type="text"
-        class={styles.input}
         bind:value={title}
-        bind:this={titleInputElement}
         placeholder="Enter task title (min 3 characters)"
         disabled={isLoading}
         required
-        aria-invalid={titleError ? 'true' : 'false'}
-        aria-describedby={titleError ? 'title-error' : undefined}
+        error={titleError}
       />
-      {#if titleError}
-        <span id="title-error" class={styles.fieldError}>
-          {titleError}
-        </span>
-      {/if}
     </div>
 
     <!-- Description Field -->
     <div class={styles.field}>
       <label for="description" class={styles.label}>Description</label>
-      <textarea
+      <Textarea
         id="description"
-        class={styles.textarea}
         bind:value={description}
         placeholder="Enter task description (optional)"
         disabled={isLoading}
-        rows="3"
-      ></textarea>
+        rows={3}
+      />
     </div>
 
     <!-- Assignee Field -->
     <div class={styles.field}>
       <label for="assignee" class={styles.label}>Assignee</label>
-      <select
+      <Select
         id="assignee"
-        class={styles.select}
         bind:value={assigneeId}
         disabled={isLoading}>
         <option value={null}>Unassigned</option>
@@ -323,15 +307,14 @@
             {user.name}
           </option>
         {/each}
-      </select>
+      </Select>
     </div>
 
     <!-- Priority Field -->
     <div class={styles.field}>
       <label for="priority" class={styles.label}>Priority</label>
-      <select
+      <Select
         id="priority"
-        class={styles.select}
         bind:value={priority}
         disabled={isLoading}>
         {#each PRIORITY_VALUES as priorityOption (priorityOption)}
@@ -339,15 +322,14 @@
             {priorityOption.charAt(0).toUpperCase() + priorityOption.slice(1)}
           </option>
         {/each}
-      </select>
+      </Select>
     </div>
 
     <!-- Status Field (useful for editing) -->
     <div class={styles.field}>
       <label for="status" class={styles.label}>Status</label>
-      <select
+      <Select
         id="status"
-        class={styles.select}
         bind:value={status}
         disabled={isLoading}>
         {#each STATUS_OPTIONS as statusOption (statusOption.value)}
@@ -355,7 +337,7 @@
             {statusOption.label}
           </option>
         {/each}
-      </select>
+      </Select>
     </div>
 
     <!-- Error Message -->
@@ -367,18 +349,19 @@
 
     <!-- Action Buttons -->
     <div class={styles.buttonsContainer}>
-      <button
+      <Button
         type="button"
-        class="{styles.button} {styles.buttonSecondary}"
+        variant="secondary"
         onclick={handleClose}
         disabled={isLoading}
       >
         Cancel
-      </button>
-      <button
+      </Button>
+      <Button
         type="submit"
-        class="{styles.button} {styles.buttonPrimary}"
-        disabled={!isFormValid || isLoading}
+        variant="primary"
+        disabled={!isFormValid}
+        loading={isLoading}
       >
         {#if isLoading}
           Saving...
@@ -387,7 +370,7 @@
         {:else}
           Create Task
         {/if}
-      </button>
+      </Button>
     </div>
   </form>
 </dialog>
