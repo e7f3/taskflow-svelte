@@ -106,7 +106,31 @@ features/{feature}/
 
 ## Code Style
 
+### General Guidelines
 - **Comments**: JSDoc-style comments for functions and complex logic
 - **Learning Notes**: Inline comments explaining Svelte 5 patterns and best practices
 - **Minimal Code**: Focus on essential functionality, avoid over-engineering
 - **Type Safety**: Prefer explicit types over inference for public APIs
+
+### Code Quality Rules (ESLint)
+
+**Code Quality:**
+- **Import Order**: 
+  1. Built-in Node modules
+  2. External packages
+  3. Internal modules (using @/ alias)
+  4. Parent/sibling imports
+  5. Type imports
+- **No Console**: Warnings only (allow console.warn and console.error)
+- **Unused Variables**: Prefix with underscore (_) to ignore
+- **Arrow Functions**: Preferred over function expressions
+- **Const over Let**: Use const when variable won't be reassigned
+
+**Formatting:**
+- **Indentation**: 2 spaces
+- **Quotes**: 
+  - Single quotes in TypeScript/JavaScript and Svelte `<script>` sections
+  - Double quotes in Svelte templates (HTML attributes)
+- **Semicolons**: Always required
+- **Trailing Commas**: Required in multiline structures
+- **Auto-format on save**: Enabled in VS Code

@@ -1,12 +1,12 @@
 <script lang="ts">
-import Board from './features/tasks/components/Board/Board.svelte';
-import { taskService } from './features/tasks/services/taskService';
-import { onMount } from 'svelte';
+  import { onMount } from 'svelte';
+  import Board from './features/tasks/components/Board/Board.svelte';
+  import { taskService } from './features/tasks/services/taskService';
 
-// Load tasks when app starts
-onMount(() => {
-  taskService.loadTasks();
-});
+  // Load tasks when app starts
+  onMount(() => {
+    taskService.loadTasks();
+  });
 </script>
 
 <main>

@@ -1,6 +1,6 @@
 /**
  * Type definitions for the storage service.
- * 
+ *
  * Learning Note:
  * Separating types from implementation has several benefits:
  * - Better organization and discoverability
@@ -12,14 +12,14 @@
 
 /**
  * Storage service interface defining the contract for localStorage operations.
- * 
+ *
  * This interface ensures type safety and provides clear documentation
  * for all storage operations in the application.
- * 
+ *
  * Learning Note:
  * In React with TypeScript, you might create a context with this interface.
  * In Svelte, we just export a typed object that implements this interface.
- * 
+ *
  * Benefits of defining an interface:
  * - Easy to create mock implementations for testing
  * - Clear API contract
@@ -30,15 +30,15 @@ export interface StorageService {
   /**
    * Stores an item in localStorage with JSON serialization.
    * Handles errors gracefully if storage is unavailable.
-   * 
+   *
    * Error handling:
    * - QuotaExceededError: localStorage is full
    * - SecurityError: localStorage is disabled (private browsing)
    * - Other errors: Unexpected issues
-   * 
+   *
    * @param key - Storage key (namespace your keys to avoid conflicts)
    * @param value - Value to store (will be JSON stringified)
-   * 
+   *
    * @example
    * ```typescript
    * storageService.setItem('tasks', [task1, task2]);
@@ -50,14 +50,14 @@ export interface StorageService {
   /**
    * Retrieves and deserializes an item from localStorage.
    * Returns null if item doesn't exist or parsing fails.
-   * 
+   *
    * Type safety:
    * Use the generic parameter to specify the expected type.
    * TypeScript will enforce this type in your code.
-   * 
+   *
    * @param key - Storage key to retrieve
    * @returns Parsed value or null if not found/invalid
-   * 
+   *
    * @example
    * ```typescript
    * const tasks = storageService.getItem<Task[]>('tasks');
@@ -72,19 +72,19 @@ export interface StorageService {
   /**
    * Removes an item from localStorage.
    * Safe to call even if the key doesn't exist.
-   * 
+   *
    * Use cases:
    * - Logout (remove auth token)
    * - Clear cache
    * - Delete user data
-   * 
+   *
    * @param key - Storage key to remove
-   * 
+   *
    * @example
    * ```typescript
    * // Logout
    * storageService.removeItem('auth');
-   * 
+   *
    * // Clear all app data
    * storageService.removeItem('tasks');
    * storageService.removeItem('filters');
@@ -95,13 +95,13 @@ export interface StorageService {
   /**
    * Checks if localStorage is available and working.
    * Useful for showing warnings if storage is disabled.
-   * 
+   *
    * How it works:
    * Attempts to write and read a test value.
    * If successful, localStorage is available.
-   * 
+   *
    * @returns True if localStorage is accessible and working
-   * 
+   *
    * @example
    * ```typescript
    * if (!storageService.isAvailable()) {
@@ -115,11 +115,11 @@ export interface StorageService {
   /**
    * Clears all items from localStorage.
    * Use with caution - this affects all apps on the same domain!
-   * 
+   *
    * Learning Note:
    * In a real app, you'd want to clear only your app's keys.
    * Consider using a namespace prefix for all your keys.
-   * 
+   *
    * @example
    * ```typescript
    * // Clear all data (use sparingly!)
@@ -132,19 +132,19 @@ export interface StorageService {
 /**
  * Storage keys used throughout the application.
  * Centralizing keys prevents typos and makes refactoring easier.
- * 
+ *
  * Learning Note:
  * Using constants for storage keys is a best practice:
  * - Prevents typos (compile-time checking)
  * - Easy to refactor (change in one place)
  * - Self-documenting code
  * - Can add namespace prefix easily
- * 
+ *
  * @example
  * ```typescript
  * // Instead of:
  * localStorage.setItem('tasks', data);
- * 
+ *
  * // Use:
  * storageService.setItem(STORAGE_KEYS.TASKS, data);
  * ```
@@ -172,7 +172,7 @@ export const STORAGE_KEYS = {
 /**
  * Type for storage keys.
  * Ensures only valid keys from STORAGE_KEYS can be used.
- * 
+ *
  * Learning Note:
  * This creates a union type of all values in STORAGE_KEYS.
  * TypeScript will enforce that only these specific strings can be used.
@@ -208,7 +208,7 @@ export enum StorageErrorType {
 /**
  * Custom error class for storage operations.
  * Provides more context than generic Error.
- * 
+ *
  * Learning Note:
  * Custom error classes help with error handling and debugging.
  * You can catch specific error types and handle them differently.
@@ -233,7 +233,7 @@ export class StorageError extends Error {
     type: StorageErrorType,
     key: string,
     message: string,
-    originalError?: Error
+    originalError?: Error,
   ) {
     super(message);
     this.name = 'StorageError';

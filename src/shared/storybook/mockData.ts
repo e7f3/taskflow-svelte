@@ -2,34 +2,34 @@
  * Mock data for Storybook stories
  */
 
-import type { Task, TaskAssignee } from '../../features/tasks/types/task.types';
 import type { User } from '../../features/auth/types/auth.types';
+import type { Task, TaskAssignee } from '../../features/tasks/types/task.types';
 
 export const mockUsers: User[] = [
   {
     id: '1',
     username: 'john',
     name: 'John Doe',
-    avatar: '👨‍💼'
+    avatar: '👨‍💼',
   },
   {
     id: '2',
     username: 'jane',
     name: 'Jane Smith',
-    avatar: '👩‍💼'
+    avatar: '👩‍💼',
   },
   {
     id: '3',
     username: 'bob',
     name: 'Bob Johnson',
-    avatar: '👨‍💻'
-  }
+    avatar: '👨‍💻',
+  },
 ];
 
 export const mockAssignees: TaskAssignee[] = mockUsers.map(user => ({
   id: user.id,
   name: user.name,
-  avatar: user.avatar
+  avatar: user.avatar,
 }));
 
 export const mockTasks: Task[] = [
@@ -42,7 +42,7 @@ export const mockTasks: Task[] = [
     assignee: mockAssignees[0],
     createdAt: new Date('2024-11-01').getTime(),
     updatedAt: new Date('2024-11-10').getTime(),
-    createdBy: '1'
+    createdBy: '1',
   },
   {
     id: '2',
@@ -53,7 +53,7 @@ export const mockTasks: Task[] = [
     assignee: mockAssignees[1],
     createdAt: new Date('2024-11-08').getTime(),
     updatedAt: new Date('2024-11-09').getTime(),
-    createdBy: '2'
+    createdBy: '2',
   },
   {
     id: '3',
@@ -64,7 +64,7 @@ export const mockTasks: Task[] = [
     assignee: mockAssignees[2],
     createdAt: new Date('2024-10-25').getTime(),
     updatedAt: new Date('2024-11-05').getTime(),
-    createdBy: '3'
+    createdBy: '3',
   },
   {
     id: '4',
@@ -75,6 +75,6 @@ export const mockTasks: Task[] = [
     assignee: mockAssignees[0],
     createdAt: new Date('2024-11-01').getTime(),
     updatedAt: new Date('2024-11-01').getTime(),
-    createdBy: '1'
-  }
+    createdBy: '1',
+  },
 ];
