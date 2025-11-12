@@ -1,0 +1,82 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+
+permissions:
+  contents: write
+
+jobs:
+  create-release:
+    name: Create Release
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v3
+        with:
+          version: 8
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build application
+        run: pnpm build
+
+      - name: Build Storybook
+        run: pnpm build-storybook
+
+      - name: Create release archives
+        run: |
+          cd dist && zip -r ../taskflow-app-${{ github.ref_name }}.zip . && cd ..
+          cd storybook-static && zip -r ../taskflow-storybook-${{ github.ref_name }}.zip . && cd ..
+
+      - name: Generate changelog
+        id: changelog
+        run: |
+          PREVIOUS_TAG=$(git describe --tags --abbrev=0 HEAD^ 2>/dev/null || echo "")
+          if [ -z "$PREVIOUS_TAG" ]; then
+            CHANGELOG=$(git log --pretty=format:"- %s (%h)" --no-merges)
+          else
+            CHANGELOG=$(git log $PREVIOUS_TAG..HEAD --pretty=format:"- %s (%h)" --no-merges)
+          fi
+          echo "changelog<<EOF" >> $GITHUB_OUTPUT
+          echo "$CHANGELOG" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v1
+        with:
+          name: Release ${{ github.ref_name }}
+          body: |
+            ## Changes
+            
+            ${{ steps.changelog.outputs.changelog }}
+            
+            ## Assets
+            
+            - `taskflow-app-${{ github.ref_name }}.zip` - Production build
+            - `taskflow-storybook-${{ github.ref_name }}.zip` - Storybook documentation
+            
+            ## Deployment
+            
+            - **App:** https://your-username.github.io/taskflow-svelte/
+            - **Storybook:** https://your-username.github.io/taskflow-svelte/storybook/
+          files: |
+            taskflow-app-${{ github.ref_name }}.zip
+            taskflow-storybook-${{ github.ref_name }}.zip
+          draft: false
+          prerelease: false
