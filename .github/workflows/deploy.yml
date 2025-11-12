@@ -45,8 +45,7 @@ jobs:
       - name: Build application
         run: pnpm build
         env:
-          # Set base path for GitHub Pages (replace with your repo name)
-          # BASE_URL: /your-repo-name/
+          BASE_URL: /taskflow-svelte/
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
