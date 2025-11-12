@@ -81,3 +81,12 @@ pnpm check              # Run svelte-check for type errors
 - Strict mode enabled (strict, noUnusedLocals, noUnusedParameters)
 - ES2020 target with ESNext modules
 - Bundler module resolution
+
+
+## CI/CD
+
+- **GitHub Actions** for continuous integration
+- **Automated checks** on every PR (lint, test, build)
+- **GitHub Pages** deployment on main branch
+- **Dependabot** for automated dependency updates
+- See `docs/CI-CD.md` for full documentation

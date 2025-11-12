@@ -1,0 +1,65 @@
+version: 2
+updates:
+  # Enable version updates for npm
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "09:00"
+    open-pull-requests-limit: 10
+    reviewers:
+      - "your-github-username"
+    labels:
+      - "dependencies"
+      - "automated"
+    commit-message:
+      prefix: "chore"
+      include: "scope"
+    
+    # Group updates
+    groups:
+      # Group all Storybook updates together
+      storybook:
+        patterns:
+          - "@storybook/*"
+          - "storybook"
+      
+      # Group all testing library updates
+      testing:
+        patterns:
+          - "@testing-library/*"
+          - "@vitest/*"
+          - "vitest"
+          - "playwright"
+      
+      # Group all ESLint updates
+      eslint:
+        patterns:
+          - "eslint*"
+          - "@typescript-eslint/*"
+      
+      # Group all Stylelint updates
+      stylelint:
+        patterns:
+          - "stylelint*"
+          - "@stylistic/*"
+      
+      # Group TypeScript updates
+      typescript:
+        patterns:
+          - "typescript"
+          - "tslib"
+          - "@types/*"
+
+  # Enable version updates for GitHub Actions
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+    labels:
+      - "dependencies"
+      - "github-actions"
+    commit-message:
+      prefix: "ci"
