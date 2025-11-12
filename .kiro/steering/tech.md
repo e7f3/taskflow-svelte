@@ -90,3 +90,44 @@ pnpm check              # Run svelte-check for type errors
 - **GitHub Pages** deployment on main branch
 - **Dependabot** for automated dependency updates
 - See `docs/CI-CD.md` for full documentation
+
+
+## PR Automation
+
+### Task-Based PR Creation
+
+After completing tasks from specs, use automated PR generation:
+
+```bash
+# Generate PR description
+pnpm pr:task <task-number>
+
+# Create PR automatically  
+pnpm pr:task:create <task-number>
+```
+
+**Example:**
+```bash
+pnpm pr:task:create 8.1
+```
+
+This generates a PR with:
+- Task title and number
+- Related requirements
+- All commits
+- Files changed
+- Testing checklist
+- Links to spec docs
+
+**Documentation:** See `.github/TASK_PR_WORKFLOW.md`
+
+### General PR Creation
+
+For non-task work:
+
+```bash
+pnpm pr:description  # Generate description
+pnpm pr:create       # Create PR
+```
+
+**Quick Reference:** `.github/PR_QUICK_REFERENCE.md`

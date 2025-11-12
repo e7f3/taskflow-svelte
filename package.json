@@ -21,7 +21,9 @@
     "storybook:firefox": "BROWSER=firefox storybook dev -p 6006",
     "build-storybook": "storybook build",
     "pr:description": ".github/scripts/generate-pr-description.sh",
-    "pr:create": ".github/scripts/create-pr.sh"
+    "pr:create": ".github/scripts/create-pr.sh",
+    "pr:task": ".github/scripts/generate-task-pr.sh",
+    "pr:task:create": ".github/scripts/create-task-pr.sh"
   },
   "devDependencies": {
     "@chromatic-com/storybook": "^4.1.2",

@@ -2,6 +2,8 @@
 
 This document explains how to use PR templates and automation in this project.
 
+> **📋 Working on a spec task?** See [TASK_PR_WORKFLOW.md](TASK_PR_WORKFLOW.md) for task-specific PR generation.
+
 ## Quick Start
 
 ### Option 1: Manual PR (GitHub UI)
