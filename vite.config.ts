@@ -9,9 +9,13 @@ import { fileURLToPath, URL } from 'node:url';
  * - Svelte 5 plugin with TypeScript support
  * - Path aliases for clean imports (@/ points to src/)
  * - CSS Modules support (enabled by default in Vite)
+ * - Base URL for GitHub Pages deployment
  */
 export default defineConfig({
   plugins: [svelte()],
+  
+  // Base URL for GitHub Pages (set via BASE_URL env var in CI)
+  base: process.env.BASE_URL || '/',
   
   resolve: {
     alias: {
