@@ -1,0 +1,20 @@
+# Build outputs
+dist
+build
+.svelte-kit
+storybook-static
+coverage
+
+# Dependencies
+node_modules
+
+# Config files
+*.config.js
+*.config.ts
+
+# Generated files
+.vscode
+.idea
+
+# Other
+*.min.css

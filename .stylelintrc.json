@@ -1,0 +1,103 @@
+{
+  "extends": [
+    "stylelint-config-standard",
+    "stylelint-config-recess-order"
+  ],
+  "plugins": [
+    "stylelint-order"
+  ],
+  "customSyntax": "postcss-html",
+  "rules": {
+    "indentation": 2,
+    "string-quotes": "single",
+    "color-hex-length": "short",
+    "color-hex-case": "lower",
+    "color-named": "never",
+    "selector-class-pattern": "^[a-z][a-zA-Z0-9]*$",
+    "selector-id-pattern": "^[a-z][a-zA-Z0-9]*$",
+    "declaration-block-trailing-semicolon": "always",
+    "declaration-colon-space-after": "always",
+    "declaration-colon-space-before": "never",
+    "declaration-block-semicolon-newline-after": "always",
+    "block-opening-brace-space-before": "always",
+    "block-closing-brace-newline-after": "always",
+    "rule-empty-line-before": [
+      "always",
+      {
+        "except": ["first-nested"],
+        "ignore": ["after-comment"]
+      }
+    ],
+    "comment-empty-line-before": [
+      "always",
+      {
+        "except": ["first-nested"],
+        "ignore": ["stylelint-commands"]
+      }
+    ],
+    "max-empty-lines": 1,
+    "no-eol-whitespace": true,
+    "no-missing-end-of-source-newline": true,
+    "number-leading-zero": "always",
+    "length-zero-no-unit": true,
+    "value-keyword-case": "lower",
+    "property-case": "lower",
+    "unit-case": "lower",
+    "selector-pseudo-class-case": "lower",
+    "selector-pseudo-element-case": "lower",
+    "selector-type-case": "lower",
+    "at-rule-name-case": "lower",
+    "function-name-case": "lower",
+    "order/properties-alphabetical-order": null,
+    "declaration-empty-line-before": [
+      "never",
+      {
+        "ignore": ["after-declaration"]
+      }
+    ],
+    "at-rule-empty-line-before": [
+      "always",
+      {
+        "except": ["first-nested", "blockless-after-blockless"],
+        "ignore": ["after-comment"]
+      }
+    ],
+    "custom-property-empty-line-before": "never",
+    "selector-max-id": 0,
+    "selector-max-universal": 1,
+    "selector-no-qualifying-type": [
+      true,
+      {
+        "ignore": ["attribute", "class"]
+      }
+    ],
+    "font-family-name-quotes": "always-where-recommended",
+    "function-url-quotes": "always",
+    "import-notation": "string",
+    "keyframes-name-pattern": "^[a-z][a-zA-Z0-9]*$",
+    "alpha-value-notation": "number",
+    "hue-degree-notation": "angle",
+    "color-function-notation": "modern",
+    "selector-not-notation": "complex",
+    "media-feature-range-notation": "context",
+    "no-descending-specificity": null,
+    "no-duplicate-selectors": true,
+    "declaration-block-no-redundant-longhand-properties": true,
+    "shorthand-property-no-redundant-values": true,
+    "declaration-block-no-shorthand-property-overrides": true
+  },
+  "overrides": [
+    {
+      "files": ["**/*.svelte"],
+      "customSyntax": "postcss-html",
+      "rules": {
+        "selector-pseudo-class-no-unknown": [
+          true,
+          {
+            "ignorePseudoClasses": ["global"]
+          }
+        ]
+      }
+    }
+  ]
+}
