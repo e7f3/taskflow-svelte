@@ -153,11 +153,12 @@ This plan breaks down the TaskFlow application into incremental, manageable codi
   - Render TaskForm conditionally with {#if}
   - Implement handleCreateTask calling taskService.createTask
   - Implement handleEditTask calling taskService.updateTask
+  - Update handleEditTask in Board to open TaskForm instead of console.log
   - Pass appropriate callbacks to TaskForm
   - Add comments explaining component communication pattern
   - _Requirements: 3.1, 3.4, 4.1, 4.3_
 
-- [ ] 8.3 Add delete confirmation dialog
+- [x] 8.3 Add delete confirmation dialog
   - Create simple confirmation modal component or use browser confirm
   - Integrate delete confirmation in TaskCard click handler
   - Call taskService.deleteTask on confirmation
@@ -167,112 +168,128 @@ This plan breaks down the TaskFlow application into incremental, manageable codi
 - [ ] 9. Implement filtering feature
 - [ ] 9.1 Create filters store
   - Create features/filters/stores/filtersStore.ts
-  - Implement simple writable store with FilterState
+  - Create features/filters/stores/filtersStore.types.ts
+  - Implement writable store with FilterState
+  - Add methods to update search query, assignee filter, and priority filter
+  - Add method to clear all filters
   - Add JSDoc comments explaining filter state structure
   - _Requirements: 7.1, 7.2, 7.3, 7.4, 7.5_
 
 - [ ] 9.2 Create FilterBar component
   - Create features/filters/components/FilterBar.svelte
   - Create features/filters/components/FilterBar.module.css
-  - Add search input with bind:value to filtersStore.searchQuery
-  - Add assignee dropdown filter
-  - Add priority dropdown filter
-  - Add "Clear Filters" button
-  - Implement debounced search (300ms delay)
-  - Style with CSS modules
+  - Subscribe to filtersStore to get current filter state
+  - Add search input with bind:value for search query
+  - Add assignee dropdown filter with options from authService.getAllUsers()
+  - Add priority dropdown filter with all priority levels
+  - Add "Clear Filters" button that calls filtersStore.clearFilters()
+  - Implement debounced search (300ms delay) using setTimeout
+  - Style with CSS modules for horizontal layout
   - Add comments explaining two-way binding with stores and debouncing
   - _Requirements: 7.1, 7.2, 7.3, 7.5_
 
-- [ ] 9.3 Implement derived filtered tasks
-  - Create derived store or computed value in Board component
-  - Filter tasks by searchQuery (title and description)
-  - Filter tasks by assigneeId
-  - Filter tasks by priority
+- [ ] 9.3 Integrate filtering with Board component
+  - Import filtersStore in Board component
+  - Subscribe to filtersStore with $ prefix
+  - Update allTasks $derived to filter by searchQuery (title and description, case-insensitive)
+  - Filter by assigneeId if set (match task.assignee?.id)
+  - Filter by priority if set
   - Apply all filters with AND logic
+  - Update Board to render FilterBar above columns
   - Add comments explaining derived stores vs React useMemo
   - _Requirements: 7.1, 7.2, 7.3, 7.4_
 
 - [ ] 10. Build shared Header component
-  - Create shared/components/Header.svelte
-  - Create shared/components/Header.module.css
+  - Create shared/components/Header/Header.svelte
+  - Create shared/components/Header/Header.module.css
   - Subscribe to authStore to get current user
   - Display app title "TaskFlow"
-  - Display current user name and avatar
+  - Display current user name and avatar (if authenticated)
   - Add logout button calling authService.logout
-  - Style with CSS modules
+  - Style with CSS modules for horizontal layout with space-between
   - Add comments explaining store subscriptions in components
   - _Requirements: 1.4, 1.5_
 
-- [ ] 11. Create main App component
-  - Create src/App.svelte
-  - Create src/App.module.css
-  - Subscribe to authStore
-  - Use $derived to compute isAuthenticated
-  - Conditionally render LoginForm or authenticated view with {#if}
-  - In authenticated view, render Header, FilterBar, and Board
-  - Call authService.restoreSession on mount using $effect
-  - Call taskService.loadTasks on mount
+- [ ] 11. Integrate authentication with App component
+  - Update src/App.svelte to import authStore and LoginForm
+  - Subscribe to authStore with $ prefix
+  - Use $derived to compute isAuthenticated from authStore
+  - Conditionally render LoginForm when not authenticated
+  - Conditionally render authenticated view (Header and Board) when authenticated
+  - Call authService.restoreSession on mount using onMount
+  - Move taskService.loadTasks call inside authenticated block
+  - Update styles to accommodate Header component
   - Add comments explaining app initialization and conditional rendering
-  - _Requirements: 1.1, 1.2, 8.3, 8.4_
+  - _Requirements: 1.1, 1.2, 1.4, 8.3, 8.4_
 
 - [ ] 12. Add transitions and animations
-  - Import fade, fly, scale from svelte/transition
-  - Import flip from svelte/animate
-  - Add fade transition to TaskForm modal (200ms)
-  - Add fly transition to TaskCard on add (in:fly)
-  - Add fade transition to TaskCard on remove (out:fade)
-  - Add flip animation to TaskCard list for smooth reordering
-  - Add transition to LoginForm
+  - Import fade, fly from svelte/transition in TaskForm
+  - Import flip from svelte/animate in Column component
+  - Add fade transition to TaskForm dialog backdrop (200ms)
+  - Add fly transition to TaskCard on add (in:fly={{ y: 20, duration: 300 }})
+  - Add fade transition to TaskCard on remove (out:fade={{ duration: 200 }})
+  - Add flip animation to TaskCard list in Column for smooth reordering
+  - Add fade transition to LoginForm container
   - Add comments explaining Svelte's built-in transition system
   - _Requirements: 9.1, 9.2, 9.4_
 
 - [ ] 13. Implement responsive layout
-  - Add media queries to Board.module.css
-  - Desktop (>1024px): 3 columns side-by-side with equal width
-  - Tablet (768-1024px): 3 columns with adjusted spacing
-  - Mobile (<768px): Stack columns vertically
-  - Ensure minimum touch target size of 44px for buttons
+  - Review and enhance Board.module.css media queries
+  - Desktop (>1024px): 3 columns side-by-side with equal width and gap
+  - Tablet (768-1024px): 3 columns with adjusted spacing and smaller gap
+  - Mobile (<768px): Stack columns vertically with full width
+  - Review Header.module.css for mobile responsiveness
+  - Review FilterBar.module.css for mobile layout (stack filters vertically)
+  - Ensure minimum touch target size of 44px for all buttons
   - Test layout reflow on resize
   - Add comments explaining responsive design approach
   - _Requirements: 10.1, 10.2, 10.3, 10.4, 10.5_
 
-- [ ] 14. Add drag visual feedback enhancements
-  - Style dragging state in TaskCard (opacity, transform)
-  - Style drop zone hover state in Column (border, background)
-  - Add CSS for drag ghost image
-  - Ensure smooth drag animations
+- [ ] 14. Enhance drag visual feedback
+  - Update TaskCard.module.css dragging state (opacity: 0.5, transform: rotate(2deg))
+  - Update Column.module.css drop zone hover state (border: 2px dashed primary, background: light blue)
+  - Add dragOver class to Column component when draggedTask is over it
+  - Add isDragging class to TaskCard when being dragged
+  - Ensure smooth drag animations with CSS transitions
   - Add comments explaining CSS for drag states
   - _Requirements: 6.1, 6.2, 9.5_
 
 - [ ] 15. Implement storage availability check
-  - Check storageService.isAvailable() on app mount
-  - Display warning banner if localStorage unavailable
-  - Ensure app continues to work with in-memory state
+  - Check storageService.isAvailable() in App component on mount
+  - Create $state variable for storage availability warning
+  - Display warning banner at top of app if localStorage unavailable
+  - Ensure app continues to work with in-memory state (services already handle this)
+  - Style warning banner with yellow background and icon
   - Add comments explaining graceful degradation
   - _Requirements: 8.5_
 
 - [ ] 16. Add loading states and error handling
-  - Add loading state during session restore
-  - Add error boundaries for component errors
-  - Display user-friendly error messages
+  - Add loading state during session restore in App component
+  - Display loading spinner or skeleton while restoring session
+  - Add error state if session restore fails
+  - Display user-friendly error messages in LoginForm
   - Add comments explaining error handling patterns
   - _Requirements: 1.3, 8.5_
 
 - [ ] 17. Polish and final touches
-  - Review all components for consistent styling
-  - Ensure all interactive elements have hover states
-  - Verify all transitions are smooth
-  - Test all user flows (login, create, edit, delete, drag, filter, logout)
-  - Verify localStorage persistence works correctly
+  - Review all components for consistent styling with theme variables
+  - Ensure all interactive elements have hover states (buttons, cards, inputs)
+  - Verify all transitions are smooth (200-300ms duration)
+  - Test all user flows: login → create task → edit task → delete task → drag task → filter tasks → logout
+  - Verify localStorage persistence works correctly (refresh page, data persists)
+  - Test with multiple users (alice, bob, charlie)
   - Add any missing comments or documentation
+  - Fix any visual inconsistencies
   - _Requirements: All_
 
 - [ ] 18. Add comprehensive inline documentation
-  - Review all files and add learning-focused comments
-  - Highlight Svelte-specific patterns vs React patterns
-  - Explain runes ($state, $derived, $effect) with examples
-  - Document store patterns and how they differ from Redux
-  - Add comments on two-way binding, transitions, and reactivity
-  - Ensure every component has usage examples in comments
+  - Review all files and enhance learning-focused comments
+  - Highlight Svelte-specific patterns vs React patterns in component files
+  - Explain runes ($state, $derived, $effect) with examples in complex components
+  - Document store patterns and how they differ from Redux in store files
+  - Add comments on two-way binding in form components
+  - Add comments on transitions and reactivity in animated components
+  - Ensure every component has usage examples in JSDoc comments
+  - Add README.md with project overview and learning objectives
   - _Requirements: All (documentation for learning)_
 
