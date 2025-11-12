@@ -25,6 +25,8 @@
  * - CSS Modules for scoped styles
  */
 
+  import Button from '@/shared/components/Button/Button.svelte';
+  import Input from '@/shared/components/Input/Input.svelte';
   import styles from './LoginForm.module.css';
   import { authService } from '../services/authService';
 
@@ -168,10 +170,9 @@
       -->
       <div class={styles.field}>
         <label for="username" class={styles.label}>Username</label>
-        <input
+        <Input
           id="username"
           type="text"
-          class={styles.input}
           bind:value={username}
           placeholder="Enter username"
           disabled={isLoading}
@@ -181,10 +182,9 @@
 
       <div class={styles.field}>
         <label for="password" class={styles.label}>Password</label>
-        <input
+        <Input
           id="password"
           type="password"
-          class={styles.input}
           bind:value={password}
           placeholder="Enter password"
           disabled={isLoading}
@@ -240,17 +240,19 @@
 
         We'll use {#if} to be more idiomatic!
       -->
-      <button
+      <Button
         type="submit"
-        class={styles.button}
-        disabled={!isFormValid || isLoading}
+        variant="primary"
+        size="large"
+        disabled={!isFormValid}
+        loading={isLoading}
       >
         {#if isLoading}
           Signing in...
         {:else}
           Sign In
         {/if}
-      </button>
+      </Button>
     </form>
 
     <!--
