@@ -1,49 +1,55 @@
 <script lang="ts">
   /**
- * TaskForm component for creating and editing tasks.
- *
- * Learning Note - Form Patterns in Svelte 5:
- *
- * This component demonstrates several key Svelte 5 patterns:
- *
- * 1. $state rune for mutable form fields:
- *    - Use $state for values that need to be bound to inputs
- *    - These are reactive and can be modified by user input
- *
- * 2. $derived rune for computed values:
- *    - Use $derived for values calculated from other state
- *    - Automatically recomputes when dependencies change
- *    - Example: form validation, error messages
- *
- * 3. $effect rune for side effects:
- *    - Runs when component mounts or dependencies change
- *    - Can return cleanup function
- *    - Example: focus management, dialog lifecycle
- *
- * 4. Native <dialog> element:
- *    - Modern HTML5 element with built-in accessibility
- *    - Handles Escape key, focus trapping, backdrop
- *    - Use showModal() for modal behavior
- *
- * Compare to React:
- * - No useState/useEffect/useMemo hooks needed
- * - No dependency arrays to manage
- * - Simpler, more intuitive API
- */
+   * TaskForm component for creating and editing tasks.
+   *
+   * Learning Note - Form Patterns in Svelte 5:
+   *
+   * This component demonstrates several key Svelte 5 patterns:
+   *
+   * 1. $state rune for mutable form fields:
+   *    - Use $state for values that need to be bound to inputs
+   *    - These are reactive and can be modified by user input
+   *
+   * 2. $derived rune for computed values:
+   *    - Use $derived for values calculated from other state
+   *    - Automatically recomputes when dependencies change
+   *    - Example: form validation, error messages
+   *
+   * 3. $effect rune for side effects:
+   *    - Runs when component mounts or dependencies change
+   *    - Can return cleanup function
+   *    - Example: focus management, dialog lifecycle
+   *
+   * 4. Native <dialog> element:
+   *    - Modern HTML5 element with built-in accessibility
+   *    - Handles Escape key, focus trapping, backdrop
+   *    - Use showModal() for modal behavior
+   *
+   * Compare to React:
+   * - No useState/useEffect/useMemo hooks needed
+   * - No dependency arrays to manage
+   * - Simpler, more intuitive API
+   */
 
   import { authService } from '@/features/auth/services/authService';
   import type { EntityId } from '@/shared/types/common.types';
   import styles from './TaskForm.module.css';
   import { PRIORITY_VALUES } from '../../types/task.types';
-  import type { CreateTaskData, Task, TaskSaveResult, Priority, TaskStatus } from '../../types/task.types';
+  import type {
+    CreateTaskData,
+    Task,
+    TaskSaveResult,
+    Priority,
+    TaskStatus,
+  } from '../../types/task.types';
 
   /**
- * Component props interface.
- *
- * Learning Note:
- * Props are defined as an interface and destructured using $props().
- * This is Svelte 5's new way - cleaner than Svelte 4's export let!
- */
+   * Component props interface.
+   *
+   * Learning Note:
+   * Props are defined as an interface and destructured using $props().
+   * This is Svelte 5's new way - cleaner than Svelte 4's export let!
+   */
   interface Props {
     /**
      * Optional task to edit. If provided, form is in edit mode.
@@ -65,14 +71,14 @@
   }
 
   /**
- * Default values for new tasks.
- */
+   * Default values for new tasks.
+   */
   const DEFAULT_PRIORITY: Priority = 'medium';
   const DEFAULT_STATUS: TaskStatus = 'todo';
 
   /**
- * Status options for the dropdown.
- */
+   * Status options for the dropdown.
+   */
   const STATUS_OPTIONS: { value: TaskStatus; label: string }[] = [
     { value: 'todo', label: 'To Do' },
     { value: 'in-progress', label: 'In Progress' },
@@ -82,15 +88,15 @@
   const { task, onSave, onCancel }: Props = $props();
 
   /**
- * Form field state using $state rune.
- *
- * Learning Note - $state vs $derived:
- * - Use $state for values that can be modified (form inputs)
- * - Use $derived for computed values (validation, formatting)
- *
- * These are initialized from the task prop (edit mode) or defaults (create mode).
- * The $state rune makes them reactive - when they change, the UI updates automatically.
- */
+   * Form field state using $state rune.
+   *
+   * Learning Note - $state vs $derived:
+   * - Use $state for values that can be modified (form inputs)
+   * - Use $derived for computed values (validation, formatting)
+   *
+   * These are initialized from the task prop (edit mode) or defaults (create mode).
+   * The $state rune makes them reactive - when they change, the UI updates automatically.
+   */
   let title = $state(task?.title ?? '');
   let description = $state(task?.description ?? '');
   let assigneeId = $state<EntityId | null>(task?.assignee?.id ?? null);
@@ -100,62 +106,60 @@
   let isLoading = $state(false);
 
   /**
- * DOM element references.
- */
+   * DOM element references.
+   */
   let titleInputElement = $state<HTMLInputElement | null>(null);
   let dialogElement = $state<HTMLDialogElement | null>(null);
 
   /**
- * Get list of available users for assignee dropdown.
- * This is a constant, not reactive state.
- */
+   * Get list of available users for assignee dropdown.
+   * This is a constant, not reactive state.
+   */
   const availableUsers = authService.getAllUsers();
 
   /**
- * Form validation using $derived rune.
- *
- * Learning Note:
- * $derived automatically recomputes when dependencies (title) change.
- * No need for dependency arrays like React's useMemo!
- */
+   * Form validation using $derived rune.
+   *
+   * Learning Note:
+   * $derived automatically recomputes when dependencies (title) change.
+   * No need for dependency arrays like React's useMemo!
+   */
   const isFormValid = $derived(title.trim().length >= 3);
 
   /**
- * Validation error message for title field.
- * Only shows error if user has started typing.
- */
+   * Validation error message for title field.
+   * Only shows error if user has started typing.
+   */
   const titleError = $derived(
-    title.length > 0 && title.trim().length < 3
-      ? 'Title must be at least 3 characters'
-      : '',
+    title.length > 0 && title.trim().length < 3 ? 'Title must be at least 3 characters' : '',
   );
 
   /**
- * Compute assignee object from selected ID.
- * This converts the ID back to the full assignee object for saving.
- */
+   * Compute assignee object from selected ID.
+   * This converts the ID back to the full assignee object for saving.
+   */
   const selectedAssignee = $derived(
-    assigneeId ? availableUsers.find(u => u.id === assigneeId) ?? null : null,
+    assigneeId ? (availableUsers.find((u) => u.id === assigneeId) ?? null) : null,
   );
 
   /**
- * Focus the title input when component mounts.
- *
- * Learning Note - $effect:
- * Runs after component is mounted and DOM is ready.
- * No dependency array needed - Svelte tracks dependencies automatically.
- */
+   * Focus the title input when component mounts.
+   *
+   * Learning Note - $effect:
+   * Runs after component is mounted and DOM is ready.
+   * No dependency array needed - Svelte tracks dependencies automatically.
+   */
   $effect(() => {
     titleInputElement?.focus();
   });
 
   /**
- * Manage dialog lifecycle.
- *
- * Learning Note - $effect with cleanup:
- * The returned function runs when the component unmounts.
- * This ensures the dialog is properly closed.
- */
+   * Manage dialog lifecycle.
+   *
+   * Learning Note - $effect with cleanup:
+   * The returned function runs when the component unmounts.
+   * This ensures the dialog is properly closed.
+   */
   $effect(() => {
     dialogElement?.showModal();
 
@@ -165,14 +169,14 @@
   });
 
   /**
- * Handles form submission.
- * Validates data and calls onSave callback.
- *
- * Learning Note:
- * This is a regular async function - no special hooks needed!
- * In React, you might use useCallback to memoize it.
- * In Svelte, functions are just functions!
- */
+   * Handles form submission.
+   * Validates data and calls onSave callback.
+   *
+   * Learning Note:
+   * This is a regular async function - no special hooks needed!
+   * In React, you might use useCallback to memoize it.
+   * In Svelte, functions are just functions!
+   */
   async function handleSubmit(event: SubmitEvent) {
     event.preventDefault();
 
@@ -185,11 +189,13 @@
         {
           title: title.trim(),
           description: description.trim(),
-          assignee: selectedAssignee ? {
-            id: selectedAssignee.id,
-            name: selectedAssignee.name,
-            avatar: selectedAssignee.avatar,
-          } : null,
+          assignee: selectedAssignee
+            ? {
+              id: selectedAssignee.id,
+              name: selectedAssignee.name,
+              avatar: selectedAssignee.avatar,
+            }
+            : null,
           priority,
           status,
         },
@@ -212,21 +218,21 @@
   }
 
   /**
- * Handles dialog close/cancel.
- * Calls onCancel callback and closes the dialog.
- */
+   * Handles dialog close/cancel.
+   * Calls onCancel callback and closes the dialog.
+   */
   function handleClose() {
     onCancel();
     dialogElement?.close();
   }
 
   /**
- * Handles dialog cancel event (Escape key).
- *
- * Learning Note:
- * The native <dialog> element automatically closes on Escape key.
- * We intercept this event to call our onCancel callback.
- */
+   * Handles dialog cancel event (Escape key).
+   *
+   * Learning Note:
+   * The native <dialog> element automatically closes on Escape key.
+   * We intercept this event to call our onCancel callback.
+   */
   function handleCancel(event: Event) {
     event.preventDefault();
     handleClose();
@@ -245,11 +251,7 @@
 
   We use showModal() instead of show() for modal behavior.
 -->
-<dialog
-  bind:this={dialogElement}
-  class={styles.dialog}
-  oncancel={handleCancel}
->
+<dialog bind:this={dialogElement} class={styles.dialog} oncancel={handleCancel}>
   <h1 class={styles.title}>
     {#if task}
       Edit Task
@@ -313,12 +315,12 @@
         id="assignee"
         class={styles.select}
         bind:value={assigneeId}
-        disabled={isLoading}
-      >
+        disabled={isLoading}>
         <option value={null}>Unassigned</option>
         {#each availableUsers as user (user.id)}
           <option value={user.id}>
-            {user.avatar} {user.name}
+            {user.avatar}
+            {user.name}
           </option>
         {/each}
       </select>
@@ -331,8 +333,7 @@
         id="priority"
         class={styles.select}
         bind:value={priority}
-        disabled={isLoading}
-      >
+        disabled={isLoading}>
         {#each PRIORITY_VALUES as priorityOption (priorityOption)}
           <option value={priorityOption}>
             {priorityOption.charAt(0).toUpperCase() + priorityOption.slice(1)}
@@ -348,8 +349,7 @@
         id="status"
         class={styles.select}
         bind:value={status}
-        disabled={isLoading}
-      >
+        disabled={isLoading}>
         {#each STATUS_OPTIONS as statusOption (statusOption.value)}
           <option value={statusOption.value}>
             {statusOption.label}

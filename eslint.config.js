@@ -195,10 +195,10 @@ export default [
         },
       ],
       
-      // Disable conflicting rules for Svelte
-      'indent': 'off',
-      'quotes': 'off',
-      'semi': 'off',
+      // Script section formatting (inside <script> tags)
+      'quotes': ['error', 'single', { avoidEscape: true }],
+      'semi': ['error', 'always'],
+      'comma-dangle': ['error', 'always-multiline'],
 
       // Import ordering (same as TS files)
       'import/order': [
@@ -232,9 +232,9 @@ export default [
     },
   },
 
-  // General rules for all files
+  // General rules for all files (non-Svelte)
   {
-    files: ['**/*.{js,ts,svelte}'],
+    files: ['**/*.{js,ts}'],
     rules: {
       // Code quality
       'no-console': ['warn', { allow: ['warn', 'error'] }],
@@ -246,14 +246,11 @@ export default [
       'prefer-template': 'error',
       'object-shorthand': 'error',
 
-      // Formatting (basic - Prettier would handle more)
+      // Formatting (Prettier handles most, but these are code quality)
       indent: ['error', 2, { SwitchCase: 1 }],
       quotes: ['error', 'single', { avoidEscape: true }],
       semi: ['error', 'always'],
       'comma-dangle': ['error', 'always-multiline'],
-      'eol-last': ['error', 'always'],
-      'no-multiple-empty-lines': ['error', { max: 1, maxEOF: 0 }],
-      'no-trailing-spaces': 'error',
 
       // Best practices
       eqeqeq: ['error', 'always', { null: 'ignore' }],

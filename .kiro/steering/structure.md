@@ -112,11 +112,9 @@ features/{feature}/
 - **Minimal Code**: Focus on essential functionality, avoid over-engineering
 - **Type Safety**: Prefer explicit types over inference for public APIs
 
-### ESLint Enforced Rules
-- **Indentation**: 2 spaces
-- **Quotes**: Single quotes (except in Svelte templates - use double)
-- **Semicolons**: Always required
-- **Trailing Commas**: Required in multiline structures
+### Code Quality Rules (ESLint)
+
+**Code Quality:**
 - **Import Order**: 
   1. Built-in Node modules
   2. External packages
@@ -126,3 +124,13 @@ features/{feature}/
 - **No Console**: Warnings only (allow console.warn and console.error)
 - **Unused Variables**: Prefix with underscore (_) to ignore
 - **Arrow Functions**: Preferred over function expressions
+- **Const over Let**: Use const when variable won't be reassigned
+
+**Formatting:**
+- **Indentation**: 2 spaces
+- **Quotes**: 
+  - Single quotes in TypeScript/JavaScript and Svelte `<script>` sections
+  - Double quotes in Svelte templates (HTML attributes)
+- **Semicolons**: Always required
+- **Trailing Commas**: Required in multiline structures
+- **Auto-format on save**: Enabled in VS Code
