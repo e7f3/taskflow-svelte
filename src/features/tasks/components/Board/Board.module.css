@@ -9,15 +9,15 @@
 .board {
   display: flex;
   gap: var(--spacing-lg);
-  padding: var(--spacing-lg);
   height: calc(100vh - 80px); /* Account for header */
+  padding: var(--spacing-lg);
   overflow-x: auto;
 }
 
 /**
  * Responsive layout.
  */
-@media (max-width: 1024px) {
+@media (width <= 1024px) {
   .board {
     gap: var(--spacing-md);
     padding: var(--spacing-md);
@@ -27,7 +27,7 @@
 /**
  * Mobile: Stack columns vertically.
  */
-@media (max-width: 768px) {
+@media (width <= 768px) {
   .board {
     flex-direction: column;
     height: auto;

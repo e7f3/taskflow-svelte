@@ -1349,7 +1349,7 @@ Use CSS Modules for scoped, type-safe styling with CSS custom properties for the
  * Displays task information with hover effects and drag support.
  */
 .taskCard {
-  background: white;
+  background: #fff;
   border-radius: var(--border-radius);
   padding: var(--spacing-md);
   box-shadow: var(--shadow);

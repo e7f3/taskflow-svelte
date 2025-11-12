@@ -27,6 +27,7 @@
     "@storybook/addon-svelte-csf": "^5.0.10",
     "@storybook/addon-vitest": "^10.0.6",
     "@storybook/svelte-vite": "^10.0.6",
+    "@stylistic/stylelint-plugin": "^4.0.0",
     "@sveltejs/vite-plugin-svelte": "^5.0.3",
     "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/svelte": "^5.2.8",

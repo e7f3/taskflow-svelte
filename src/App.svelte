@@ -21,21 +21,26 @@ main {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+
   font-family: var(--font-family, sans-serif);
+
   background-color: #f5f5f5;
 }
 
 header {
-  background: white;
   padding: var(--spacing-lg);
-  box-shadow: var(--shadow);
+
+  background: #fff;
   border-bottom: 1px solid #e0e0e0;
+
+  box-shadow: var(--shadow);
 }
 
 h1 {
-  color: var(--color-primary, #0073ea);
-  font-size: 1.5rem;
   margin: 0;
+
+  font-size: 1.5rem;
   font-weight: 700;
+  color: var(--color-primary, #0073ea);
 }
 </style>

@@ -1,6 +1,6 @@
 /**
  * TaskCard component styles.
- * 
+ *
  * Learning Note:
  * CSS Modules provide scoped styles with type safety.
  * Class names are hashed to prevent conflicts.
@@ -11,23 +11,26 @@
  * Displays task information with hover effects and drag support.
  */
 .card {
-  background: white;
-  border-radius: var(--border-radius);
-  padding: var(--spacing-md);
-  box-shadow: var(--shadow);
-  cursor: grab;
-  transition: transform 0.2s, box-shadow 0.2s;
   display: flex;
   gap: var(--spacing-sm);
   margin-bottom: var(--spacing-sm);
+  padding: var(--spacing-md);
+  border-radius: var(--border-radius);
+
+  background: #fff;
+  box-shadow: var(--shadow);
+
+  transition: transform 0.2s, box-shadow 0.2s;
+
+  cursor: grab;
 }
 
 /**
  * Hover state - lifts card slightly for visual feedback.
  */
 .card:hover {
-  transform: translateY(-2px);
   box-shadow: var(--shadow-hover);
+  transform: translateY(-2px);
 }
 
 /**
@@ -50,9 +53,10 @@
  * Color determined by priority level.
  */
 .priorityIndicator {
+  flex-shrink: 0;
+
   width: 4px;
   border-radius: 2px;
-  flex-shrink: 0;
 }
 
 /* Priority color variants */
@@ -76,20 +80,21 @@
  * Task content area containing title, description, and footer.
  */
 .content {
-  flex: 1;
-  min-width: 0; /* Allows text truncation */
   display: flex;
+  flex: 1;
   flex-direction: column;
   gap: var(--spacing-xs);
+  min-width: 0; /* Allows text truncation */
 }
 
 /**
  * Task title text.
  */
 .title {
+  margin: 0;
+
   font-size: var(--font-size-base);
   font-weight: 600;
-  margin: 0;
   color: #333;
 }
 
@@ -98,13 +103,14 @@
  * Truncated with ellipsis if too long.
  */
 .description {
-  font-size: var(--font-size-sm);
-  color: #666;
+  display: -webkit-box;
   margin: 0;
   overflow: hidden;
   text-overflow: ellipsis;
-  display: -webkit-box;
   -webkit-line-clamp: 2;
+
+  font-size: var(--font-size-sm);
+  color: #666;
   -webkit-box-orient: vertical;
 }
 
@@ -125,6 +131,7 @@
   display: flex;
   align-items: center;
   gap: var(--spacing-xs);
+
   font-size: var(--font-size-sm);
 }
 
@@ -139,16 +146,17 @@
  * Assignee name.
  */
 .assigneeName {
-  color: #666;
   font-weight: 500;
+  color: #666;
 }
 
 /**
  * Unassigned text.
  */
 .unassigned {
-  color: #999;
   font-style: italic;
+
+  color: #999;
 }
 
 /**
@@ -166,29 +174,34 @@
 .priorityBadge {
   padding: 2px var(--spacing-xs);
   border-radius: 4px;
+
   font-size: 10px;
   font-weight: 600;
+  color: #fff;
   text-transform: uppercase;
-  color: white;
 }
 
 /**
  * Delete button.
  */
 .deleteButton {
-  background: none;
-  border: none;
-  cursor: pointer;
   padding: var(--spacing-xs);
+  border: none;
   border-radius: 4px;
+
   font-size: 16px;
+
+  background: none;
   opacity: 0.6;
+
   transition: opacity 0.2s, background-color 0.2s;
+
+  cursor: pointer;
 }
 
 .deleteButton:hover {
-  opacity: 1;
   background-color: #fee;
+  opacity: 1;
 }
 
 .deleteButton:active {
@@ -198,7 +211,7 @@
 /**
  * Responsive adjustments for mobile.
  */
-@media (max-width: 768px) {
+@media (width <= 768px) {
   .card {
     padding: var(--spacing-sm);
   }
