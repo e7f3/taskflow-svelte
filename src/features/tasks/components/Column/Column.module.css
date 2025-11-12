@@ -7,13 +7,14 @@
  */
 .column {
   display: flex;
+  flex: 1;
   flex-direction: column;
-  background: #f5f5f5;
-  border-radius: var(--border-radius);
-  padding: var(--spacing-md);
   min-width: 300px;
   max-width: 350px;
-  flex: 1;
+  padding: var(--spacing-md);
+  border-radius: var(--border-radius);
+
+  background: #f5f5f5;
 }
 
 /**
@@ -30,9 +31,10 @@
  * Column title.
  */
 .title {
+  margin: 0;
+
   font-size: var(--font-size-lg);
   font-weight: 700;
-  margin: 0;
   color: #333;
 }
 
@@ -40,14 +42,16 @@
  * Task count badge.
  */
 .count {
-  background: #e0e0e0;
-  color: #666;
+  min-width: 24px;
   padding: 2px var(--spacing-sm);
   border-radius: 12px;
+
   font-size: var(--font-size-sm);
   font-weight: 600;
-  min-width: 24px;
   text-align: center;
+  color: #666;
+
+  background: #e0e0e0;
 }
 
 /**
@@ -55,23 +59,25 @@
  * This is where tasks are displayed and can be dropped.
  */
 .dropZone {
+  position: relative;
+
   flex: 1;
   min-height: 200px;
-  border-radius: var(--border-radius);
   border: 2px solid transparent;
+  border-radius: var(--border-radius);
+
   transition: background-color 0.2s, border-color 0.2s;
-  position: relative;
 }
 
 /**
  * Drop zone when dragging over.
  * Provides visual feedback that this is a valid drop target.
- * 
+ *
  * Using a regular border instead of inset box-shadow prevents overlap with cards.
  * The transparent border in the default state prevents layout shift.
  */
 .dropZone:global(.dragOver) {
-  background-color: rgba(0, 115, 234, 0.05);
+  background-color: rgb(0 115 234 / 0.05);
   border-color: var(--color-primary);
 }
 
@@ -80,8 +86,8 @@
  */
 .emptyState {
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
   height: 100%;
   min-height: 150px;
 }
@@ -90,16 +96,18 @@
  * Empty state text.
  */
 .emptyText {
-  color: #999;
+  margin: 0;
+
   font-size: var(--font-size-sm);
   font-style: italic;
-  margin: 0;
+
+  color: #999;
 }
 
 /**
  * Responsive adjustments.
  */
-@media (max-width: 768px) {
+@media (width <= 768px) {
   .column {
     min-width: 100%;
     max-width: 100%;

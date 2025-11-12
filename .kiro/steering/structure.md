@@ -112,9 +112,9 @@ features/{feature}/
 - **Minimal Code**: Focus on essential functionality, avoid over-engineering
 - **Type Safety**: Prefer explicit types over inference for public APIs
 
-### Code Quality Rules (ESLint)
+### Code Quality Rules
 
-**Code Quality:**
+**ESLint (JavaScript/TypeScript):**
 - **Import Order**: 
   1. Built-in Node modules
   2. External packages
@@ -126,11 +126,27 @@ features/{feature}/
 - **Arrow Functions**: Preferred over function expressions
 - **Const over Let**: Use const when variable won't be reassigned
 
-**Formatting:**
+**JavaScript/TypeScript Formatting:**
 - **Indentation**: 2 spaces
 - **Quotes**: 
   - Single quotes in TypeScript/JavaScript and Svelte `<script>` sections
   - Double quotes in Svelte templates (HTML attributes)
 - **Semicolons**: Always required
 - **Trailing Commas**: Required in multiline structures
+
+**Stylelint (CSS):**
+- **Indentation**: 2 spaces
+- **Quotes**: Single quotes
+- **Property Order**: Recess order (logical grouping)
+  1. Positioning (position, top, right, bottom, left, z-index)
+  2. Box Model (display, flex, grid, width, height, margin, padding, border)
+  3. Typography (font, line-height, text-align, color)
+  4. Visual (background, opacity, box-shadow)
+  5. Animation (transition, animation)
+  6. Misc (cursor, pointer-events)
+- **Colors**: Lowercase hex, short notation (#fff not #ffffff)
+- **No Named Colors**: Use hex/rgb instead of 'red', 'blue', etc.
+- **Zero Units**: No unit for zero values (0 not 0px)
+- **Leading Zero**: Always include (0.5 not .5)
+- **No Duplicate Selectors**: Each selector used once per file
 - **Auto-format on save**: Enabled in VS Code

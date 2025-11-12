@@ -1,0 +1,195 @@
+{
+  "extends": [
+    "stylelint-config-standard",
+    "stylelint-config-recess-order"
+  ],
+  "plugins": [
+    "stylelint-order",
+    "@stylistic/stylelint-plugin"
+  ],
+  "rules": {
+    "@stylistic/indentation": 2,
+    "@stylistic/string-quotes": "single",
+    "@stylistic/color-hex-case": "lower",
+    "color-hex-length": "short",
+    "color-named": "never",
+    "selector-class-pattern": "^[a-z][a-zA-Z0-9]*$",
+    "selector-id-pattern": "^[a-z][a-zA-Z0-9]*$",
+    "@stylistic/declaration-block-trailing-semicolon": "always",
+    "@stylistic/declaration-colon-space-after": "always",
+    "@stylistic/declaration-colon-space-before": "never",
+    "@stylistic/declaration-block-semicolon-newline-after": "always",
+    "@stylistic/block-opening-brace-space-before": "always",
+    "@stylistic/block-closing-brace-newline-after": "always",
+    "rule-empty-line-before": [
+      "always",
+      {
+        "except": ["first-nested"],
+        "ignore": ["after-comment"]
+      }
+    ],
+    "comment-empty-line-before": [
+      "always",
+      {
+        "except": ["first-nested"],
+        "ignore": ["stylelint-commands"]
+      }
+    ],
+    "@stylistic/max-empty-lines": 1,
+    "@stylistic/no-eol-whitespace": true,
+    "@stylistic/no-missing-end-of-source-newline": true,
+    "@stylistic/number-leading-zero": "always",
+    "length-zero-no-unit": true,
+    "value-keyword-case": "lower",
+    "@stylistic/property-case": "lower",
+    "@stylistic/unit-case": "lower",
+    "@stylistic/selector-pseudo-class-case": "lower",
+    "@stylistic/selector-pseudo-element-case": "lower",
+    "selector-type-case": "lower",
+    "@stylistic/at-rule-name-case": "lower",
+    "function-name-case": "lower",
+    "order/properties-alphabetical-order": null,
+    "order/properties-order": [
+      {
+        "emptyLineBefore": "always",
+        "properties": [
+          "content",
+          "position",
+          "top",
+          "right",
+          "bottom",
+          "left",
+          "z-index"
+        ]
+      },
+      {
+        "emptyLineBefore": "always",
+        "properties": [
+          "display",
+          "flex",
+          "flex-direction",
+          "flex-wrap",
+          "justify-content",
+          "align-items",
+          "align-content",
+          "grid",
+          "grid-template",
+          "grid-template-columns",
+          "grid-template-rows",
+          "gap",
+          "width",
+          "min-width",
+          "max-width",
+          "height",
+          "min-height",
+          "max-height",
+          "margin",
+          "margin-top",
+          "margin-right",
+          "margin-bottom",
+          "margin-left",
+          "padding",
+          "padding-top",
+          "padding-right",
+          "padding-bottom",
+          "padding-left",
+          "border",
+          "border-radius"
+        ]
+      },
+      {
+        "emptyLineBefore": "always",
+        "properties": [
+          "font",
+          "font-family",
+          "font-size",
+          "font-weight",
+          "line-height",
+          "text-align",
+          "color"
+        ]
+      },
+      {
+        "emptyLineBefore": "always",
+        "properties": [
+          "background",
+          "background-color",
+          "opacity",
+          "box-shadow",
+          "transform"
+        ]
+      },
+      {
+        "emptyLineBefore": "always",
+        "properties": [
+          "transition",
+          "animation"
+        ]
+      },
+      {
+        "emptyLineBefore": "always",
+        "properties": [
+          "cursor",
+          "pointer-events",
+          "user-select"
+        ]
+      }
+    ],
+    "declaration-empty-line-before": null,
+    "at-rule-empty-line-before": [
+      "always",
+      {
+        "except": ["first-nested", "blockless-after-blockless"],
+        "ignore": ["after-comment"]
+      }
+    ],
+    "custom-property-empty-line-before": "never",
+    "selector-max-id": 1,
+    "selector-max-universal": 1,
+    "selector-no-qualifying-type": [
+      true,
+      {
+        "ignore": ["attribute", "class"]
+      }
+    ],
+    "font-family-name-quotes": "always-where-recommended",
+    "function-url-quotes": "always",
+    "import-notation": "string",
+    "keyframes-name-pattern": "^[a-z][a-zA-Z0-9]*$",
+    "alpha-value-notation": "number",
+    "hue-degree-notation": "angle",
+    "color-function-notation": "modern",
+    "selector-not-notation": "complex",
+    "media-feature-range-notation": "context",
+    "no-descending-specificity": null,
+    "no-duplicate-selectors": true,
+    "declaration-block-no-redundant-longhand-properties": true,
+    "shorthand-property-no-redundant-values": true,
+    "declaration-block-no-shorthand-property-overrides": true
+  },
+  "overrides": [
+    {
+      "files": ["**/*.svelte"],
+      "customSyntax": "postcss-html",
+      "rules": {
+        "selector-pseudo-class-no-unknown": [
+          true,
+          {
+            "ignorePseudoClasses": ["global"]
+          }
+        ]
+      }
+    },
+    {
+      "files": ["**/*.module.css"],
+      "rules": {
+        "selector-pseudo-class-no-unknown": [
+          true,
+          {
+            "ignorePseudoClasses": ["global", "local"]
+          }
+        ]
+      }
+    }
+  ]
+}

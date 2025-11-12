@@ -47,18 +47,26 @@ pnpm test:ui            # Run tests with Vitest UI
 # Code Quality
 pnpm lint               # Run ESLint to check code
 pnpm lint:fix           # Run ESLint and auto-fix issues
-pnpm format             # Format code (alias for lint:fix)
+pnpm lint:css           # Run Stylelint to check CSS
+pnpm lint:css:fix       # Run Stylelint and auto-fix issues
+pnpm format             # Format all code (ESLint + Stylelint)
 pnpm check              # Run svelte-check for type errors
 ```
 
 ## Code Quality Tools
 
-- **ESLint**: Linting and formatting with TypeScript and Svelte support
+- **ESLint**: Linting and formatting for TypeScript and Svelte
   - Import ordering and organization
   - Code quality rules (no-console, prefer-const, etc.)
   - Code formatting (indentation, quotes, semicolons)
   - TypeScript-specific rules
   - Svelte 5 runes support
+  - Automatic formatting on save
+- **Stylelint**: CSS linting and formatting
+  - Property ordering (Recess order - logical grouping)
+  - Indentation and spacing
+  - Color format consistency
+  - No duplicate selectors
   - Automatic formatting on save
 - **TypeScript**: Strict mode type checking
 - **svelte-check**: Svelte-specific type validation

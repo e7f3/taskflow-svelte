@@ -1,7 +1,7 @@
 /**
  * Global CSS custom properties for consistent theming.
  * These variables are available to all components.
- * 
+ *
  * Learning Note:
  * Unlike CSS-in-JS solutions (styled-components, emotion),
  * Svelte uses standard CSS with automatic scoping in components.
@@ -9,15 +9,15 @@
  */
 
 /* Google Fonts - Karla */
-@import url('https://fonts.googleapis.com/css2?family=Karla:ital,wght@0,200..800;1,200..800&display=swap');
+@import 'https://fonts.googleapis.com/css2?family=Karla:ital,wght@0,200..800;1,200..800&display=swap';
 
 /* CSS Reset */
 *,
 *::before,
 *::after {
-  box-sizing: border-box;
   margin: 0;
   padding: 0;
+  box-sizing: border-box;
 }
 
 :root {
@@ -26,27 +26,27 @@
   --color-success: #00c875;
   --color-warning: #fdab3d;
   --color-danger: #e44258;
-  
+
   /* Priority colors - used for task priority indicators */
   --priority-low: #c4c4c4;
   --priority-medium: #fdab3d;
   --priority-high: #ff6b6b;
   --priority-critical: #e44258;
-  
+
   /* Spacing scale - use for consistent margins and padding */
   --spacing-xs: 4px;
   --spacing-sm: 8px;
   --spacing-md: 16px;
   --spacing-lg: 24px;
   --spacing-xl: 32px;
-  
+
   /* UI elements */
   --border-radius: 8px;
-  --shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  --shadow-hover: 0 4px 12px rgba(0, 0, 0, 0.15);
-  
+  --shadow: 0 2px 8px rgb(0 0 0 / 0.1);
+  --shadow-hover: 0 4px 12px rgb(0 0 0 / 0.15);
+
   /* Typography */
-  --font-family: 'Karla', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-family: 'Karla', -apple-system, blinkmacsystemfont, 'Segoe UI', roboto, sans-serif;
   --font-size-sm: 12px;
   --font-size-base: 14px;
   --font-size-lg: 16px;
@@ -55,7 +55,7 @@
   --font-weight-medium: 500;
   --font-weight-semibold: 600;
   --font-weight-bold: 700;
-  
+
   /* Layout */
   --max-width: 1400px;
 }
@@ -65,6 +65,7 @@ body {
   font-size: var(--font-size-base);
   line-height: 1.5;
   color: #333;
+
   background-color: #f5f5f5;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
