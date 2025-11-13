@@ -5,44 +5,10 @@
  * CSS Modules provide scoped styles with type safety.
  * Class names are hashed to prevent conflicts.
  * We use CSS custom properties from theme.css for consistency.
+ *
+ * Modal-related styles (dialog, backdrop, title) are now handled
+ * by the Modal component, keeping this file focused on form layout.
  */
-
-/**
- * Modal dialog container.
- * Uses native <dialog> element for accessibility.
- */
-.dialog {
-  width: 100%;
-  max-width: 500px;
-  margin: auto;
-  padding: var(--spacing-xl);
-  border: none;
-  border-radius: var(--border-radius);
-
-  background: #fff;
-  box-shadow: var(--shadow-hover);
-}
-
-/**
- * Dialog backdrop (shown when modal is open).
- * Blurred background for focus.
- */
-.dialog::backdrop {
-  background: rgb(0 0 0 / 0.6);
-  backdrop-filter: blur(4px);
-}
-
-/**
- * Form title.
- */
-.title {
-  margin: 0 0 var(--spacing-lg) 0;
-
-  font-size: var(--font-size-xl);
-  font-weight: var(--font-weight-bold);
-  text-align: center;
-  color: #333;
-}
 
 /**
  * Form container.
@@ -106,11 +72,6 @@
  * Responsive adjustments for mobile.
  */
 @media (width <= 768px) {
-  .dialog {
-    max-width: 90vw;
-    padding: var(--spacing-lg);
-  }
-
   .buttonsContainer {
     grid-template-columns: 1fr;
   }

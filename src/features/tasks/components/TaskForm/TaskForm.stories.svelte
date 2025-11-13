@@ -31,9 +31,13 @@
 </script>
 
 <Story name="Create New Task">
-  <TaskForm onSave={handleSave} onCancel={handleCancel} />
+  <TaskForm isOpen={true} onSave={handleSave} onCancel={handleCancel} />
 </Story>
 
 <Story name="Edit Existing Task">
-  <TaskForm task={mockTasks[0]} onSave={handleSave} onCancel={handleCancel} />
+  <TaskForm
+    isOpen={true}
+    task={mockTasks[0]}
+    onSave={handleSave}
+    onCancel={handleCancel} />
 </Story>

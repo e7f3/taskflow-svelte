@@ -34,6 +34,7 @@
   import { authService } from '@/features/auth/services/authService';
   import Button from '@/shared/components/Button/Button.svelte';
   import Input from '@/shared/components/Input/Input.svelte';
+  import Modal from '@/shared/components/Modal/Modal.svelte';
   import Select from '@/shared/components/Select/Select.svelte';
   import Textarea from '@/shared/components/Textarea/Textarea.svelte';
   import type { EntityId } from '@/shared/types/common.types';
@@ -55,6 +56,11 @@
    * This is Svelte 5's new way - cleaner than Svelte 4's export let!
    */
   interface Props {
+    /**
+     * Whether the modal is open.
+     */
+    isOpen?: boolean;
+
     /**
      * Optional task to edit. If provided, form is in edit mode.
      * If undefined, form is in create mode.
@@ -89,7 +95,7 @@
     { value: 'done', label: 'Done' },
   ];
 
-  const { task, onSave, onCancel }: Props = $props();
+  const { isOpen = false, task, onSave, onCancel }: Props = $props();
 
   /**
    * Form field state using $state rune.
@@ -108,11 +114,6 @@
   let status = $state<TaskStatus>(task?.status ?? DEFAULT_STATUS);
   let error = $state('');
   let isLoading = $state(false);
-
-  /**
-   * DOM element references.
-   */
-  let dialogElement = $state<HTMLDialogElement | null>(null);
 
   /**
    * Get list of available users for assignee dropdown.
@@ -144,23 +145,6 @@
   const selectedAssignee = $derived(
     assigneeId ? (availableUsers.find((u) => u.id === assigneeId) ?? null) : null,
   );
-
-
-
-  /**
-   * Manage dialog lifecycle.
-   *
-   * Learning Note - $effect with cleanup:
-   * The returned function runs when the component unmounts.
-   * This ensures the dialog is properly closed.
-   */
-  $effect(() => {
-    dialogElement?.showModal();
-
-    return () => {
-      dialogElement?.close();
-    };
-  });
 
   /**
    * Handles form submission.
@@ -199,8 +183,8 @@
       if (!result.success) {
         error = result.error;
       } else {
-        // Success! Close the dialog
-        handleClose();
+        // Success! Close the modal
+        onCancel();
       }
     } catch (err) {
       // Unexpected error
@@ -211,59 +195,33 @@
     }
   }
 
-  /**
-   * Handles dialog close/cancel.
-   * Calls onCancel callback and closes the dialog.
-   */
-  function handleClose() {
-    onCancel();
-    dialogElement?.close();
-  }
 
-  /**
-   * Handles dialog cancel event (Escape key).
-   *
-   * Learning Note:
-   * The native <dialog> element automatically closes on Escape key.
-   * We intercept this event to call our onCancel callback.
-   */
-  function handleCancel(event: Event) {
-    event.preventDefault();
-    handleClose();
-  }
 </script>
 
 <!--
   TaskForm template.
 
-  Learning Note - Native <dialog> Element:
-  The <dialog> element provides built-in modal functionality:
-  - Escape key closes it automatically
-  - Focus is trapped inside
-  - Backdrop is styled with ::backdrop pseudo-element
-  - Accessible by default (ARIA roles, keyboard navigation)
+  Learning Note - Using Modal Component:
+  We use our reusable Modal component instead of native <dialog>.
+  The Modal handles:
+  - Opening/closing state
+  - Escape key handling
+  - Backdrop clicks
+  - Accessibility features
 
-  We use showModal() instead of show() for modal behavior.
+  This keeps TaskForm focused on form logic, not modal behavior.
 -->
-<dialog bind:this={dialogElement} class={styles.dialog} oncancel={handleCancel}>
-  <h1 class={styles.title}>
-    {#if task}
-      Edit Task
-    {:else}
-      Create New Task
-    {/if}
-  </h1>
-
+<Modal {isOpen} onClose={onCancel} title={task ? 'Edit Task' : 'Create New Task'}>
   <!--
-      Form with two-way binding.
+    Form with two-way binding.
 
-      Learning Note - bind:value:
-      Svelte's killer feature! Creates bidirectional binding:
-      - Input changes update the variable
-      - Variable changes update the input
+    Learning Note - bind:value:
+    Svelte's killer feature! Creates bidirectional binding:
+    - Input changes update the variable
+    - Variable changes update the input
 
-      No onChange handlers needed like in React!
-    -->
+    No onChange handlers needed like in React!
+  -->
   <form class={styles.form} onsubmit={handleSubmit}>
     <!-- Title Field -->
     <div class={styles.field}>
@@ -352,7 +310,7 @@
       <Button
         type="button"
         variant="secondary"
-        onclick={handleClose}
+        onclick={onCancel}
         disabled={isLoading}
       >
         Cancel
@@ -373,4 +331,4 @@
       </Button>
     </div>
   </form>
-</dialog>
+</Modal>
