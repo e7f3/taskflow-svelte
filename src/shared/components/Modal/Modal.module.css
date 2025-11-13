@@ -1,0 +1,64 @@
+/**
+ * Modal dialog container.
+ * Uses native <dialog> element for accessibility.
+ */
+.dialog {
+  width: 100%;
+  max-width: 500px;
+  margin: auto;
+  padding: 0;
+  border: none;
+  border-radius: var(--border-radius);
+
+  background: #fff;
+  box-shadow: var(--shadow-hover);
+}
+
+/**
+ * Dialog backdrop (shown when modal is open).
+ * Blurred background for focus.
+ */
+.dialog::backdrop {
+  background: rgb(0 0 0 / 0.6);
+  backdrop-filter: blur(4px);
+}
+
+/**
+ * Modal title.
+ */
+.title {
+  margin: 0;
+  padding: var(--spacing-lg) var(--spacing-xl);
+
+  font-size: var(--font-size-xl);
+  font-weight: 600;
+  color: #333;
+
+  border-bottom: 1px solid #e0e0e0;
+}
+
+/**
+ * Modal content area.
+ */
+.content {
+  padding: var(--spacing-xl);
+}
+
+/**
+ * Responsive adjustments for mobile.
+ */
+@media (width <= 768px) {
+  .dialog {
+    max-width: 90vw;
+  }
+
+  .title {
+    padding: var(--spacing-md) var(--spacing-lg);
+
+    font-size: var(--font-size-lg);
+  }
+
+  .content {
+    padding: var(--spacing-lg);
+  }
+}
