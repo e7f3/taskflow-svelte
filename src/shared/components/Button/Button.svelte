@@ -12,7 +12,7 @@
 
   interface Props {
     /**
-   * Button variant style.
+    * Button variant style.
    */
     variant?: 'primary' | 'secondary' | 'danger';
   
