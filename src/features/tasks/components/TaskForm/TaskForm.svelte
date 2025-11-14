@@ -39,11 +39,11 @@
   import Textarea from '@/shared/components/Textarea/Textarea.svelte';
   import type { EntityId } from '@/shared/types/common.types';
   import styles from './TaskForm.module.css';
+  import { taskService } from '../../services/taskService';
+  import { taskFormModal } from '../../stores/taskModals/taskModals';
   import { PRIORITY_VALUES } from '../../types/task.types';
   import type {
-    CreateTaskData,
     Task,
-    TaskSaveResult,
     Priority,
     TaskStatus,
   } from '../../types/task.types';
@@ -51,9 +51,10 @@
   /**
    * Component props interface.
    *
-   * Learning Note:
-   * Props are defined as an interface and destructured using $props().
-   * This is Svelte 5's new way - cleaner than Svelte 4's export let!
+   * Learning Note - Self-Contained Component:
+   * TaskForm now manages its own save/cancel logic directly.
+   * No need for callback props - it uses services and stores directly.
+   * This makes it more encapsulated and easier to test.
    */
   interface Props {
     /**
@@ -66,18 +67,6 @@
      * If undefined, form is in create mode.
      */
     task?: Task;
-
-    /**
-     * Callback when user saves the form.
-     * Receives task data and optional task ID (for edits).
-     * Returns a promise with success/error result.
-     */
-    onSave: (taskData: CreateTaskData, taskId?: EntityId) => Promise<TaskSaveResult>;
-
-    /**
-     * Callback when user cancels the form.
-     */
-    onCancel: () => void;
   }
 
   /**
@@ -95,7 +84,7 @@
     { value: 'done', label: 'Done' },
   ];
 
-  const { isOpen = false, task, onSave, onCancel }: Props = $props();
+  const { isOpen = false, task }: Props = $props();
 
   /**
    * Form field state using $state rune.
@@ -148,12 +137,15 @@
 
   /**
    * Handles form submission.
-   * Validates data and calls onSave callback.
+   * Directly calls taskService and manages modal state.
    *
-   * Learning Note:
-   * This is a regular async function - no special hooks needed!
-   * In React, you might use useCallback to memoize it.
-   * In Svelte, functions are just functions!
+   * Learning Note - Direct Service Usage:
+   * Instead of using callback props, we directly:
+   * 1. Call taskService.saveTask() for business logic
+   * 2. Call taskFormModal.close() to close the modal
+   *
+   * This makes TaskForm self-contained and removes unnecessary prop drilling.
+   * Components can and should use services directly!
    */
   async function handleSubmit(event: SubmitEvent) {
     event.preventDefault();
@@ -163,7 +155,7 @@
     isLoading = true;
 
     try {
-      const result = await onSave(
+      const result = await taskService.saveTask(
         {
           title: title.trim(),
           description: description.trim(),
@@ -184,7 +176,7 @@
         error = result.error;
       } else {
         // Success! Close the modal
-        onCancel();
+        taskFormModal.close();
       }
     } catch (err) {
       // Unexpected error
@@ -193,6 +185,18 @@
     } finally {
       isLoading = false;
     }
+  }
+
+  /**
+   * Handles form cancellation.
+   * Directly closes the modal using the modal manager.
+   *
+   * Learning Note:
+   * No need for a callback prop - we can directly access the modal manager.
+   * This is simpler and more direct than prop drilling.
+   */
+  function handleCancel() {
+    taskFormModal.close();
   }
 
 
@@ -211,7 +215,7 @@
 
   This keeps TaskForm focused on form logic, not modal behavior.
 -->
-<Modal {isOpen} onClose={onCancel} title={task ? 'Edit Task' : 'Create New Task'}>
+<Modal {isOpen} onClose={handleCancel} title={task ? 'Edit Task' : 'Create New Task'}>
   <!--
     Form with two-way binding.
 
@@ -310,7 +314,7 @@
       <Button
         type="button"
         variant="secondary"
-        onclick={onCancel}
+        onclick={handleCancel}
         disabled={isLoading}
       >
         Cancel
