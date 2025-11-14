@@ -29,9 +29,15 @@ export default defineConfig({
     projects: [
       // Default project for unit tests
       {
+        resolve: {
+          alias: {
+            '@': fileURLToPath(new URL('./src', import.meta.url))
+          }
+        },
         test: {
           name: 'unit',
           environment: 'jsdom',
+          setupFiles: ['./src/test/setup.ts'],
           include: ['src/**/*.{test,spec}.{js,ts}']
         }
       },
