@@ -13,7 +13,6 @@
 
   import Button from '@/shared/components/Button/Button.svelte';
   import ConfirmationModal from '@/shared/components/ConfirmationModal/ConfirmationModal.svelte';
-  import type { EntityId } from '@/shared/types/common.types';
   import styles from './Board.module.css';
   import { taskService } from '../../services/taskService';
   import {
@@ -32,8 +31,6 @@
   import type {
     Task,
     TaskStatus,
-    CreateTaskData,
-    TaskSaveResult,
   } from '../../types/task.types';
 
   /*
@@ -135,36 +132,6 @@
   }
 
   /**
-   * Handle task form submission.
-   *
-   * Learning Note - Delegation to Service:
-   * We delegate business logic to the service layer.
-   * The component just coordinates between UI and service.
-   *
-   * This makes the component thinner and the service more testable.
-   */
-  async function handleSaveTask(
-    taskData: CreateTaskData,
-    taskId?: EntityId,
-  ): Promise<TaskSaveResult> {
-    return await taskService.saveTask(taskData, taskId);
-  }
-
-  /**
-   * Handle task form cancel.
-   * Closes the modal using the modal handler.
-   *
-   * Learning Note - Modal Manager:
-   * The modal handler automatically manages cleanup.
-   * No need to manually reset state variables!
-   */
-  function handleCancelTaskForm() {
-    taskFormModal.close();
-  }
-
-
-
-  /**
    * Handle delete confirmation.
    * Actually deletes the task and closes the modal.
    *
@@ -245,17 +212,20 @@
   <!--
     TaskForm modal.
 
-    Learning Note - Conditional Rendering:
-    We use {#if} to conditionally render the TaskForm.
-    When showTaskForm is true, the modal appears.
-    The task prop determines create vs edit mode.
+    Learning Note - Self-Contained Component:
+    TaskForm now manages its own save/cancel logic.
+    We just pass isOpen and task - no callback props needed!
+    
+    TaskForm directly:
+    - Calls taskService.saveTask() to save
+    - Calls taskFormModal.close() to close
+    
+    This is simpler and more encapsulated than callback props.
   -->
   {#if showTaskForm}
     <TaskForm
       isOpen={showTaskForm}
       task={editingTask ?? undefined}
-      onSave={handleSaveTask}
-      onCancel={handleCancelTaskForm}
     />
   {/if}
 
