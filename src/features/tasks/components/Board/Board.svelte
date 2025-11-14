@@ -12,6 +12,7 @@
    */
 
   import Button from '@/shared/components/Button/Button.svelte';
+  import ConfirmationModal from '@/shared/components/ConfirmationModal/ConfirmationModal.svelte';
   import type { EntityId } from '@/shared/types/common.types';
   import styles from './Board.module.css';
   import { taskService } from '../../services/taskService';
@@ -72,6 +73,13 @@
    */
   let showTaskForm = $state(false);
   let editingTask = $state<Task | null>(null);
+
+  /*
+   * Track confirmation modal state.
+   * Stores the task ID to delete when user confirms.
+   */
+  let showDeleteConfirmation = $state(false);
+  let taskToDelete = $state<EntityId | null>(null);
 
   /**
    * Handle drag start.
@@ -176,26 +184,37 @@
   }
 
   /**
-   * Handle task delete.
-   * Show confirmation and delete if confirmed.
+   * Handle task delete request.
+   * Opens confirmation modal.
    *
    * Learning Note:
-   * Using browser's native confirm dialog for simplicity.
-   * In production, you'd use a custom modal component.
+   * Instead of using browser's confirm(), we use our custom ConfirmationModal.
+   * This provides better UX and matches our design system.
    */
-  function handleDeleteTask(taskId: string) {
-    /*
-     * Show confirmation dialog.
-     */
-    const confirmed = confirm('Are you sure you want to delete this task?');
+  function handleDeleteTask(taskId: EntityId) {
+    taskToDelete = taskId;
+    showDeleteConfirmation = true;
+  }
 
-    if (confirmed) {
-      /*
-       * Delete task via service.
-       * Service updates store and persists to storage.
-       */
-      taskService.deleteTask(taskId);
+  /**
+   * Handle delete confirmation.
+   * Actually deletes the task.
+   */
+  function handleConfirmDelete() {
+    if (taskToDelete) {
+      taskService.deleteTask(taskToDelete);
     }
+    showDeleteConfirmation = false;
+    taskToDelete = null;
+  }
+
+  /**
+   * Handle delete cancellation.
+   * Closes the confirmation modal.
+   */
+  function handleCancelDelete() {
+    showDeleteConfirmation = false;
+    taskToDelete = null;
   }
 </script>
 
@@ -270,6 +289,26 @@
       task={editingTask ?? undefined}
       onSave={handleSaveTask}
       onCancel={handleCancelTaskForm}
+    />
+  {/if}
+
+  <!--
+    Delete confirmation modal.
+
+    Learning Note - Component Composition:
+    We use our ConfirmationModal component instead of browser confirm().
+    This provides better UX and consistency with our design system.
+  -->
+  {#if showDeleteConfirmation}
+    <ConfirmationModal
+      isOpen={showDeleteConfirmation}
+      title="Delete Task"
+      message="Are you sure you want to delete this task? This action cannot be undone."
+      confirmText="Delete"
+      cancelText="Cancel"
+      confirmVariant="danger"
+      onConfirm={handleConfirmDelete}
+      onCancel={handleCancelDelete}
     />
   {/if}
 </div>
