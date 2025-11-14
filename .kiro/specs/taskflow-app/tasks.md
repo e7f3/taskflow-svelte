@@ -188,7 +188,7 @@ This plan breaks down the TaskFlow application into incremental, manageable codi
   - Add comments explaining two-way binding with stores and debouncing
   - _Requirements: 7.1, 7.2, 7.3, 7.5_
 
-- [ ] 9.3 Integrate filtering with Board component
+- [x] 9.3 Integrate filtering with Board component
   - Import filtersStore in Board component
   - Subscribe to filtersStore with $ prefix
   - Update allTasks $derived to filter by searchQuery (title and description, case-insensitive)

@@ -21,7 +21,7 @@
   import {
     deleteConfirmationModal,
     taskFormModal,
-  } from '../../stores/taskModals';
+  } from '../../stores/taskModals/taskModals';
   import type { Task } from '../../types/task.types';
 
   /**

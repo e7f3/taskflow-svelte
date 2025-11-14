@@ -5,7 +5,7 @@
   import Input from '@/shared/components/Input/Input.svelte';
   import Select from '@/shared/components/Select/Select.svelte';
   import styles from './FilterBar.module.css';
-  import { filtersStore } from '../stores/filtersStore';
+  import { filtersStore } from '../../stores/filtersStore/filtersStore';
 
   const users = authService.getAllUsers();
   const priorityOptions: Priority[] = ['low', 'medium', 'high', 'critical'];

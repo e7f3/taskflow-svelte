@@ -14,7 +14,7 @@ import { get } from 'svelte/store';
 import { authStore } from '@/features/auth/stores/authStore';
 import { storageService, STORAGE_KEYS } from '@/shared/services/storageService';
 import type { EntityId } from '@/shared/types/common.types';
-import { tasksStore } from '../stores/tasksStore';
+import { tasksStore } from '../stores/tasksStore/tasksStore';
 import type { TaskService } from './taskService.types';
 import type { Task, TaskStatus, CreateTaskData, UpdateTaskData } from '../types/task.types';
 
@@ -194,6 +194,51 @@ export const taskService: TaskService = {
      * Persist to storage.
      */
     this.persistTasks();
+  },
+
+  /**
+   * Save a task (create or update).
+   *
+   * @param taskData - Task data to save
+   * @param taskId - Optional task ID for updates
+   * @returns Promise with save result
+   *
+   * Learning Note:
+   * This method consolidates create/update logic in the service layer.
+   * Components just call saveTask() and don't need to know the details.
+   * Uses discriminated union for type-safe result handling.
+   */
+  async saveTask(
+    taskData: CreateTaskData,
+    taskId?: EntityId,
+  ): Promise<
+    | { success: true; task: Task }
+    | { success: false; error: string }
+  > {
+    try {
+      if (taskId) {
+        // Update existing task
+        this.updateTask(taskId, taskData);
+        const task = get(tasksStore).find((t) => t.id === taskId);
+        if (!task) {
+          return {
+            success: false,
+            error: 'Task not found after update',
+          };
+        }
+        return { success: true, task };
+      } else {
+        // Create new task
+        const task = await this.createTask(taskData);
+        return { success: true, task };
+      }
+    } catch (error) {
+      console.error('Error saving task:', error);
+      return {
+        success: false,
+        error: error instanceof Error ? error.message : 'Failed to save task',
+      };
+    }
   },
 
   moveTask(taskId: EntityId, newStatus: TaskStatus): void {

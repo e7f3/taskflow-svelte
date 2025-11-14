@@ -19,7 +19,7 @@
 import { createEntityStore } from '@/shared/stores/createEntityStore';
 import type { EntityId } from '@/shared/types/common.types';
 import type { TasksStore } from './tasksStore.types';
-import type { Task, TaskStatus } from '../types/task.types';
+import type { Task, TaskStatus } from '../../types/task.types';
 
 /**
  * Creates the tasks store with entity operations.

@@ -17,11 +17,17 @@
   import styles from './Board.module.css';
   import { taskService } from '../../services/taskService';
   import {
+    filteredTodoTasks,
+    filteredInProgressTasks,
+    filteredDoneTasks,
+  } from '../../stores/filteredTasksStore/filteredTasksStore';
+  import {
     taskFormModal,
     deleteConfirmationModal,
-  } from '../../stores/taskModals';
-  import { tasksStore } from '../../stores/tasksStore';
+  } from '../../stores/taskModals/taskModals';
+  import { tasksStore } from '../../stores/tasksStore/tasksStore';
   import Column from '../Column/Column.svelte';
+  import FilterBar from '../FilterBar/FilterBar.svelte';
   import TaskForm from '../TaskForm/TaskForm.svelte';
   import type {
     Task,
@@ -31,33 +37,25 @@
   } from '../../types/task.types';
 
   /*
-   * Subscribe to tasks store.
+   * Subscribe to filtered task stores.
    *
-   * Learning Note - $ prefix:
-   * The $ prefix automatically subscribes to the store.
-   * When the store updates, this component re-renders.
+   * Learning Note - Derived Store Architecture:
+   * Instead of filtering in the component, we use derived stores.
+   * This separates concerns:
+   * - filteredTasksStore: handles filtering logic
+   * - Board: handles UI coordination
    *
-   * Compare to React:
-   * const tasks = useSelector(state => state.tasks);
-   *
-   * Svelte is simpler - just $tasksStore!
+   * Benefits:
+   * - Filtering logic is reusable and testable
+   * - Component is simpler and focused on UI
+   * - Automatic reactivity when tasks or filters change
    */
-  const allTasks = $derived($tasksStore);
+  const todoTasks = $derived($filteredTodoTasks);
+  const inProgressTasks = $derived($filteredInProgressTasks);
+  const doneTasks = $derived($filteredDoneTasks);
 
-  /*
-   * Filter tasks by status for each column.
-   *
-   * Learning Note - $derived:
-   * These automatically recompute when allTasks changes.
-   * Similar to React's useMemo but without dependency arrays!
-   *
-   * The compiler tracks dependencies automatically.
-   */
-  const todoTasks = $derived(allTasks.filter((t) => t.status === 'todo'));
-  const inProgressTasks = $derived(
-    allTasks.filter((t) => t.status === 'in-progress'),
-  );
-  const doneTasks = $derived(allTasks.filter((t) => t.status === 'done'));
+  // Keep reference to all tasks for drag operations
+  const allTasks = $derived($tasksStore);
 
   /*
    * Track the currently dragged task.
@@ -137,39 +135,19 @@
   }
 
   /**
-   * Handle task save (create or update).
+   * Handle task form submission.
    *
-   * Learning Note - Async Handlers:
-   * This function is called by TaskForm when the user saves.
-   * It determines whether to create or update based on taskId.
-   * Returns a TaskSaveResult to indicate success/failure.
+   * Learning Note - Delegation to Service:
+   * We delegate business logic to the service layer.
+   * The component just coordinates between UI and service.
+   *
+   * This makes the component thinner and the service more testable.
    */
   async function handleSaveTask(
     taskData: CreateTaskData,
     taskId?: EntityId,
   ): Promise<TaskSaveResult> {
-    try {
-      if (taskId) {
-        // Update existing task
-        taskService.updateTask(taskId, taskData);
-        // Get the updated task from the store
-        const updatedTask = allTasks.find((t) => t.id === taskId);
-        if (!updatedTask) {
-          throw new Error('Task not found after update');
-        }
-        return { success: true, task: updatedTask };
-      } else {
-        // Create new task
-        const task = await taskService.createTask(taskData);
-        return { success: true, task };
-      }
-    } catch (error) {
-      console.error('Error saving task:', error);
-      return {
-        success: false,
-        error: 'Failed to save task. Please try again.',
-      };
-    }
+    return await taskService.saveTask(taskData, taskId);
   }
 
   /**
@@ -228,6 +206,9 @@
       + Add Task
     </Button>
   </div>
+
+  <!-- Filter Bar -->
+  <FilterBar />
 
   <div class={styles.board}>
     <Column

@@ -14,7 +14,7 @@
 
 import { createModalHandler } from '@/shared/stores/modalManager/modalManager';
 import type { EntityId } from '@/shared/types/common.types';
-import type { Task } from '../types/task.types';
+import type { Task } from '../../types/task.types';
 
 /**
  * State for the TaskForm modal.

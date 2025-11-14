@@ -15,7 +15,7 @@
   import { onMount } from 'svelte';
   import { mockTasks } from '@/shared/storybook/mockData';
   import Board from './Board.svelte';
-  import { tasksStore } from '../../stores/tasksStore';
+  import { tasksStore } from '../../stores/tasksStore/tasksStore';
   import type { Task } from '../../types/task.types';
 
   function initializeStore(tasks: Task[]) {
