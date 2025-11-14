@@ -166,7 +166,7 @@ This plan breaks down the TaskFlow application into incremental, manageable codi
   - _Requirements: 5.1, 5.2, 5.3_
 
 - [ ] 9. Implement filtering feature
-- [ ] 9.1 Create filters store
+- [x] 9.1 Create filters store
   - Create features/filters/stores/filtersStore.ts
   - Create features/filters/stores/filtersStore.types.ts
   - Implement writable store with FilterState
