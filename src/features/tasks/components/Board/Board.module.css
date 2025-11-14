@@ -3,6 +3,27 @@
  */
 
 /**
+ * Board container - wraps header and columns.
+ */
+.boardContainer {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+/**
+ * Board header with Add Task button.
+ */
+.boardHeader {
+  display: flex;
+  justify-content: flex-end;
+  padding: var(--spacing-lg);
+
+  background: #fff;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+/**
  * Board container with three columns.
  * Uses flexbox for responsive layout.
  */
@@ -18,6 +39,10 @@
  * Responsive layout.
  */
 @media (width <= 1024px) {
+  .boardHeader {
+    padding: var(--spacing-md);
+  }
+
   .board {
     gap: var(--spacing-md);
     padding: var(--spacing-md);

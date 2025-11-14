@@ -130,7 +130,7 @@ This plan breaks down the TaskFlow application into incremental, manageable codi
   - Add comments explaining derived stores and reactive filtering
   - _Requirements: 2.1, 2.2, 6.3, 7.4, 7.5_
 
-- [ ] 8. Implement task creation and editing
+- [x] 8. Implement task creation and editing
 - [x] 8.1 Create TaskForm component
   - Create features/tasks/components/TaskForm.svelte
   - Create features/tasks/components/TaskForm.module.css
@@ -147,7 +147,7 @@ This plan breaks down the TaskFlow application into incremental, manageable codi
   - Add comments explaining form patterns, validation, and $effect usage
   - _Requirements: 3.1, 3.2, 3.3, 3.5, 4.1, 4.2, 4.3, 4.4, 4.5_
 
-- [ ] 8.2 Integrate TaskForm with Board
+- [x] 8.2 Integrate TaskForm with Board
   - Add "Add Task" button to Board component
   - Use $state to track showTaskForm and editingTask
   - Render TaskForm conditionally with {#if}
