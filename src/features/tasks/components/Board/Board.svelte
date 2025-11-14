@@ -11,11 +11,19 @@
    * - Coordinating multiple child components
    */
 
+  import Button from '@/shared/components/Button/Button.svelte';
+  import type { EntityId } from '@/shared/types/common.types';
   import styles from './Board.module.css';
   import { taskService } from '../../services/taskService';
   import { tasksStore } from '../../stores/tasksStore';
   import Column from '../Column/Column.svelte';
-  import type { Task, TaskStatus } from '../../types/task.types';
+  import TaskForm from '../TaskForm/TaskForm.svelte';
+  import type {
+    Task,
+    TaskStatus,
+    CreateTaskData,
+    TaskSaveResult,
+  } from '../../types/task.types';
 
   /*
    * Subscribe to tasks store.
@@ -52,6 +60,19 @@
    */
   let draggedTask = $state<Task | null>(null);
 
+  /*
+   * Track TaskForm modal state.
+   *
+   * Learning Note - Modal State Management:
+   * We use $state to track:
+   * - showTaskForm: whether the modal is open
+   * - editingTask: the task being edited (null for create mode)
+   *
+   * This is simpler than React's useState pattern!
+   */
+  let showTaskForm = $state(false);
+  let editingTask = $state<Task | null>(null);
+
   /**
    * Handle drag start.
    * Track which task is being dragged for visual feedback.
@@ -85,12 +106,73 @@
   }
 
   /**
+   * Handle opening create task modal.
+   *
+   * Learning Note:
+   * We set editingTask to null to indicate create mode.
+   * Then open the modal by setting showTaskForm to true.
+   */
+  function handleCreateTask() {
+    editingTask = null;
+    showTaskForm = true;
+  }
+
+  /**
    * Handle task edit.
-   * TODO: Open edit modal (will implement in task 8).
+   * Opens the TaskForm modal in edit mode.
+   *
+   * Learning Note:
+   * We set editingTask to the task being edited.
+   * TaskForm will detect this and show "Edit Task" instead of "Create Task".
    */
   function handleEditTask(task: Task) {
-    console.log('Edit task:', task);
-  // Will implement TaskForm modal in next task
+    editingTask = task;
+    showTaskForm = true;
+  }
+
+  /**
+   * Handle task save (create or update).
+   *
+   * Learning Note - Async Handlers:
+   * This function is called by TaskForm when the user saves.
+   * It determines whether to create or update based on taskId.
+   * Returns a TaskSaveResult to indicate success/failure.
+   */
+  async function handleSaveTask(
+    taskData: CreateTaskData,
+    taskId?: EntityId,
+  ): Promise<TaskSaveResult> {
+    try {
+      if (taskId) {
+        // Update existing task
+        taskService.updateTask(taskId, taskData);
+        // Get the updated task from the store
+        const updatedTask = allTasks.find((t) => t.id === taskId);
+        if (!updatedTask) {
+          throw new Error('Task not found after update');
+        }
+        return { success: true, task: updatedTask };
+      } else {
+        // Create new task
+        const task = await taskService.createTask(taskData);
+        return { success: true, task };
+      }
+    } catch (error) {
+      console.error('Error saving task:', error);
+      return {
+        success: false,
+        error: 'Failed to save task. Please try again.',
+      };
+    }
+  }
+
+  /**
+   * Handle task form cancel.
+   * Closes the modal and clears editing state.
+   */
+  function handleCancelTaskForm() {
+    showTaskForm = false;
+    editingTask = null;
   }
 
   /**
@@ -121,61 +203,91 @@
   Board template.
 
   Learning Note:
+  - Add Task button at the top
   - Three Column components side by side
   - Each gets filtered tasks for its status
   - All share the same event handlers
+  - TaskForm modal conditionally rendered
   - Responsive grid layout via CSS
 -->
 
-<div class={styles.board}>
-  <Column
-    status="todo"
-    title="To Do"
-    tasks={todoTasks}
-    {draggedTask}
-    onDrop={handleDrop}
-    onEditTask={handleEditTask}
-    onDeleteTask={handleDeleteTask}
-    onDragStart={handleDragStart}
-    onDragEnd={handleDragEnd}
-  />
+<div class={styles.boardContainer}>
+  <div class={styles.boardHeader}>
+    <Button variant="primary" onclick={handleCreateTask}>
+      + Add Task
+    </Button>
+  </div>
 
-  <Column
-    status="in-progress"
-    title="In Progress"
-    tasks={inProgressTasks}
-    {draggedTask}
-    onDrop={handleDrop}
-    onEditTask={handleEditTask}
-    onDeleteTask={handleDeleteTask}
-    onDragStart={handleDragStart}
-    onDragEnd={handleDragEnd}
-  />
+  <div class={styles.board}>
+    <Column
+      status="todo"
+      title="To Do"
+      tasks={todoTasks}
+      {draggedTask}
+      onDrop={handleDrop}
+      onEditTask={handleEditTask}
+      onDeleteTask={handleDeleteTask}
+      onDragStart={handleDragStart}
+      onDragEnd={handleDragEnd}
+    />
 
-  <Column
-    status="done"
-    title="Done"
-    tasks={doneTasks}
-    {draggedTask}
-    onDrop={handleDrop}
-    onEditTask={handleEditTask}
-    onDeleteTask={handleDeleteTask}
-    onDragStart={handleDragStart}
-    onDragEnd={handleDragEnd}
-  />
+    <Column
+      status="in-progress"
+      title="In Progress"
+      tasks={inProgressTasks}
+      {draggedTask}
+      onDrop={handleDrop}
+      onEditTask={handleEditTask}
+      onDeleteTask={handleDeleteTask}
+      onDragStart={handleDragStart}
+      onDragEnd={handleDragEnd}
+    />
+
+    <Column
+      status="done"
+      title="Done"
+      tasks={doneTasks}
+      {draggedTask}
+      onDrop={handleDrop}
+      onEditTask={handleEditTask}
+      onDeleteTask={handleDeleteTask}
+      onDragStart={handleDragStart}
+      onDragEnd={handleDragEnd}
+    />
+  </div>
+
+  <!--
+    TaskForm modal.
+
+    Learning Note - Conditional Rendering:
+    We use {#if} to conditionally render the TaskForm.
+    When showTaskForm is true, the modal appears.
+    The task prop determines create vs edit mode.
+  -->
+  {#if showTaskForm}
+    <TaskForm
+      isOpen={showTaskForm}
+      task={editingTask ?? undefined}
+      onSave={handleSaveTask}
+      onCancel={handleCancelTaskForm}
+    />
+  {/if}
 </div>
 
 <!--
   Learning Note - Reactivity Flow:
 
-  1. User drags task to new column
-  2. handleDrop calls taskService.moveTask()
-  3. Service updates tasksStore
-  4. Store update triggers reactivity
-  5. $tasksStore updates
-  6. $derived recomputes filtered tasks
-  7. Column components re-render with new tasks
-  8. UI updates automatically!
+  1. User clicks "Add Task" button
+  2. handleCreateTask sets showTaskForm = true
+  3. TaskForm modal appears
+  4. User fills form and clicks Save
+  5. handleSaveTask calls taskService.createTask()
+  6. Service updates tasksStore
+  7. Store update triggers reactivity
+  8. $tasksStore updates
+  9. $derived recomputes filtered tasks
+  10. Column components re-render with new task
+  11. UI updates automatically!
 
   No manual state management needed!
   This is the power of Svelte's reactivity.
