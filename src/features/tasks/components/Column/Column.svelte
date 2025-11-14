@@ -45,16 +45,6 @@
     onDrop: (taskId: string, newStatus: TaskStatus) => void;
 
     /**
-   * Callback when user wants to edit a task.
-   */
-    onEditTask: (task: Task) => void;
-
-    /**
-   * Callback when user wants to delete a task.
-   */
-    onDeleteTask: (taskId: string) => void;
-
-    /**
    * Callback when drag starts.
    */
     onDragStart: (taskId: string) => void;
@@ -65,7 +55,13 @@
     onDragEnd: () => void;
   }
 
-  const { status, title, tasks, draggedTask, onDrop, onEditTask, onDeleteTask, onDragStart, onDragEnd }: Props =
+  /*
+ * Learning Note - Removed onEditTask and onDeleteTask props:
+ * TaskCard now handles both edit and delete modals directly using the modal manager.
+ * Column is now a pure presentation component that only handles drag-and-drop!
+ * This eliminates all unnecessary prop drilling.
+ */
+  const { status, title, tasks, draggedTask, onDrop, onDragStart, onDragEnd }: Props =
     $props();
 
   /*
@@ -172,13 +168,7 @@
       But in Svelte, the key goes in the #each block!
     -->
     {#each tasks as task (task.id)}
-      <TaskCard
-        {task}
-        onEdit={onEditTask}
-        onDelete={onDeleteTask}
-        {onDragStart}
-        {onDragEnd}
-      />
+      <TaskCard {task} {onDragStart} {onDragEnd} />
     {/each}
 
     <!--

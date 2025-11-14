@@ -16,6 +16,10 @@
   import type { EntityId } from '@/shared/types/common.types';
   import styles from './Board.module.css';
   import { taskService } from '../../services/taskService';
+  import {
+    taskFormModal,
+    deleteConfirmationModal,
+  } from '../../stores/taskModals';
   import { tasksStore } from '../../stores/tasksStore';
   import Column from '../Column/Column.svelte';
   import TaskForm from '../TaskForm/TaskForm.svelte';
@@ -62,24 +66,29 @@
   let draggedTask = $state<Task | null>(null);
 
   /*
-   * Track TaskForm modal state.
+   * Derived state from modal handlers.
    *
-   * Learning Note - Modal State Management:
-   * We use $state to track:
-   * - showTaskForm: whether the modal is open
-   * - editingTask: the task being edited (null for create mode)
+   * Learning Note - Modal Manager Integration:
+   * Instead of manually tracking modal state with $state variables,
+   * we import pre-configured modal handlers from taskModals.ts.
    *
-   * This is simpler than React's useState pattern!
+   * Benefits:
+   * - Centralized modal configuration
+   * - Reusable across components
+   * - Type-safe state management
+   * - Cleaner component code
+   * - Single source of truth
+   *
+   * We use $derived to reactively compute modal state.
+   * This automatically updates when the modal manager changes.
    */
-  let showTaskForm = $state(false);
-  let editingTask = $state<Task | null>(null);
+  const showTaskForm = $derived(taskFormModal.isOpen());
+  const editingTask = $derived(taskFormModal.getState()?.task ?? null);
 
-  /*
-   * Track confirmation modal state.
-   * Stores the task ID to delete when user confirms.
-   */
-  let showDeleteConfirmation = $state(false);
-  let taskToDelete = $state<EntityId | null>(null);
+  const showDeleteConfirmation = $derived(deleteConfirmationModal.isOpen());
+  const taskToDelete = $derived(
+    deleteConfirmationModal.getState()?.taskId ?? null,
+  );
 
   /**
    * Handle drag start.
@@ -116,26 +125,15 @@
   /**
    * Handle opening create task modal.
    *
-   * Learning Note:
-   * We set editingTask to null to indicate create mode.
-   * Then open the modal by setting showTaskForm to true.
+   * Learning Note - Modal Manager:
+   * We use the imported modal handler to open the modal.
+   * Empty object means create mode (no task to edit).
+   *
+   * Note: TaskCard also uses taskFormModal.open({ task }) for editing.
+   * Both create and edit use the same modal, just with different state!
    */
   function handleCreateTask() {
-    editingTask = null;
-    showTaskForm = true;
-  }
-
-  /**
-   * Handle task edit.
-   * Opens the TaskForm modal in edit mode.
-   *
-   * Learning Note:
-   * We set editingTask to the task being edited.
-   * TaskForm will detect this and show "Edit Task" instead of "Create Task".
-   */
-  function handleEditTask(task: Task) {
-    editingTask = task;
-    showTaskForm = true;
+    taskFormModal.open({});
   }
 
   /**
@@ -176,36 +174,31 @@
 
   /**
    * Handle task form cancel.
-   * Closes the modal and clears editing state.
+   * Closes the modal using the modal handler.
+   *
+   * Learning Note - Modal Manager:
+   * The modal handler automatically manages cleanup.
+   * No need to manually reset state variables!
    */
   function handleCancelTaskForm() {
-    showTaskForm = false;
-    editingTask = null;
+    taskFormModal.close();
   }
 
-  /**
-   * Handle task delete request.
-   * Opens confirmation modal.
-   *
-   * Learning Note:
-   * Instead of using browser's confirm(), we use our custom ConfirmationModal.
-   * This provides better UX and matches our design system.
-   */
-  function handleDeleteTask(taskId: EntityId) {
-    taskToDelete = taskId;
-    showDeleteConfirmation = true;
-  }
+
 
   /**
    * Handle delete confirmation.
-   * Actually deletes the task.
+   * Actually deletes the task and closes the modal.
+   *
+   * Learning Note:
+   * We get the taskId from the modal state instead of
+   * tracking it in a separate variable.
    */
   function handleConfirmDelete() {
     if (taskToDelete) {
       taskService.deleteTask(taskToDelete);
     }
-    showDeleteConfirmation = false;
-    taskToDelete = null;
+    deleteConfirmationModal.close();
   }
 
   /**
@@ -213,8 +206,7 @@
    * Closes the confirmation modal.
    */
   function handleCancelDelete() {
-    showDeleteConfirmation = false;
-    taskToDelete = null;
+    deleteConfirmationModal.close();
   }
 </script>
 
@@ -244,8 +236,6 @@
       tasks={todoTasks}
       {draggedTask}
       onDrop={handleDrop}
-      onEditTask={handleEditTask}
-      onDeleteTask={handleDeleteTask}
       onDragStart={handleDragStart}
       onDragEnd={handleDragEnd}
     />
@@ -256,8 +246,6 @@
       tasks={inProgressTasks}
       {draggedTask}
       onDrop={handleDrop}
-      onEditTask={handleEditTask}
-      onDeleteTask={handleDeleteTask}
       onDragStart={handleDragStart}
       onDragEnd={handleDragEnd}
     />
@@ -268,8 +256,6 @@
       tasks={doneTasks}
       {draggedTask}
       onDrop={handleDrop}
-      onEditTask={handleEditTask}
-      onDeleteTask={handleDeleteTask}
       onDragStart={handleDragStart}
       onDragEnd={handleDragEnd}
     />
@@ -314,20 +300,28 @@
 </div>
 
 <!--
-  Learning Note - Reactivity Flow:
+  Learning Note - Reactivity Flow with Modal Manager:
 
   1. User clicks "Add Task" button
-  2. handleCreateTask sets showTaskForm = true
-  3. TaskForm modal appears
-  4. User fills form and clicks Save
-  5. handleSaveTask calls taskService.createTask()
-  6. Service updates tasksStore
-  7. Store update triggers reactivity
-  8. $tasksStore updates
-  9. $derived recomputes filtered tasks
-  10. Column components re-render with new task
-  11. UI updates automatically!
+  2. handleCreateTask calls taskFormHandler.open({})
+  3. Modal manager updates its internal store
+  4. $derived(taskFormHandler.isOpen()) recomputes to true
+  5. TaskForm modal appears
+  6. User fills form and clicks Save
+  7. handleSaveTask calls taskService.createTask()
+  8. Service updates tasksStore
+  9. Store update triggers reactivity
+  10. $tasksStore updates
+  11. $derived recomputes filtered tasks
+  12. Column components re-render with new task
+  13. UI updates automatically!
 
-  No manual state management needed!
-  This is the power of Svelte's reactivity.
+  Benefits of Modal Manager:
+  - Centralized modal state (no scattered $state variables)
+  - Support for multiple modals of same type
+  - LIFO stack for proper modal layering
+  - Type-safe state management
+  - Cleaner component code
+
+  This is the power of Svelte's reactivity + smart abstractions!
 -->

@@ -8,8 +8,6 @@
     tags: ['autodocs'],
     argTypes: {
       onDrop: { action: 'dropped' },
-      onEditTask: { action: 'edit task' },
-      onDeleteTask: { action: 'delete task' },
       onDragStart: { action: 'drag start' },
       onDragEnd: { action: 'drag end' },
     },
@@ -25,8 +23,6 @@
   const manyTasks = [...mockTasks, ...mockTasks, ...mockTasks];
 
   function handleDrop() {}
-  function handleEditTask() {}
-  function handleDeleteTask() {}
   function handleDragStart() {}
   function handleDragEnd() {}
 </script>
@@ -38,8 +34,6 @@
     tasks={todoTasks}
     draggedTask={null}
     onDrop={handleDrop}
-    onEditTask={handleEditTask}
-    onDeleteTask={handleDeleteTask}
     onDragStart={handleDragStart}
     onDragEnd={handleDragEnd}
   />
@@ -52,8 +46,6 @@
     tasks={inProgressTasks}
     draggedTask={null}
     onDrop={handleDrop}
-    onEditTask={handleEditTask}
-    onDeleteTask={handleDeleteTask}
     onDragStart={handleDragStart}
     onDragEnd={handleDragEnd}
   />
@@ -66,8 +58,6 @@
     tasks={doneTasks}
     draggedTask={null}
     onDrop={handleDrop}
-    onEditTask={handleEditTask}
-    onDeleteTask={handleDeleteTask}
     onDragStart={handleDragStart}
     onDragEnd={handleDragEnd}
   />
@@ -80,8 +70,6 @@
     tasks={[]}
     draggedTask={null}
     onDrop={handleDrop}
-    onEditTask={handleEditTask}
-    onDeleteTask={handleDeleteTask}
     onDragStart={handleDragStart}
     onDragEnd={handleDragEnd}
   />
@@ -94,8 +82,6 @@
     tasks={manyTasks}
     draggedTask={null}
     onDrop={handleDrop}
-    onEditTask={handleEditTask}
-    onDeleteTask={handleDeleteTask}
     onDragStart={handleDragStart}
     onDragEnd={handleDragEnd}
   />
