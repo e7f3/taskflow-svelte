@@ -63,7 +63,7 @@ describe('modalManager', () => {
     it('should pop specific modal by ID', () => {
       const id1 = modalManager.push('modal1');
       modalManager.push('modal2');
-      const id3 = modalManager.push('modal3');
+      modalManager.push('modal3');
 
       modalManager.pop(id1);
 
