@@ -166,7 +166,7 @@ This plan breaks down the TaskFlow application into incremental, manageable codi
   - _Requirements: 5.1, 5.2, 5.3_
 
 - [ ] 9. Implement filtering feature
-- [ ] 9.1 Create filters store
+- [x] 9.1 Create filters store
   - Create features/filters/stores/filtersStore.ts
   - Create features/filters/stores/filtersStore.types.ts
   - Implement writable store with FilterState
@@ -175,7 +175,7 @@ This plan breaks down the TaskFlow application into incremental, manageable codi
   - Add JSDoc comments explaining filter state structure
   - _Requirements: 7.1, 7.2, 7.3, 7.4, 7.5_
 
-- [ ] 9.2 Create FilterBar component
+- [x] 9.2 Create FilterBar component
   - Create features/filters/components/FilterBar.svelte
   - Create features/filters/components/FilterBar.module.css
   - Subscribe to filtersStore to get current filter state
@@ -188,7 +188,7 @@ This plan breaks down the TaskFlow application into incremental, manageable codi
   - Add comments explaining two-way binding with stores and debouncing
   - _Requirements: 7.1, 7.2, 7.3, 7.5_
 
-- [ ] 9.3 Integrate filtering with Board component
+- [x] 9.3 Integrate filtering with Board component
   - Import filtersStore in Board component
   - Subscribe to filtersStore with $ prefix
   - Update allTasks $derived to filter by searchQuery (title and description, case-insensitive)

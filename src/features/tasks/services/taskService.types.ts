@@ -139,4 +139,42 @@ export interface TaskService {
    * ```
    */
   persistTasks(): void;
+
+  /**
+   * Save a task (create or update).
+   * Consolidates create/update logic in one method.
+   *
+   * Flow:
+   * 1. If taskId provided, update existing task
+   * 2. Otherwise, create new task
+   * 3. Return result with success status and task/error
+   *
+   * @param taskData - Task data to save
+   * @param taskId - Optional task ID for updates
+   * @returns Promise with save result
+   *
+   * @example
+   * ```typescript
+   * // Create new task
+   * const result = await taskService.saveTask({
+   *   title: 'New task',
+   *   status: 'todo',
+   *   priority: 'high'
+   * });
+   *
+   * // Update existing task
+   * const result = await taskService.saveTask({
+   *   title: 'Updated task',
+   *   status: 'done',
+   *   priority: 'low'
+   * }, 'task-1');
+   * ```
+   */
+  saveTask(
+    taskData: CreateTaskData,
+    taskId?: EntityId,
+  ): Promise<
+    | { success: true; task: Task }
+    | { success: false; error: string }
+  >;
 }

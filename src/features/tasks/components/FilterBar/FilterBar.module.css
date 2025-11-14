@@ -1,0 +1,54 @@
+/**
+ * FilterBar styles.
+ *
+ * Learning Note:
+ * - Flexbox for horizontal layout
+ * - Responsive: stacks vertically on mobile
+ * - Uses theme variables for consistency
+ */
+
+.filterBar {
+  display: flex;
+  gap: var(--spacing-md);
+  margin-bottom: var(--spacing-lg);
+  padding: var(--spacing-md);
+  border-radius: var(--border-radius-md);
+
+  background: var(--color-surface);
+  box-shadow: var(--shadow-sm);
+}
+
+.filterGroup {
+  flex: 1;
+  min-width: 0; /* Allow flex items to shrink below content size */
+}
+
+/* First filter group (search) takes more space */
+.filterGroup:first-child {
+  flex: 2;
+}
+
+/* Clear button doesn't need to grow */
+.filterGroup:last-child {
+  flex: 0 0 auto;
+}
+
+/**
+ * Responsive layout.
+ *
+ * Learning Note:
+ * On mobile, stack filters vertically for better usability.
+ * Each filter takes full width.
+ */
+@media (width <= 768px) {
+  .filterBar {
+    flex-direction: column;
+  }
+
+  .filterGroup,
+  .filterGroup:first-child,
+  .filterGroup:last-child {
+    flex: 1 1 auto;
+    width: 100%;
+  }
+}

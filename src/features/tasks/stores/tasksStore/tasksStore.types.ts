@@ -10,7 +10,7 @@
 
 import type { EntityStore } from '@/shared/stores/createEntityStore';
 import type { EntityId } from '@/shared/types/common.types';
-import type { Task, TaskStatus } from '../types/task.types';
+import type { Task, TaskStatus } from '../../types/task.types';
 
 /**
  * Tasks store interface.
