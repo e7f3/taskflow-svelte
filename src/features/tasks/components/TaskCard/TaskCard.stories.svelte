@@ -7,8 +7,6 @@
     component: TaskCard,
     tags: ['autodocs'],
     argTypes: {
-      onEdit: { action: 'edit' },
-      onDelete: { action: 'delete' },
       onDragStart: { action: 'drag start' },
       onDragEnd: { action: 'drag end' },
     },
@@ -18,8 +16,6 @@
 <script lang="ts">
   import TaskCard from './TaskCard.svelte';
 
-  function handleEdit() {}
-  function handleDelete() {}
   function handleDragStart() {}
   function handleDragEnd() {}
 </script>
@@ -27,8 +23,6 @@
 <Story name="Default">
   <TaskCard
     task={mockTasks[0]}
-    onEdit={handleEdit}
-    onDelete={handleDelete}
     onDragStart={handleDragStart}
     onDragEnd={handleDragEnd}
   />
@@ -37,8 +31,6 @@
 <Story name="Urgent Priority">
   <TaskCard
     task={mockTasks[1]}
-    onEdit={handleEdit}
-    onDelete={handleDelete}
     onDragStart={handleDragStart}
     onDragEnd={handleDragEnd}
   />
@@ -47,8 +39,6 @@
 <Story name="Completed">
   <TaskCard
     task={mockTasks[2]}
-    onEdit={handleEdit}
-    onDelete={handleDelete}
     onDragStart={handleDragStart}
     onDragEnd={handleDragEnd}
   />
@@ -57,8 +47,6 @@
 <Story name="Low Priority">
   <TaskCard
     task={mockTasks[3]}
-    onEdit={handleEdit}
-    onDelete={handleDelete}
     onDragStart={handleDragStart}
     onDragEnd={handleDragEnd}
   />
@@ -70,8 +58,6 @@
       ...mockTasks[0],
       description: '',
     }}
-    onEdit={handleEdit}
-    onDelete={handleDelete}
     onDragStart={handleDragStart}
     onDragEnd={handleDragEnd}
   />
@@ -84,8 +70,6 @@
       title:
         'This is a very long task title that should wrap to multiple lines and test how the card handles overflow content',
     }}
-    onEdit={handleEdit}
-    onDelete={handleDelete}
     onDragStart={handleDragStart}
     onDragEnd={handleDragEnd}
   />
