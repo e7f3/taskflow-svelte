@@ -111,6 +111,30 @@
   const availableUsers = authService.getAllUsers();
 
   /**
+   * Reset form fields when modal opens or task changes.
+   *
+   * Learning Note - $effect for Form Reset:
+   * We use $effect to reset form fields when:
+   * 1. Modal opens (isOpen changes to true)
+   * 2. Task prop changes (switching between create/edit)
+   *
+   * This ensures the form always shows the correct initial values.
+   * Without this, old values would persist when reopening the modal.
+   */
+  $effect(() => {
+    if (isOpen) {
+      // Reset form fields based on task prop
+      title = task?.title ?? '';
+      description = task?.description ?? '';
+      assigneeId = task?.assignee?.id ?? null;
+      priority = task?.priority ?? DEFAULT_PRIORITY;
+      status = task?.status ?? DEFAULT_STATUS;
+      error = '';
+      isLoading = false;
+    }
+  });
+
+  /**
    * Form validation using $derived rune.
    *
    * Learning Note:
