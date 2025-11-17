@@ -23,7 +23,7 @@ import type { FilterState } from './filtersStore.types';
 /**
  * Initial filter state - all filters disabled.
  */
-const initialState: FilterState = {
+export const initialState: FilterState = {
   searchQuery: undefined,
   assigneeId: undefined,
   priority: undefined,
@@ -44,12 +44,14 @@ const { subscribe, set, update } = writable<FilterState>(initialState);
  * Learning Note - Store Pattern:
  * We export an object with:
  * - subscribe: allows components to react to changes
+ * - set: allows direct state replacement (useful for testing/stories)
  * - custom methods: provide a clean API for updates
  *
  * This is similar to Redux selectors + actions, but simpler!
  */
 export const filtersStore = {
   subscribe,
+  set,
 
   /**
    * Update the search query filter.
