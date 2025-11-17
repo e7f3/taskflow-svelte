@@ -14,13 +14,39 @@
   - Svelte's approach is simpler and more declarative
 -->
 <script lang="ts">
-  import { onMount } from 'svelte';
   import LoginForm from '@/features/auth/components/LoginForm.svelte';
   import { authService } from '@/features/auth/services/authService';
   import { authStore } from '@/features/auth/stores/authStore';
   import Board from '@/features/tasks/components/Board/Board.svelte';
   import { taskService } from '@/features/tasks/services/taskService';
   import Header from '@/shared/components/Header/Header.svelte';
+
+  /**
+   * Restore session BEFORE component renders.
+   * 
+   * Learning Note - Svelte vs React useLayoutEffect:
+   * 
+   * React approach:
+   * ```jsx
+   * useLayoutEffect(() => {
+   *   restoreSession();
+   * }, []);
+   * ```
+   * 
+   * Svelte approach:
+   * - Code at module level runs before component mounts
+   * - Similar to useLayoutEffect but even earlier
+   * - Runs synchronously during module evaluation
+   * 
+   * This prevents flash of login form because:
+   * 1. Session restored before first render
+   * 2. Store updated before component subscribes
+   * 3. Component renders with correct auth state
+   * 
+   * No loading state needed!
+   */
+  authService.restoreSession();
+  taskService.loadTasks();
 
   /**
    * Subscribe to auth store.
@@ -33,6 +59,9 @@
    * - useEffect dependencies
    * - Manual subscription/unsubscription
    * - Memoization
+   * 
+   * Because we restored the session above, this will
+   * already have the correct value on first render!
    */
   const auth = $derived($authStore);
 
@@ -44,48 +73,6 @@
    * Similar to React's useMemo but simpler - no dependency array!
    */
   const isAuthenticated = $derived(auth.isAuthenticated);
-
-  /**
-   * Initialize app on mount.
-   * 
-   * Learning Note - Lifecycle:
-   * onMount runs after component is first rendered.
-   * Similar to React's useEffect with empty dependency array.
-   * 
-   * Key differences:
-   * - Svelte: onMount(() => { ... })
-   * - React: useEffect(() => { ... }, [])
-   * 
-   * Svelte's onMount is simpler and more explicit.
-   */
-  onMount(() => {
-    /*
-     * Try to restore previous session from localStorage.
-     * If successful, user is automatically logged in.
-     * 
-     * This provides a seamless experience:
-     * - User logs in once
-     * - Session persists across page refreshes
-     * - No need to log in again until session expires
-     */
-    authService.restoreSession();
-
-    /*
-     * Load tasks after session restoration.
-     * 
-     * Note: We load tasks here regardless of auth state because:
-     * - Tasks are stored in localStorage (no server)
-     * - They're available even when logged out
-     * - In production, you'd only load after authentication
-     * 
-     * Learning Note:
-     * In a real app with a backend, you'd:
-     * 1. Restore session
-     * 2. Check if authenticated
-     * 3. Only then fetch tasks from API
-     */
-    taskService.loadTasks();
-  });
 </script>
 
 <!--
@@ -103,6 +90,9 @@
   - Easier to read
   - Supports {:else if} for multiple conditions
   - No need for fragments
+  
+  No loading state needed because session is restored
+  before component renders (similar to useLayoutEffect)!
 -->
 <main>
   {#if isAuthenticated}
