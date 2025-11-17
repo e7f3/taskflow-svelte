@@ -30,58 +30,58 @@
 
 /* Variants */
 .variantPrimary {
-  color: #fff;
+  color: var(--color-white);
 
   background-color: var(--color-primary);
 }
 
 .variantPrimary:hover:not(:disabled) {
-  background-color: #0062cc;
-  box-shadow: 0 4px 12px rgb(0 115 234 / 0.3);
+  background-color: var(--color-primary-hover);
+  box-shadow: var(--shadow-primary);
 }
 
 .variantPrimary:disabled {
-  background-color: #ccc;
+  background-color: var(--color-gray-300);
 }
 
 .variantSecondary {
-  border: 2px solid #e0e0e0;
+  border: 2px solid var(--color-border);
 
-  color: #333;
+  color: var(--color-text-primary);
 
-  background-color: #f5f5f5;
+  background-color: var(--color-bg-secondary);
 }
 
 .variantSecondary:hover:not(:disabled) {
-  background-color: #e8e8e8;
-  border-color: #ccc;
+  background-color: var(--color-gray-100);
+  border-color: var(--color-border-hover);
 }
 
 .variantDanger {
-  color: #fff;
+  color: var(--color-white);
 
   background-color: var(--color-danger);
 }
 
 .variantDanger:hover:not(:disabled) {
-  background-color: #c93a4e;
-  box-shadow: 0 4px 12px rgb(228 66 88 / 0.3);
+  background-color: var(--color-danger-hover);
+  box-shadow: var(--shadow-danger);
 }
 
 .variantGhost {
   border: none;
 
-  color: #666;
+  color: var(--color-text-secondary);
 
   background: transparent;
 }
 
 .variantGhost:hover:not(:disabled) {
-  background-color: rgb(0 0 0 / 0.05);
+  background-color: var(--color-hover-overlay);
 }
 
 .variantGhost:active:not(:disabled) {
-  background-color: rgb(0 0 0 / 0.1);
+  background-color: var(--color-active-overlay);
 }
 
 /**
@@ -118,7 +118,7 @@
   width: 14px;
   height: 14px;
   border: 2px solid rgb(255 255 255 / 0.3);
-  border-top-color: #fff;
+  border-top-color: var(--color-white);
 
   border-radius: 50%;
 
