@@ -78,6 +78,16 @@
   const assignee = $derived(task.assignee);
 
   /*
+ * Track whether this card is currently being dragged.
+ * Used for visual feedback (opacity, rotation).
+ *
+ * Learning Note - Local State for UI:
+ * We use $state for UI-only state that doesn't need to be in a store.
+ * This is perfect for temporary visual states like dragging.
+ */
+  let isDragging = $state(false);
+
+  /*
  * Compute priority class name.
  * Used for the colored indicator bar.
  */
@@ -91,6 +101,9 @@
  * Learning Note - Native Drag & Drop:
  * Svelte makes it easy to use native browser APIs.
  * No need for external libraries!
+ *
+ * Enhanced with visual feedback - we set isDragging to true
+ * which applies CSS for opacity and rotation.
  */
   function handleDragStart(e: DragEvent) {
     /*
@@ -101,6 +114,12 @@
     e.dataTransfer!.setData('text/plain', task.id);
 
     /*
+   * Set dragging state for visual feedback.
+   * This applies the .dragging class via class:dragging directive.
+   */
+    isDragging = true;
+
+    /*
    * Notify parent component.
    */
     onDragStart(task.id);
@@ -108,8 +127,10 @@
 
   /**
  * Handle drag end event.
+ * Reset dragging state to remove visual feedback.
  */
   function handleDragEnd() {
+    isDragging = false;
     onDragEnd();
   }
 
@@ -179,6 +200,7 @@
 
 <div
   class={styles.card}
+  class:dragging={isDragging}
   draggable="true"
   ondragstart={handleDragStart}
   ondragend={handleDragEnd}

@@ -245,7 +245,7 @@ This plan breaks down the TaskFlow application into incremental, manageable codi
   - Add comments explaining responsive design approach
   - _Requirements: 10.1, 10.2, 10.3, 10.4, 10.5_
 
-- [ ] 14. Enhance drag visual feedback
+- [x] 14. Enhance drag visual feedback
   - Update TaskCard.module.css dragging state (opacity: 0.5, transform: rotate(2deg))
   - Update Column.module.css drop zone hover state (border: 2px dashed primary, background: light blue)
   - Add dragOver class to Column component when draggedTask is over it

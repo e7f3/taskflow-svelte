@@ -61,13 +61,18 @@
 /**
  * Drop zone area.
  * This is where tasks are displayed and can be dropped.
+ *
+ * Learning Note - Smooth Transitions:
+ * We use dashed border in both states (transparent and colored)
+ * to avoid the visual glitch when transitioning between solid and dashed.
+ * Border-style can't be smoothly transitioned, but border-color can!
  */
 .dropZone {
   position: relative;
 
   flex: 1;
   min-height: 200px;
-  border: 2px solid transparent;
+  border: 2px dashed transparent;
   border-radius: var(--border-radius);
 
   transition: background-color 0.2s, border-color 0.2s;
@@ -77,12 +82,17 @@
  * Drop zone when dragging over.
  * Provides visual feedback that this is a valid drop target.
  *
- * Using a regular border instead of inset box-shadow prevents overlap with cards.
- * The transparent border in the default state prevents layout shift.
+ * Learning Note - Enhanced Drag Feedback:
+ * We use a dashed border and light blue background to clearly indicate
+ * this is a valid drop zone. The dashed style suggests "drop here".
+ *
+ * The border is always dashed (even when transparent) to ensure
+ * smooth transitions without visual glitches.
  */
 .dropZone:global(.dragOver) {
-  background-color: rgb(0 115 234 / 0.05);
   border-color: var(--color-primary);
+
+  background-color: rgb(0 115 234 / 0.08);
 }
 
 /**
