@@ -33,7 +33,7 @@
     TaskStatus,
   } from '../../types/task.types';
 
-  /*
+  /**
    * Subscribe to filtered task stores.
    *
    * Learning Note - Derived Store Architecture:
@@ -60,7 +60,7 @@
    */
   let draggedTask = $state<Task | null>(null);
 
-  /*
+  /**
    * Derived state from modal handlers.
    *
    * Learning Note - Modal Manager Integration:

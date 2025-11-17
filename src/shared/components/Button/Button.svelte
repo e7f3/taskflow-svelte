@@ -13,43 +13,43 @@
 
   interface Props extends HTMLButtonAttributes {
     /**
-    * Button variant style.
-   */
+     * Button variant style.
+     */
     variant?: 'primary' | 'secondary' | 'danger' | 'ghost';
-  
+
     /**
-   * Button size.
-   */
+     * Button size.
+     */
     size?: 'small' | 'medium' | 'large';
-  
+
     /**
-   * Button type (button, submit, reset).
-   */
+     * Button type (button, submit, reset).
+     */
     type?: 'button' | 'submit' | 'reset';
-  
+
     /**
-   * Whether the button is disabled.
-   */
+     * Whether the button is disabled.
+     */
     disabled?: boolean;
-  
+
     /**
-   * Whether the button is in loading state.
-   */
+     * Whether the button is in loading state.
+     */
     loading?: boolean;
-  
+
     /**
-   * Click handler.
-   */
+     * Click handler.
+     */
     onclick?: (event: MouseEvent) => void;
-  
+
     /**
-   * Additional CSS class.
-   */
+     * Additional CSS class.
+     */
     class?: string;
-  
+
     /**
-   * Button content (children).
-   */
+     * Button content (children).
+     */
     children?: Snippet;
   }
 

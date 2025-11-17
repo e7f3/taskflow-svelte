@@ -1,49 +1,49 @@
 <script lang="ts">
   /**
- * Reusable Select component.
- * 
- * Learning Note:
- * This component wraps a native <select> element with consistent styling.
- * It uses $bindable() for two-way binding with parent components.
- */
+   * Reusable Select component.
+   *
+   * Learning Note:
+   * This component wraps a native <select> element with consistent styling.
+   * It uses $bindable() for two-way binding with parent components.
+   */
 
   import styles from './Select.module.css';
   import type { Snippet } from 'svelte';
 
   interface Props {
     /**
-   * Selected value (controlled component).
-   */
+     * Selected value (controlled component).
+     */
     value: string | number | null;
-  
+
     /**
-   * Select ID for label association.
-   */
+     * Select ID for label association.
+     */
     id?: string;
-  
+
     /**
-   * Whether the select is disabled.
-   */
+     * Whether the select is disabled.
+     */
     disabled?: boolean;
-  
+
     /**
-   * Whether the select is required.
-   */
+     * Whether the select is required.
+     */
     required?: boolean;
-  
+
     /**
-   * Error message to display.
-   */
+     * Error message to display.
+     */
     error?: string;
-  
+
     /**
-   * Additional CSS class.
-   */
+     * Additional CSS class.
+     */
     class?: string;
-  
+
     /**
-   * Select options (children).
-   */
+     * Select options (children).
+     */
     children?: Snippet;
   }
 
