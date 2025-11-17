@@ -1,3 +1,10 @@
+<!--
+  Storybook stories for Modal component.
+  
+  Learning Note - Modal Stories in Storybook:
+  Modal renders to document.body using portals.
+  We use `inline: false` to render in an iframe for proper isolation.
+-->
 <script module>
   import { defineMeta } from '@storybook/addon-svelte-csf';
 
@@ -7,6 +14,9 @@
     tags: ['autodocs'],
     parameters: {
       layout: 'fullscreen',
+      docs: { 
+        story: { inline: false }, // Opens stories in iframe - isolated!
+      },
     },
   });
 </script>
