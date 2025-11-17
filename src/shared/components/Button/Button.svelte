@@ -9,12 +9,13 @@
 
   import styles from './Button.module.css';
   import type { Snippet } from 'svelte';
+  import type { HTMLButtonAttributes } from 'svelte/elements';
 
-  interface Props {
+  interface Props extends HTMLButtonAttributes {
     /**
     * Button variant style.
    */
-    variant?: 'primary' | 'secondary' | 'danger';
+    variant?: 'primary' | 'secondary' | 'danger' | 'ghost';
   
     /**
    * Button size.
@@ -61,6 +62,7 @@
     onclick,
     class: className,
     children,
+    ...restProps
   }: Props = $props();
 
   let buttonClass = $derived(
@@ -78,6 +80,7 @@
   class={buttonClass}
   disabled={disabled || loading}
   {onclick}
+  {...restProps}
 >
   {#if loading}
     <span class={styles.spinner}></span>

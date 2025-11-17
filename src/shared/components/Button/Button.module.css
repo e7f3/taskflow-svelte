@@ -68,6 +68,22 @@
   box-shadow: 0 4px 12px rgb(228 66 88 / 0.3);
 }
 
+.variantGhost {
+  border: none;
+
+  color: #666;
+
+  background: transparent;
+}
+
+.variantGhost:hover:not(:disabled) {
+  background-color: rgb(0 0 0 / 0.05);
+}
+
+.variantGhost:active:not(:disabled) {
+  background-color: rgb(0 0 0 / 0.1);
+}
+
 /**
  * Sizes
  *
