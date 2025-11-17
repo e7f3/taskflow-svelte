@@ -210,7 +210,7 @@ This plan breaks down the TaskFlow application into incremental, manageable codi
   - Add comments explaining store subscriptions in components
   - _Requirements: 1.4, 1.5_
 
-- [ ] 11. Integrate authentication with App component
+- [x] 11. Integrate authentication with App component
   - Update src/App.svelte to import authStore and LoginForm
   - Subscribe to authStore with $ prefix
   - Use $derived to compute isAuthenticated from authStore
