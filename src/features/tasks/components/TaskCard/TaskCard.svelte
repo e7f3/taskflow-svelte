@@ -18,6 +18,7 @@
  */
 
   import { fade, fly } from 'svelte/transition';
+  import Button from '@/shared/components/Button/Button.svelte';
   import styles from './TaskCard.module.css';
   import {
     deleteConfirmationModal,
@@ -243,15 +244,15 @@
           {task.priority}
         </span>
 
-        <!-- Delete button -->
-        <button
-          class={styles.deleteButton}
+        <!-- Delete button using shared Button component -->
+        <Button
+          variant="ghost"
+          size="small"
           onclick={handleDelete}
           aria-label="Delete task"
-          type="button"
         >
           🗑️
-        </button>
+        </Button>
       </div>
     </div>
   </div>
