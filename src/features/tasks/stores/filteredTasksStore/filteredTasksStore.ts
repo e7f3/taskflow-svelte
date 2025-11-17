@@ -56,21 +56,57 @@ export const filteredTasksStore = derived(
 );
 
 /**
+ * Priority order mapping for sorting.
+ * Higher number = higher priority.
+ *
+ * Learning Note - Priority Sorting:
+ * We map priority strings to numbers so we can sort numerically.
+ * This ensures critical tasks appear first, then high, medium, low.
+ */
+const PRIORITY_ORDER = {
+  critical: 4,
+  high: 3,
+  medium: 2,
+  low: 1,
+} as const;
+
+/**
+ * Sorts tasks by priority (critical → high → medium → low).
+ *
+ * Learning Note:
+ * Array.sort() with a comparator function.
+ * Negative return = a comes first
+ * Positive return = b comes first
+ * Zero = keep original order
+ */
+function sortByPriority<T extends { priority: string }>(tasks: T[]): T[] {
+  return [...tasks].sort((a, b) => {
+    const priorityA = PRIORITY_ORDER[a.priority as keyof typeof PRIORITY_ORDER] || 0;
+    const priorityB = PRIORITY_ORDER[b.priority as keyof typeof PRIORITY_ORDER] || 0;
+    return priorityB - priorityA; // Descending order (highest priority first)
+  });
+}
+
+/**
  * Derived stores for tasks by status.
  *
- * These automatically filter the already-filtered tasks by status.
- * Double filtering: tasks → filters → status
+ * These automatically filter the already-filtered tasks by status
+ * and sort them by priority (critical → high → medium → low).
+ *
+ * Triple transformation: tasks → filters → status → priority sort
  */
 export const filteredTodoTasks = derived(filteredTasksStore, ($filteredTasks) =>
-  $filteredTasks.filter((task) => task.status === 'todo'),
+  sortByPriority($filteredTasks.filter((task) => task.status === 'todo')),
 );
 
 export const filteredInProgressTasks = derived(
   filteredTasksStore,
   ($filteredTasks) =>
-    $filteredTasks.filter((task) => task.status === 'in-progress'),
+    sortByPriority(
+      $filteredTasks.filter((task) => task.status === 'in-progress'),
+    ),
 );
 
 export const filteredDoneTasks = derived(filteredTasksStore, ($filteredTasks) =>
-  $filteredTasks.filter((task) => task.status === 'done'),
+  sortByPriority($filteredTasks.filter((task) => task.status === 'done')),
 );
