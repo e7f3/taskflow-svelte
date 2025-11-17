@@ -11,12 +11,14 @@
 
 /**
  * Main container - centers the login card on screen.
+ * Takes full height of parent (main element from App.svelte).
  */
 .container {
   display: flex;
+  flex: 1;
   justify-content: center;
   align-items: center;
-  min-height: 100vh;
+
   padding: var(--spacing-lg);
 
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
