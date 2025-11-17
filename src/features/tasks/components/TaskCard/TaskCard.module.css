@@ -41,6 +41,22 @@
 }
 
 /**
+ * Dragging state - applied when card is being dragged.
+ *
+ * Learning Note - Drag Visual Feedback:
+ * We reduce opacity and add a slight rotation to make it clear
+ * the card is being moved. This provides immediate visual feedback
+ * that the drag operation has started.
+ */
+.card:global(.dragging) {
+  opacity: 0.5;
+  box-shadow: var(--shadow-hover);
+  transform: rotate(2deg);
+
+  cursor: grabbing;
+}
+
+/**
  * Focus state for accessibility.
  */
 .card:focus {
