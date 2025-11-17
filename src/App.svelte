@@ -39,6 +39,15 @@
   const isStorageAvailable = storageService.isAvailable();
 
   /**
+   * Error state for initialization failures.
+   *
+   * Learning Note - Error Handling:
+   * We track errors that occur during initialization
+   * to show user-friendly error messages.
+   */
+  let initError = $state<string | null>(null);
+
+  /**
    * Restore session BEFORE component renders.
    *
    * Learning Note - Svelte vs React useLayoutEffect:
@@ -60,10 +69,19 @@
    * 2. Store updated before component subscribes
    * 3. Component renders with correct auth state
    *
-   * No loading state needed!
+   * We wrap in try-catch for error handling without needing loading state!
    */
-  authService.restoreSession();
-  taskService.loadTasks();
+  try {
+    authService.restoreSession();
+    taskService.loadTasks();
+  } catch (error) {
+    /**
+     * Handle initialization errors.
+     * Log for debugging and show user-friendly message.
+     */
+    console.error('Failed to initialize app:', error);
+    initError = 'Failed to load application. Please refresh the page.';
+  }
 
   /**
    * Subscribe to auth store.
@@ -112,6 +130,20 @@
   before component renders (similar to useLayoutEffect)!
 -->
 <main>
+  <!--
+    Error state - shown if initialization fails.
+    
+    Learning Note - Error Handling UX:
+    When something goes wrong during initialization, we:
+    - Show a clear error message
+    - Explain what happened
+    - Suggest next steps (refresh page)
+    - Use error variant for visual distinction
+  -->
+  {#if initError}
+    <Banner variant="error" title="Initialization Error" message={initError} />
+  {/if}
+
   <!--
     Storage availability warning banner.
     
