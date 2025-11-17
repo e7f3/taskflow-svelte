@@ -19,7 +19,6 @@ import type {
   ModalId,
   ModalInstance,
   ModalStackState,
-  ModalHandler,
 } from './modalManager.types';
 
 /**
