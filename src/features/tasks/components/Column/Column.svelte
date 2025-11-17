@@ -8,8 +8,10 @@
  * - Drop zone implementation
  * - Passing callbacks to children
  * - Empty state handling
+ * - Smooth list reordering with flip animation
  */
 
+  import { flip } from 'svelte/animate';
   import styles from './Column.module.css';
   import TaskCard from '../TaskCard/TaskCard.svelte';
   import type { Task, TaskStatus } from '../../types/task.types';
@@ -156,19 +158,30 @@
     aria-label="{title} tasks"
   >
     <!--
-      Task list.
+      Task list with flip animation.
 
-      Learning Note - {#each} with key:
-      The (task.id) syntax tells Svelte which item is which.
-      This enables efficient updates when the list changes.
-
-      Similar to React's key prop:
-      {tasks.map(task => <TaskCard key={task.id} ... />)}
-
-      But in Svelte, the key goes in the #each block!
+      Learning Note - Svelte Animations:
+      The animate:flip directive creates smooth reordering animations!
+      
+      When tasks move positions (drag-and-drop, filtering, sorting),
+      Svelte automatically animates them to their new positions.
+      
+      Compare to React:
+      - React: Need react-flip-move or manual FLIP calculations
+      - Svelte: Just add animate:flip!
+      
+      The flip animation:
+      - Calculates First and Last positions
+      - Inverts the transform
+      - Plays the animation
+      - All automatically!
+      
+      Duration of 300ms provides smooth, natural movement.
     -->
     {#each tasks as task (task.id)}
-      <TaskCard {task} {onDragStart} {onDragEnd} />
+      <div animate:flip={{ duration: 300 }}>
+        <TaskCard {task} {onDragStart} {onDragEnd} />
+      </div>
     {/each}
 
     <!--

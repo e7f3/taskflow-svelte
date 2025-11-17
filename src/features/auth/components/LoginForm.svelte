@@ -23,8 +23,10 @@
  * - Event handlers (on:submit, on:click)
  * - Conditional rendering ({#if})
  * - CSS Modules for scoped styles
+ * - Fade transition for smooth appearance
  */
 
+  import { fade } from 'svelte/transition';
   import Button from '@/shared/components/Button/Button.svelte';
   import Input from '@/shared/components/Input/Input.svelte';
   import styles from './LoginForm.module.css';
@@ -134,16 +136,20 @@
 <!--
   Template section.
 
-  Learning Note:
-  Svelte templates look like HTML but with special syntax:
-  - {variable} for interpolation
-  - bind:value for two-way binding
-  - on:event for event handlers
-  - class: for dynamic classes
-  - {#if} for conditionals
+  Learning Note - Svelte Transitions:
+  The transition:fade directive creates a smooth fade-in/fade-out effect.
+  
+  When the LoginForm appears (user logs out) or disappears (user logs in),
+  it fades smoothly instead of popping in/out.
+  
+  Duration of 300ms provides a pleasant, not-too-slow transition.
+  
+  Compare to React:
+  - React: Need CSS transitions, react-transition-group, or framer-motion
+  - Svelte: Just add transition:fade!
 -->
 
-<div class={styles.container}>
+<div class={styles.container} transition:fade={{ duration: 300 }}>
   <div class={styles.card}>
     <h1 class={styles.title}>Welcome to TaskFlow</h1>
     <p class={styles.subtitle}>Sign in to manage your tasks</p>
