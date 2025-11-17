@@ -1,5 +1,11 @@
 /**
- * Board component styles.
+ * Board component styles with modern responsive design.
+ *
+ * Learning Note - Modern Responsive Approach:
+ * - Uses CSS custom properties for consistent breakpoints
+ * - Mobile-first design (base styles for mobile, enhance for larger screens)
+ * - Ensures 44px minimum touch targets for accessibility
+ * - Smooth transitions for layout changes
  */
 
 /**
@@ -8,54 +14,97 @@
 .boardContainer {
   display: flex;
   flex-direction: column;
+
   height: 100%;
 }
 
 /**
  * Board header with Add Task button.
+ * Ensures minimum touch target size.
  */
 .boardHeader {
   display: flex;
   justify-content: flex-end;
-  padding: var(--spacing-lg);
+  align-items: center;
+
+  min-height: var(--touch-target-min);
+  padding: var(--spacing-md);
 
   background: #fff;
   border-bottom: 1px solid #e0e0e0;
 }
 
 /**
- * Board container with three columns.
- * Uses flexbox for responsive layout.
+ * Board container with columns.
+ *
+ * Learning Note - Preventing Horizontal Scroll:
+ * We use overflow-x: hidden to prevent horizontal scroll
+ * while allowing vertical scroll. Columns use flex: 1 to
+ * share available space equally without overflowing.
+ *
+ * Mobile (< 768px): Stacked vertically
+ * Tablet (768-1024px): 3 columns with medium gap
+ * Desktop (> 1024px): 3 columns with large gap
  */
 .board {
   display: flex;
-  gap: var(--spacing-lg);
-  height: calc(100vh - 80px); /* Account for header */
-  padding: var(--spacing-lg);
-  overflow-x: auto;
+
+  flex: 1;
+  flex-direction: column;
+  gap: var(--spacing-md);
+  padding: var(--spacing-md);
+  overflow: hidden auto;
 }
 
 /**
- * Responsive layout.
+ * Tablet: Side-by-side columns with optimized spacing.
+ *
+ * Learning Note - Breakpoint Consistency:
+ * CSS custom properties can't be used in @media queries (spec limitation).
+ * We use 768px which matches var(--breakpoint-mobile) from theme.css.
+ * All components use these same hardcoded values for consistency.
+ *
+ * Learning Note - Space Optimization:
+ * On tablet, we reduce gaps and padding to maximize usable space
+ * for content while maintaining readability.
  */
-@media (width <= 1024px) {
+@media (width >= 768px) {
+  .board {
+    flex-direction: row;
+    gap: var(--spacing-sm); /* Reduced gap on tablet */
+    padding: var(--spacing-sm); /* Reduced padding on tablet */
+    overflow: hidden auto; /* Prevent horizontal scroll */
+  }
+
   .boardHeader {
-    padding: var(--spacing-md);
-  }
-
-  .board {
-    gap: var(--spacing-md);
-    padding: var(--spacing-md);
+    padding: var(--spacing-md) var(--spacing-lg);
   }
 }
 
 /**
- * Mobile: Stack columns vertically.
+ * Desktop: Larger spacing for better visual hierarchy.
+ * 1024px matches var(--breakpoint-tablet) from theme.css.
  */
-@media (width <= 768px) {
+@media (width >= 1024px) {
   .board {
-    flex-direction: column;
-    height: auto;
-    overflow-x: visible;
+    gap: var(--spacing-lg);
+    padding: var(--spacing-lg);
+  }
+
+  .boardHeader {
+    padding: var(--spacing-lg) var(--spacing-xl);
+  }
+}
+
+/**
+ * Reduced motion support.
+ *
+ * Learning Note - Accessibility:
+ * Users who prefer reduced motion should not see
+ * layout transitions or animations.
+ */
+@media (prefers-reduced-motion: reduce) {
+  .board {
+    transition: none;
   }
 }

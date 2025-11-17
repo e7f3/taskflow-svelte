@@ -233,7 +233,7 @@ This plan breaks down the TaskFlow application into incremental, manageable codi
   - Add comments explaining Svelte's built-in transition system
   - _Requirements: 9.1, 9.2, 9.4_
 
-- [ ] 13. Implement responsive layout
+- [x] 13. Implement responsive layout
   - Review and enhance Board.module.css media queries
   - Desktop (>1024px): 3 columns side-by-side with equal width and gap
   - Tablet (768-1024px): 3 columns with adjusted spacing and smaller gap

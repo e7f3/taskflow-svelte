@@ -1,5 +1,10 @@
 /**
- * Column component styles.
+ * Column component styles with responsive width handling.
+ *
+ * Learning Note - Preventing Horizontal Scroll:
+ * Fixed min-width can cause overflow on smaller screens.
+ * We use flex: 1 to let columns share space equally,
+ * with min-width: 0 to allow shrinking below content size.
  */
 
 /**
@@ -9,8 +14,7 @@
   display: flex;
   flex: 1;
   flex-direction: column;
-  min-width: 300px;
-  max-width: 350px;
+  min-width: 0; /* Allow columns to shrink below content size */
   padding: var(--spacing-md);
   border-radius: var(--border-radius);
 
@@ -107,10 +111,31 @@
 /**
  * Responsive adjustments.
  */
+
+/* Mobile: Full width stacked columns */
 @media (width <= 768px) {
   .column {
-    min-width: 100%;
-    max-width: 100%;
+    width: 100%;
     margin-bottom: var(--spacing-md);
+  }
+}
+
+/* Tablet: Optimized spacing for maximum usable space */
+@media (width >= 768px) and (width < 1024px) {
+  .column {
+    min-width: 220px; /* Smaller min-width for tablet: 3 × 220px + gaps ≈ 700px */
+    padding: var(--spacing-sm); /* Reduced padding for more content space */
+  }
+
+  .header {
+    margin-bottom: var(--spacing-sm); /* Tighter spacing */
+  }
+}
+
+/* Desktop: Comfortable column width */
+@media (width >= 1024px) {
+  .column {
+    min-width: 300px;
+    max-width: 400px;
   }
 }

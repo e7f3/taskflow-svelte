@@ -68,21 +68,30 @@
   box-shadow: 0 4px 12px rgb(228 66 88 / 0.3);
 }
 
-/* Sizes */
+/**
+ * Sizes
+ *
+ * Learning Note - Touch Targets:
+ * All button sizes ensure minimum 44px height for accessibility.
+ * WCAG 2.1 Level AAA recommends 44x44px minimum touch targets.
+ */
 .sizeSmall {
-  padding: var(--spacing-xs) var(--spacing-sm);
+  min-height: var(--touch-target-min);
+  padding: var(--spacing-xs) var(--spacing-md);
 
   font-size: var(--font-size-sm);
 }
 
 .sizeMedium {
-  padding: var(--spacing-sm) var(--spacing-md);
+  min-height: var(--touch-target-min);
+  padding: var(--spacing-sm) var(--spacing-lg);
 
   font-size: var(--font-size-base);
 }
 
 .sizeLarge {
-  padding: var(--spacing-md) var(--spacing-lg);
+  min-height: var(--touch-target-min);
+  padding: var(--spacing-md) var(--spacing-xl);
 
   font-size: var(--font-size-lg);
 }

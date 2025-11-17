@@ -58,6 +58,30 @@
 
   /* Layout */
   --max-width: 1400px;
+
+  /**
+   * Responsive Breakpoints
+   *
+   * Learning Note - Modern Responsive Design:
+   * We define breakpoints as custom properties for consistency.
+   * These match common device sizes and ensure all components
+   * use the same breakpoints.
+   *
+   * Mobile-first approach:
+   * - Base styles: Mobile (< 768px)
+   * - Tablet: 768px - 1024px
+   * - Desktop: > 1024px
+   */
+  --breakpoint-mobile: 768px;
+  --breakpoint-tablet: 1024px;
+
+  /**
+   * Touch Targets
+   *
+   * Minimum touch target size for accessibility.
+   * WCAG 2.1 Level AAA recommends 44x44px minimum.
+   */
+  --touch-target-min: 44px;
 }
 
 body {
