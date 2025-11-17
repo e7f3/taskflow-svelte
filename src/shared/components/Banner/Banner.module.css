@@ -43,33 +43,39 @@
 
 /**
  * Variant styles.
- * Each variant has its own color scheme.
+ * Each variant has its own color scheme using CSS variables.
+ *
+ * Learning Note - CSS Variables for Theming:
+ * Using CSS variables makes it easy to:
+ * - Adjust colors globally from theme.css
+ * - Support dark mode in the future
+ * - Maintain consistency across components
  */
 
 .variantInfo {
-  color: #004085;
+  color: var(--banner-info-text);
 
-  background-color: #cce5ff;
-  border-bottom-color: #b8daff;
+  background-color: var(--banner-info-bg);
+  border-bottom-color: var(--banner-info-border);
 }
 
 .variantWarning {
-  color: #856404;
+  color: var(--banner-warning-text);
 
-  background-color: #fff3cd;
-  border-bottom-color: #ffeaa7;
+  background-color: var(--banner-warning-bg);
+  border-bottom-color: var(--banner-warning-border);
 }
 
 .variantError {
-  color: #721c24;
+  color: var(--banner-error-text);
 
-  background-color: #f8d7da;
-  border-bottom-color: #f5c6cb;
+  background-color: var(--banner-error-bg);
+  border-bottom-color: var(--banner-error-border);
 }
 
 .variantSuccess {
-  color: #155724;
+  color: var(--banner-success-text);
 
-  background-color: #d4edda;
-  border-bottom-color: #c3e6cb;
+  background-color: var(--banner-success-bg);
+  border-bottom-color: var(--banner-success-border);
 }

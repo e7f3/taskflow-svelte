@@ -14,7 +14,7 @@
   border: none;
   border-radius: var(--border-radius);
 
-  background: #fff;
+  background: var(--color-bg-primary);
 
   /* Transition for smooth appearance */
   opacity: 0;
@@ -55,7 +55,7 @@
  * We fade it in/out for a smooth modal experience.
  */
 .dialog::backdrop {
-  background: rgb(0 0 0 / 0.6);
+  background: var(--color-overlay);
   backdrop-filter: blur(4px);
 
   /* Transition for smooth fade */
@@ -91,9 +91,9 @@
 
   font-size: var(--font-size-xl);
   font-weight: 600;
-  color: #333;
+  color: var(--color-text-primary);
 
-  border-bottom: 1px solid #e0e0e0;
+  border-bottom: 1px solid var(--color-border);
 }
 
 /**

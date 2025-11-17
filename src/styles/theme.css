@@ -27,6 +27,71 @@
   --color-warning: #fdab3d;
   --color-danger: #e44258;
 
+  /* Banner colors */
+  --banner-info-text: #004085;
+  --banner-info-bg: #cce5ff;
+  --banner-info-border: #b8daff;
+  --banner-warning-text: #856404;
+  --banner-warning-bg: #fff3cd;
+  --banner-warning-border: #ffeaa7;
+  --banner-error-text: #721c24;
+  --banner-error-bg: #f8d7da;
+  --banner-error-border: #f5c6cb;
+  --banner-success-text: #155724;
+  --banner-success-bg: #d4edda;
+  --banner-success-border: #c3e6cb;
+
+  /* Extended brand colors */
+  --color-primary-hover: #0062cc;
+  --color-danger-hover: #c93a4e;
+
+  /* Neutral colors */
+  --color-white: #fff;
+  --color-black: #000;
+  --color-gray-50: #f5f5f5;
+  --color-gray-100: #e8e8e8;
+  --color-gray-200: #e0e0e0;
+  --color-gray-300: #ccc;
+  --color-gray-400: #999;
+  --color-gray-500: #666;
+  --color-gray-600: #333;
+
+  /* Text colors */
+  --color-text-primary: #333;
+  --color-text-secondary: #666;
+  --color-text-tertiary: #999;
+
+  /* Background colors */
+  --color-bg-primary: #fff;
+  --color-bg-secondary: #f5f5f5;
+  --color-bg-disabled: #f5f5f5;
+
+  /* Border colors */
+  --color-border: #e0e0e0;
+  --color-border-hover: #ccc;
+  --color-border-focus: var(--color-primary);
+
+  /* Error/validation colors */
+  --color-error-bg: #fee;
+  --color-error-text: var(--color-danger);
+  --color-error-border: var(--color-danger);
+
+  /* Focus ring colors */
+  --color-focus-ring-primary: rgb(0 115 234 / 0.1);
+  --color-focus-ring-danger: rgb(228 66 88 / 0.1);
+
+  /* Overlay colors */
+  --color-overlay: rgb(0 0 0 / 0.6);
+  --color-hover-overlay: rgb(0 0 0 / 0.05);
+  --color-active-overlay: rgb(0 0 0 / 0.1);
+
+  /* Shadow colors for buttons */
+  --shadow-primary: 0 4px 12px rgb(0 115 234 / 0.3);
+  --shadow-danger: 0 4px 12px rgb(228 66 88 / 0.3);
+
+  /* Gradient colors */
+  --gradient-purple: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+
   /* Priority colors - used for task priority indicators */
   --priority-low: #c4c4c4;
   --priority-medium: #fdab3d;

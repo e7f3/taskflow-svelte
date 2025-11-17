@@ -13,8 +13,8 @@
   top: 0;
   z-index: 100;
 
-  background-color: #fff;
-  border-bottom: 1px solid #e0e0e0;
+  background-color: var(--color-bg-primary);
+  border-bottom: 1px solid var(--color-border);
 
   box-shadow: var(--shadow);
 }
@@ -63,7 +63,7 @@
 .userName {
   font-size: var(--font-size-base);
   font-weight: var(--font-weight-medium);
-  color: #333;
+  color: var(--color-text-primary);
 }
 
 /**
