@@ -19,30 +19,47 @@
   import { authStore } from '@/features/auth/stores/authStore';
   import Board from '@/features/tasks/components/Board/Board.svelte';
   import { taskService } from '@/features/tasks/services/taskService';
+  import Banner from '@/shared/components/Banner/Banner.svelte';
   import Header from '@/shared/components/Header/Header.svelte';
+  import { storageService } from '@/shared/services/storageService';
+
+  /**
+   * Check localStorage availability.
+   *
+   * Learning Note - Graceful Degradation:
+   * We check if localStorage is available before using it.
+   * If not available (private browsing, disabled, etc.),
+   * the app continues to work with in-memory state only.
+   *
+   * This is a best practice for web apps:
+   * - Don't assume browser features are available
+   * - Provide fallback behavior
+   * - Inform user of limitations
+   */
+  const isStorageAvailable = storageService.isAvailable();
 
   /**
    * Restore session BEFORE component renders.
-   * 
+   *
    * Learning Note - Svelte vs React useLayoutEffect:
-   * 
+   *
    * React approach:
    * ```jsx
    * useLayoutEffect(() => {
    *   restoreSession();
    * }, []);
    * ```
-   * 
+   *
    * Svelte approach:
    * - Code at module level runs before component mounts
    * - Similar to useLayoutEffect but even earlier
    * - Runs synchronously during module evaluation
-   * 
+   *
    * This prevents flash of login form because:
    * 1. Session restored before first render
    * 2. Store updated before component subscribes
    * 3. Component renders with correct auth state
-   * 
+   *
    * No loading state needed!
    */
   authService.restoreSession();
@@ -95,6 +112,30 @@
   before component renders (similar to useLayoutEffect)!
 -->
 <main>
+  <!--
+    Storage availability warning banner.
+    
+    Learning Note - Graceful Degradation UI:
+    When a feature is unavailable, we:
+    1. Show a clear warning to the user
+    2. Explain what's affected
+    3. Let the app continue working
+    
+    This is better than:
+    - Blocking the entire app
+    - Showing a cryptic error
+    - Silently failing
+    
+    We use the reusable Banner component with the warning variant.
+  -->
+  {#if !isStorageAvailable}
+    <Banner
+      variant="warning"
+      title="Storage Unavailable"
+      message="Your data won't be saved between sessions. This may be due to private browsing mode or browser settings."
+    />
+  {/if}
+
   {#if isAuthenticated}
     <!--
       Authenticated view:

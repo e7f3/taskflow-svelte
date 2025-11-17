@@ -1,0 +1,75 @@
+/**
+ * Banner component styles.
+ *
+ * Learning Note - Variant Pattern:
+ * We use CSS classes for variants instead of inline styles.
+ * This keeps styling consistent and maintainable.
+ */
+
+.banner {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+
+  padding: 12px 16px;
+
+  border-bottom: 1px solid;
+}
+
+.icon {
+  font-size: 20px;
+  line-height: 1;
+}
+
+.content {
+  flex: 1;
+}
+
+.title {
+  display: block;
+
+  margin-bottom: 4px;
+
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.message {
+  margin: 0;
+
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+/**
+ * Variant styles.
+ * Each variant has its own color scheme.
+ */
+
+.variantInfo {
+  color: #004085;
+
+  background-color: #cce5ff;
+  border-bottom-color: #b8daff;
+}
+
+.variantWarning {
+  color: #856404;
+
+  background-color: #fff3cd;
+  border-bottom-color: #ffeaa7;
+}
+
+.variantError {
+  color: #721c24;
+
+  background-color: #f8d7da;
+  border-bottom-color: #f5c6cb;
+}
+
+.variantSuccess {
+  color: #155724;
+
+  background-color: #d4edda;
+  border-bottom-color: #c3e6cb;
+}
