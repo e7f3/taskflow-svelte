@@ -199,7 +199,7 @@ This plan breaks down the TaskFlow application into incremental, manageable codi
   - Add comments explaining derived stores vs React useMemo
   - _Requirements: 7.1, 7.2, 7.3, 7.4_
 
-- [ ] 10. Build shared Header component
+- [x] 10. Build shared Header component
   - Create shared/components/Header/Header.svelte
   - Create shared/components/Header/Header.module.css
   - Subscribe to authStore to get current user

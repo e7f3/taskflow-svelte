@@ -1,0 +1,94 @@
+/**
+ * Header component styles.
+ *
+ * Learning Note - CSS Modules:
+ * - Styles are scoped to this component
+ * - Class names are hashed to prevent conflicts
+ * - Import as 'styles' object in component
+ * - Use as styles.className in template
+ */
+
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+
+  background-color: #fff;
+  border-bottom: 1px solid #e0e0e0;
+
+  box-shadow: var(--shadow);
+}
+
+.container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: var(--spacing-md) var(--spacing-lg);
+}
+
+.branding {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.title {
+  margin: 0;
+
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-primary);
+}
+
+.userSection {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+}
+
+.userInfo {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.avatar {
+  font-size: var(--font-size-xl);
+  line-height: 1;
+}
+
+.userName {
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-medium);
+  color: #333;
+}
+
+/**
+ * Responsive design for mobile devices.
+ *
+ * Learning Note:
+ * Mobile-first approach:
+ * - Base styles work on mobile
+ * - Media queries enhance for larger screens
+ * - Better performance on mobile devices
+ */
+@media (width <= 768px) {
+  .container {
+    padding: var(--spacing-sm) var(--spacing-md);
+  }
+
+  .title {
+    font-size: var(--font-size-lg);
+  }
+
+  .userName {
+    display: none; /* Hide name on mobile, show only avatar */
+  }
+
+  .userSection {
+    gap: var(--spacing-sm);
+  }
+}

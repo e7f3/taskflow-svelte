@@ -47,7 +47,7 @@ import type { AuthState, User } from '../types/auth.types';
  * Initial authentication state.
  * User starts logged out.
  */
-const initialState: AuthState = {
+export const initialState: AuthState = {
   isAuthenticated: false,
   currentUser: null,
   sessionToken: null,
