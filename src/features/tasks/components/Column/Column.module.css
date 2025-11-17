@@ -97,13 +97,16 @@
 
 /**
  * Empty state message.
+ *
+ * Learning Note - Top Alignment:
+ * We align the empty state to the top instead of center
+ * so it stays visible when other columns have many tasks.
+ * This prevents the message from being pushed way down.
  */
 .emptyState {
   display: flex;
   justify-content: center;
-  align-items: center;
-  height: 100%;
-  min-height: 150px;
+  padding-top: var(--spacing-lg);
 }
 
 /**

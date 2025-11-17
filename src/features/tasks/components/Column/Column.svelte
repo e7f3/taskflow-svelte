@@ -1,15 +1,15 @@
 <script lang="ts">
   /**
- * Column component - represents a status column (To Do, In Progress, Done).
- *
- * Learning Note - Component Composition:
- * This component demonstrates:
- * - Rendering child components in a loop ({#each})
- * - Drop zone implementation
- * - Passing callbacks to children
- * - Empty state handling
- * - Smooth list reordering with flip animation
- */
+   * Column component - represents a status column (To Do, In Progress, Done).
+   *
+   * Learning Note - Component Composition:
+   * This component demonstrates:
+   * - Rendering child components in a loop ({#each})
+   * - Drop zone implementation
+   * - Passing callbacks to children
+   * - Empty state handling
+   * - Smooth list reordering with flip animation
+   */
 
   import { flip } from 'svelte/animate';
   import styles from './Column.module.css';
@@ -17,74 +17,74 @@
   import type { Task, TaskStatus } from '../../types/task.types';
 
   /**
- * Component props.
- */
+   * Component props.
+   */
   interface Props {
     /**
-   * Column status (determines which tasks to show).
-   */
+     * Column status (determines which tasks to show).
+     */
     status: TaskStatus;
 
     /**
-   * Column title for display.
-   */
+     * Column title for display.
+     */
     title: string;
 
     /**
-   * Tasks to display in this column.
-   */
+     * Tasks to display in this column.
+     */
     tasks: Task[];
 
     /**
-   * Currently dragged task (from parent Board component).
-   * Used to prevent highlighting when dragging within same column.
-   */
+     * Currently dragged task (from parent Board component).
+     * Used to prevent highlighting when dragging within same column.
+     */
     draggedTask: Task | null;
 
     /**
-   * Callback when a task is dropped in this column.
-   */
+     * Callback when a task is dropped in this column.
+     */
     onDrop: (taskId: string, newStatus: TaskStatus) => void;
 
     /**
-   * Callback when drag starts.
-   */
+     * Callback when drag starts.
+     */
     onDragStart: (taskId: string) => void;
 
     /**
-   * Callback when drag ends.
-   */
+     * Callback when drag ends.
+     */
     onDragEnd: () => void;
   }
 
-  /*
- * Learning Note - Removed onEditTask and onDeleteTask props:
- * TaskCard now handles both edit and delete modals directly using the modal manager.
- * Column is now a pure presentation component that only handles drag-and-drop!
- * This eliminates all unnecessary prop drilling.
- */
+  /**
+   * Learning Note - Removed onEditTask and onDeleteTask props:
+   * TaskCard now handles both edit and delete modals directly using the modal manager.
+   * Column is now a pure presentation component that only handles drag-and-drop!
+   * This eliminates all unnecessary prop drilling.
+   */
   const { status, title, tasks, draggedTask, onDrop, onDragStart, onDragEnd }: Props =
     $props();
 
-  /*
- * Track whether a task is being dragged over this column.
- * Used for visual feedback (highlight drop zone).
- */
+  /**
+   * Track whether a task is being dragged over this column.
+   * Used for visual feedback (highlight drop zone).
+   */
   let isOver = $state(false);
 
   /**
- * Handle drag over event.
- * This allows the column to accept drops.
- *
- * Learning Note:
- * preventDefault() is required to allow dropping.
- * Without it, the drop event won't fire!
- *
- * Performance optimization:
- * We check draggedTask.status (O(1)) instead of tasks.some() (O(n)).
- * This is called on every mouse movement during drag, so we keep it cheap!
- * Just a simple property comparison - no array iteration needed.
- */
+   * Handle drag over event.
+   * This allows the column to accept drops.
+   *
+   * Learning Note:
+   * preventDefault() is required to allow dropping.
+   * Without it, the drop event won't fire!
+   *
+   * Performance optimization:
+   * We check draggedTask.status (O(1)) instead of tasks.some() (O(n)).
+   * This is called on every mouse movement during drag, so we keep it cheap!
+   * Just a simple property comparison - no array iteration needed.
+   */
   function handleDragOver(e: DragEvent) {
     e.preventDefault();
     e.dataTransfer!.dropEffect = 'move';
@@ -95,37 +95,37 @@
   }
 
   /**
- * Handle drag leave event.
- * Remove highlight when drag leaves the column.
- */
+   * Handle drag leave event.
+   * Remove highlight when drag leaves the column.
+   */
   function handleDragLeave() {
     isOver = false;
   }
 
   /**
- * Handle drop event.
- * Extract task ID and notify parent to move the task.
- *
- * Learning Note:
- * The task ID was set in TaskCard's dragstart handler.
- * We retrieve it here and pass it up to the parent.
- */
+   * Handle drop event.
+   * Extract task ID and notify parent to move the task.
+   *
+   * Learning Note:
+   * The task ID was set in TaskCard's dragstart handler.
+   * We retrieve it here and pass it up to the parent.
+   */
   function handleDrop(e: DragEvent) {
     e.preventDefault();
 
-    /*
-   * Get the task ID from drag data.
-   */
+    /**
+     * Get the task ID from drag data.
+     */
     const taskId = e.dataTransfer!.getData('text/plain');
 
-    /*
-   * Notify parent to move the task.
-   */
+    /**
+     * Notify parent to move the task.
+     */
     onDrop(taskId, status);
 
-    /*
-   * Remove highlight.
-   */
+    /**
+     * Remove highlight.
+     */
     isOver = false;
   }
 </script>

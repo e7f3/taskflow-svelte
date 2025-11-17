@@ -3,7 +3,6 @@
 
   const { Story } = defineMeta({
     title: 'Shared/Button',
-    component: Button,
     tags: ['autodocs'],
     parameters: {
       layout: 'centered',
@@ -30,6 +29,14 @@
   <Button variant="danger">Delete</Button>
 </Story>
 
+<Story name="Ghost">
+  <Button variant="ghost">Ghost Button</Button>
+</Story>
+
+<Story name="Ghost Icon">
+  <Button variant="ghost" size="small" aria-label="Delete">🗑️</Button>
+</Story>
+
 <Story name="Small">
   <Button size="small">Small Button</Button>
 </Story>
@@ -52,6 +59,7 @@
       <Button variant="primary">Primary</Button>
       <Button variant="secondary">Secondary</Button>
       <Button variant="danger">Danger</Button>
+      <Button variant="ghost">Ghost</Button>
     </div>
     <div style="display: flex; gap: 1rem;">
       <Button size="small">Small</Button>

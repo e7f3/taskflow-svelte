@@ -1,19 +1,25 @@
 <script module>
   import { defineMeta } from '@storybook/addon-svelte-csf';
+  import Select from './Select.svelte';
 
   const { Story } = defineMeta({
     title: 'Shared/Select',
-    component: Select,
     tags: ['autodocs'],
     parameters: {
       layout: 'centered',
+      docs: {
+        story: { inline: false }, // Render stories in iframe for state isolation
+      },
     },
   });
 </script>
 
 <script lang="ts">
-  import Select from './Select.svelte';
-
+  /**
+   * Learning Note - Storybook State Isolation:
+   * By setting `docs.story.inline: false`, each story renders in its own iframe.
+   * This provides proper state isolation between stories.
+   */
   let defaultValue = $state('');
   let selectedValue = $state('medium');
   let errorValue = $state('');

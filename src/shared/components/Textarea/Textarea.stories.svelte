@@ -1,19 +1,25 @@
 <script module>
   import { defineMeta } from '@storybook/addon-svelte-csf';
+  import Textarea from './Textarea.svelte';
 
   const { Story } = defineMeta({
     title: 'Shared/Textarea',
-    component: Textarea,
     tags: ['autodocs'],
     parameters: {
       layout: 'centered',
+      docs: {
+        story: { inline: false }, // Render stories in iframe for state isolation
+      },
     },
   });
 </script>
 
 <script lang="ts">
-  import Textarea from './Textarea.svelte';
-
+  /**
+   * Learning Note - Storybook State Isolation:
+   * By setting `docs.story.inline: false`, each story renders in its own iframe.
+   * This provides proper state isolation between stories.
+   */
   let defaultValue = $state('');
   let textValue = $state(
     'This is a sample description with multiple lines of text.\n\nIt demonstrates how the textarea component handles longer content.',

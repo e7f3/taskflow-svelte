@@ -1,53 +1,53 @@
 <script lang="ts">
   /**
- * Reusable Textarea component.
- * 
- * Learning Note:
- * This component wraps a native <textarea> element with consistent styling.
- * It supports auto-resizing and all standard textarea attributes.
- */
+   * Reusable Textarea component.
+   *
+   * Learning Note:
+   * This component wraps a native <textarea> element with consistent styling.
+   * It supports auto-resizing and all standard textarea attributes.
+   */
 
   import styles from './Textarea.module.css';
 
   interface Props {
     /**
-   * Textarea value (controlled component).
-   */
+     * Textarea value (controlled component).
+     */
     value: string;
-  
+
     /**
-   * Textarea ID for label association.
-   */
+     * Textarea ID for label association.
+     */
     id?: string;
-  
+
     /**
-   * Placeholder text.
-   */
+     * Placeholder text.
+     */
     placeholder?: string;
-  
+
     /**
-   * Whether the textarea is disabled.
-   */
+     * Whether the textarea is disabled.
+     */
     disabled?: boolean;
-  
+
     /**
-   * Whether the textarea is required.
-   */
+     * Whether the textarea is required.
+     */
     required?: boolean;
-  
+
     /**
-   * Number of visible rows.
-   */
+     * Number of visible rows.
+     */
     rows?: number;
-  
+
     /**
-   * Error message to display.
-   */
+     * Error message to display.
+     */
     error?: string;
-  
+
     /**
-   * Additional CSS class.
-   */
+     * Additional CSS class.
+     */
     class?: string;
   }
 

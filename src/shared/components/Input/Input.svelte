@@ -1,63 +1,63 @@
 <script lang="ts">
   /**
- * Reusable Input component.
- * 
- * Learning Note:
- * This is a controlled input component that uses Svelte 5's $props() rune.
- * It supports all standard HTML input attributes and adds custom styling.
- */
+   * Reusable Input component.
+   *
+   * Learning Note:
+   * This is a controlled input component that uses Svelte 5's $props() rune.
+   * It supports all standard HTML input attributes and adds custom styling.
+   */
 
   import styles from './Input.module.css';
 
   interface Props {
     /**
-   * Input value (controlled component).
-   */
+     * Input value (controlled component).
+     */
     value: string;
-  
+
     /**
-   * Input type (text, password, email, etc.).
-   */
+     * Input type (text, password, email, etc.).
+     */
     type?: string;
-  
+
     /**
-   * Input ID for label association.
-   */
+     * Input ID for label association.
+     */
     id?: string;
-  
+
     /**
-   * Placeholder text.
-   */
+     * Placeholder text.
+     */
     placeholder?: string;
-  
+
     /**
-   * Whether the input is disabled.
-   */
+     * Whether the input is disabled.
+     */
     disabled?: boolean;
-  
+
     /**
-   * Whether the input is required.
-   */
+     * Whether the input is required.
+     */
     required?: boolean;
-  
+
     /**
-   * Error message to display.
-   */
+     * Error message to display.
+     */
     error?: string;
-  
+
     /**
-   * ARIA invalid state.
-   */
+     * ARIA invalid state.
+     */
     'aria-invalid'?: boolean;
-  
+
     /**
-   * ARIA described by (for error messages).
-   */
+     * ARIA described by (for error messages).
+     */
     'aria-describedby'?: string;
-  
+
     /**
-   * Additional CSS class.
-   */
+     * Additional CSS class.
+     */
     class?: string;
   }
 

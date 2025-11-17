@@ -198,33 +198,6 @@
 }
 
 /**
- * Delete button.
- */
-.deleteButton {
-  padding: var(--spacing-xs);
-  border: none;
-  border-radius: 4px;
-
-  font-size: 16px;
-
-  background: none;
-  opacity: 0.6;
-
-  transition: opacity 0.2s, background-color 0.2s;
-
-  cursor: pointer;
-}
-
-.deleteButton:hover {
-  background-color: #fee;
-  opacity: 1;
-}
-
-.deleteButton:active {
-  transform: scale(0.95);
-}
-
-/**
  * Responsive adjustments for mobile.
  */
 @media (width <= 768px) {

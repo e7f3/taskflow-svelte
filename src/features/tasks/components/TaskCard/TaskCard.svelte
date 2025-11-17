@@ -1,23 +1,24 @@
 <script lang="ts">
   /**
- * TaskCard component - displays a single task.
- *
- * Learning Note - Svelte 5 Props:
- *
- * Svelte 4 way:
- *   export let task;
- *   export let onEdit;
- *
- * Svelte 5 way:
- *   let { task, onEdit } = $props();
- *
- * Benefits:
- * - More like destructuring
- * - Better TypeScript inference
- * - Clearer intent
- */
+   * TaskCard component - displays a single task.
+   *
+   * Learning Note - Svelte 5 Props:
+   *
+   * Svelte 4 way:
+   *   export let task;
+   *   export let onEdit;
+   *
+   * Svelte 5 way:
+   *   let { task, onEdit } = $props();
+   *
+   * Benefits:
+   * - More like destructuring
+   * - Better TypeScript inference
+   * - Clearer intent
+   */
 
   import { fade, fly } from 'svelte/transition';
+  import Button from '@/shared/components/Button/Button.svelte';
   import styles from './TaskCard.module.css';
   import {
     deleteConfirmationModal,
@@ -26,129 +27,129 @@
   import type { Task } from '../../types/task.types';
 
   /**
- * Component props interface.
- *
- * Learning Note:
- * We define props as an interface for type safety.
- * This is similar to React's prop types but enforced at compile time!
- */
+   * Component props interface.
+   *
+   * Learning Note:
+   * We define props as an interface for type safety.
+   * This is similar to React's prop types but enforced at compile time!
+   */
   interface Props {
     /**
-   * Task to display.
-   */
+     * Task to display.
+     */
     task: Task;
 
     /**
-   * Callback when drag starts.
-   */
+     * Callback when drag starts.
+     */
     onDragStart: (taskId: string) => void;
 
     /**
-   * Callback when drag ends.
-   */
+     * Callback when drag ends.
+     */
     onDragEnd: () => void;
   }
 
-  /*
- * Destructure props using $props() rune.
- *
- * Learning Note:
- * This is Svelte 5's new way of declaring props.
- * Much cleaner than Svelte 4's export let!
- *
- * Note: We removed onEdit and onDelete props because TaskCard now handles
- * both edit and delete modals directly using the modal manager.
- * This eliminates prop drilling entirely!
- */
+  /**
+   * Destructure props using $props() rune.
+   *
+   * Learning Note:
+   * This is Svelte 5's new way of declaring props.
+   * Much cleaner than Svelte 4's export let!
+   *
+   * Note: We removed onEdit and onDelete props because TaskCard now handles
+   * both edit and delete modals directly using the modal manager.
+   * This eliminates prop drilling entirely!
+   */
   const { task, onDragStart, onDragEnd }: Props = $props();
 
-  /*
- * Assignee is already embedded in the task.
- *
- * Learning Note - Production-Ready Pattern:
- * Instead of storing just an ID and doing lookups,
- * we embed the assignee data in the task.
- *
- * This is how real APIs work - they return nested data
- * to avoid N+1 query problems and unnecessary client-side lookups.
- *
- * Much more efficient than:
- * let assignee = $derived(MOCK_USERS.find(u => u.id === task.assigneeId))
- */
+  /**
+   * Assignee is already embedded in the task.
+   *
+   * Learning Note - Production-Ready Pattern:
+   * Instead of storing just an ID and doing lookups,
+   * we embed the assignee data in the task.
+   *
+   * This is how real APIs work - they return nested data
+   * to avoid N+1 query problems and unnecessary client-side lookups.
+   *
+   * Much more efficient than:
+   * let assignee = $derived(MOCK_USERS.find(u => u.id === task.assigneeId))
+   */
   const assignee = $derived(task.assignee);
 
-  /*
- * Track whether this card is currently being dragged.
- * Used for visual feedback (opacity, rotation).
- *
- * Learning Note - Local State for UI:
- * We use $state for UI-only state that doesn't need to be in a store.
- * This is perfect for temporary visual states like dragging.
- */
+  /**
+   * Track whether this card is currently being dragged.
+   * Used for visual feedback (opacity, rotation).
+   *
+   * Learning Note - Local State for UI:
+   * We use $state for UI-only state that doesn't need to be in a store.
+   * This is perfect for temporary visual states like dragging.
+   */
   let isDragging = $state(false);
 
-  /*
- * Compute priority class name.
- * Used for the colored indicator bar.
- */
+  /**
+   * Compute priority class name.
+   * Used for the colored indicator bar.
+   */
   const priorityClass = $derived(
     styles[`priority${task.priority.charAt(0).toUpperCase() + task.priority.slice(1)}`],
   );
 
   /**
- * Handle drag start event.
- *
- * Learning Note - Native Drag & Drop:
- * Svelte makes it easy to use native browser APIs.
- * No need for external libraries!
- *
- * Enhanced with visual feedback - we set isDragging to true
- * which applies CSS for opacity and rotation.
- */
-  function handleDragStart(e: DragEvent) {
-    /*
-   * Set drag data.
-   * This allows the drop target to know what's being dragged.
+   * Handle drag start event.
+   *
+   * Learning Note - Native Drag & Drop:
+   * Svelte makes it easy to use native browser APIs.
+   * No need for external libraries!
+   *
+   * Enhanced with visual feedback - we set isDragging to true
+   * which applies CSS for opacity and rotation.
    */
+  function handleDragStart(e: DragEvent) {
+    /**
+     * Set drag data.
+     * This allows the drop target to know what's being dragged.
+     */
     e.dataTransfer!.effectAllowed = 'move';
     e.dataTransfer!.setData('text/plain', task.id);
 
-    /*
-   * Set dragging state for visual feedback.
-   * This applies the .dragging class via class:dragging directive.
-   */
+    /**
+     * Set dragging state for visual feedback.
+     * This applies the .dragging class via class:dragging directive.
+     */
     isDragging = true;
 
-    /*
-   * Notify parent component.
-   */
+    /**
+     * Notify parent component.
+     */
     onDragStart(task.id);
   }
 
   /**
- * Handle drag end event.
- * Reset dragging state to remove visual feedback.
- */
+   * Handle drag end event.
+   * Reset dragging state to remove visual feedback.
+   */
   function handleDragEnd() {
     isDragging = false;
     onDragEnd();
   }
 
   /**
- * Handle card click to edit.
- *
- * Learning Note - Direct Modal Management:
- * TaskCard directly opens the edit modal using the shared modal handler.
- * No need to pass events up to parent components!
- */
+   * Handle card click to edit.
+   *
+   * Learning Note - Direct Modal Management:
+   * TaskCard directly opens the edit modal using the shared modal handler.
+   * No need to pass events up to parent components!
+   */
   function handleClick() {
     taskFormModal.open({ task });
   }
 
   /**
- * Handle keyboard events for accessibility.
- * Enter or Space key opens the task for editing.
- */
+   * Handle keyboard events for accessibility.
+   * Enter or Space key opens the task for editing.
+   */
   function handleKeyDown(e: KeyboardEvent) {
     if (e.key === 'Enter' || e.key === ' ') {
       e.preventDefault();
@@ -157,21 +158,21 @@
   }
 
   /**
- * Handle delete button click.
- *
- * Learning Note - Direct Modal Management:
- * Instead of passing the event up to the parent, TaskCard directly
- * opens the delete confirmation modal using the shared modal handler.
- *
- * Benefits:
- * - No prop drilling (onDelete callback removed)
- * - TaskCard owns its delete behavior
- * - Board doesn't need to know about TaskCard's delete flow
- * - Cleaner separation of concerns
- *
- * The modal itself still renders at the Board level (or could be at App level),
- * but TaskCard controls when it opens. This is the power of shared stores!
- */
+   * Handle delete button click.
+   *
+   * Learning Note - Direct Modal Management:
+   * Instead of passing the event up to the parent, TaskCard directly
+   * opens the delete confirmation modal using the shared modal handler.
+   *
+   * Benefits:
+   * - No prop drilling (onDelete callback removed)
+   * - TaskCard owns its delete behavior
+   * - Board doesn't need to know about TaskCard's delete flow
+   * - Cleaner separation of concerns
+   *
+   * The modal itself still renders at the Board level (or could be at App level),
+   * but TaskCard controls when it opens. This is the power of shared stores!
+   */
   function handleDelete(e: MouseEvent) {
     e.stopPropagation(); // Don't trigger card click
     deleteConfirmationModal.open({ taskId: task.id });
@@ -243,15 +244,15 @@
           {task.priority}
         </span>
 
-        <!-- Delete button -->
-        <button
-          class={styles.deleteButton}
+        <!-- Delete button using shared Button component -->
+        <Button
+          variant="ghost"
+          size="small"
           onclick={handleDelete}
           aria-label="Delete task"
-          type="button"
         >
           🗑️
-        </button>
+        </Button>
       </div>
     </div>
   </div>
