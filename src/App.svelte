@@ -127,10 +127,11 @@
       Learning Note:
       When user logs in, LoginForm disappears and Board appears.
       This happens automatically through store reactivity!
+      
+      Note: LoginForm handles its own layout and background,
+      so we render it directly without a wrapper.
     -->
-    <div class="loginContainer">
-      <LoginForm />
-    </div>
+    <LoginForm />
   {/if}
 </main>
 
@@ -163,23 +164,6 @@
     display: flex;
     flex: 1;
     flex-direction: column;
-  }
-
-  /*
-   * Login container - centers the login form.
-   *
-   * Learning Note:
-   * We use flexbox to center the login form both
-   * horizontally and vertically on the page.
-   */
-  .loginContainer {
-    display: flex;
-    flex: 1;
-    justify-content: center;
-    align-items: center;
-
-    min-height: 100vh;
-    padding: var(--spacing-lg);
   }
 </style>
 
