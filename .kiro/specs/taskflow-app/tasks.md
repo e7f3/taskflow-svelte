@@ -222,7 +222,7 @@ This plan breaks down the TaskFlow application into incremental, manageable codi
   - Add comments explaining app initialization and conditional rendering
   - _Requirements: 1.1, 1.2, 1.4, 8.3, 8.4_
 
-- [ ] 12. Add transitions and animations
+- [x] 12. Add transitions and animations
   - Import fade, fly from svelte/transition in TaskForm
   - Import flip from svelte/animate in Column component
   - Add fade transition to TaskForm dialog backdrop (200ms)

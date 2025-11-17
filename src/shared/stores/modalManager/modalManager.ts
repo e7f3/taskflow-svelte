@@ -58,7 +58,7 @@ export const modalManager = {
    * Push a modal onto the stack.
    * Returns the modal ID.
    */
-  push<TState = any>(type: string, state?: TState): ModalId {
+  push<TState = unknown>(type: string, state?: TState): ModalId {
     const id = generateModalId();
     const modal: ModalInstance<TState> = {
       id,
@@ -173,12 +173,34 @@ export const activeModal = derived(modalStackStore, ($stack) => {
  */
 export function createModalHandler<TState = unknown>(
   type: string,
-): ModalHandler<TState> {
+) {
+  /**
+   * Derived store for isOpen state.
+   * Automatically updates when modal stack changes.
+   */
+  const isOpen = derived(modalStackStore, ($stack) => (
+    $stack.stack.some((m) => m.type === type)
+  ),
+  );
+
+  /**
+   * Derived store for modal state.
+   * Returns the state of the most recent instance of this modal type.
+   */
+  const state = derived(modalStackStore, ($stack) => {
+    const modal = [...$stack.stack]
+      .reverse()
+      .find((m) => m.type === type);
+    return modal?.state as TState | undefined;
+  });
+
   return {
     type,
+    isOpen,
+    state,
 
-    open(state?: TState): ModalId {
-      return modalManager.push(type, state);
+    open(modalState?: TState): ModalId {
+      return modalManager.push(type, modalState);
     },
 
     close(id?: ModalId): void {
@@ -186,8 +208,8 @@ export function createModalHandler<TState = unknown>(
         modalManager.pop(id);
       } else {
         // Close most recent instance of this type
-        const state = get(modalStackStore);
-        const modal = [...state.stack]
+        const stackState = get(modalStackStore);
+        const modal = [...stackState.stack]
           .reverse()
           .find((m) => m.type === type);
 
@@ -195,32 +217,6 @@ export function createModalHandler<TState = unknown>(
           modalManager.pop(modal.id);
         }
       }
-    },
-
-    isOpen(id?: ModalId): boolean {
-      const state = get(modalStackStore);
-
-      if (id) {
-        return state.stack.some((m) => m.id === id && m.type === type);
-      }
-
-      return state.stack.some((m) => m.type === type);
-    },
-
-    getState(id?: ModalId): TState | undefined {
-      const state = get(modalStackStore);
-
-      if (id) {
-        const modal = state.stack.find((m) => m.id === id && m.type === type);
-        return modal?.state as TState | undefined;
-      }
-
-      // Get most recent instance
-      const modal = [...state.stack]
-        .reverse()
-        .find((m) => m.type === type);
-
-      return modal?.state as TState | undefined;
     },
   };
 }

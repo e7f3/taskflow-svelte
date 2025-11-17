@@ -17,6 +17,7 @@
  * - Clearer intent
  */
 
+  import { fade, fly } from 'svelte/transition';
   import styles from './TaskCard.module.css';
   import {
     deleteConfirmationModal,
@@ -159,11 +160,21 @@
 <!--
   TaskCard template.
 
-  Learning Note:
-  - draggable="true" makes the element draggable
-  - ondragstart/ondragend are Svelte 5 event handlers
-  - onclick is the new way (was on:click in Svelte 4)
-  - class: directive for dynamic classes
+  Learning Note - Svelte Transitions:
+  Svelte has built-in transition directives that make animations easy!
+  
+  - in:fly - Animates element entering the DOM
+  - out:fade - Animates element leaving the DOM
+  
+  Compare to React:
+  - React: Need react-spring, framer-motion, or manual CSS
+  - Svelte: Built-in, declarative, performant
+  
+  The transitions:
+  - in:fly={{ y: 20, duration: 300 }} - Slides up from 20px below
+  - out:fade={{ duration: 200 }} - Fades out when removed
+  
+  These run automatically when the element is added/removed from the DOM!
 -->
 
 <div
@@ -175,6 +186,8 @@
   onkeydown={handleKeyDown}
   role="button"
   tabindex="0"
+  in:fly={{ y: 20, duration: 300 }}
+  out:fade={{ duration: 200 }}
 >
   <!-- Priority indicator bar -->
   <div class="{styles.priorityIndicator} {priorityClass}"></div>

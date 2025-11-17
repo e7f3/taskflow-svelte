@@ -64,26 +64,19 @@
    * Derived state from modal handlers.
    *
    * Learning Note - Modal Manager Integration:
-   * Instead of manually tracking modal state with $state variables,
-   * we import pre-configured modal handlers from taskModals.ts.
+   * Modal handlers expose derived stores (isOpen, state) as properties.
+   * We destructure the stores first, then subscribe using the $ prefix.
    *
-   * Benefits:
-   * - Centralized modal configuration
-   * - Reusable across components
-   * - Type-safe state management
-   * - Cleaner component code
-   * - Single source of truth
-   *
-   * We use $derived to reactively compute modal state.
-   * This automatically updates when the modal manager changes.
+   * Much cleaner - just subscribe to the stores directly!
    */
-  const showTaskForm = $derived(taskFormModal.isOpen());
-  const editingTask = $derived(taskFormModal.getState()?.task ?? null);
+  const { isOpen: taskFormIsOpen, state: taskFormState } = taskFormModal;
+  const { isOpen: deleteModalIsOpen, state: deleteModalState } = deleteConfirmationModal;
+  
+  const showTaskForm = $derived($taskFormIsOpen);
+  const editingTask = $derived($taskFormState?.task ?? null);
 
-  const showDeleteConfirmation = $derived(deleteConfirmationModal.isOpen());
-  const taskToDelete = $derived(
-    deleteConfirmationModal.getState()?.taskId ?? null,
-  );
+  const showDeleteConfirmation = $derived($deleteModalIsOpen);
+  const taskToDelete = $derived($deleteModalState?.taskId ?? null);
 
   /**
    * Handle drag start.
@@ -221,13 +214,16 @@
     - Calls taskFormModal.close() to close
     
     This is simpler and more encapsulated than callback props.
+    
+    Note: We always render TaskForm (not wrapped in {#if}).
+    The Modal component inside TaskForm handles visibility.
+    This prevents issues with the component being removed from DOM
+    before the modal can properly close with its transitions.
   -->
-  {#if showTaskForm}
-    <TaskForm
-      isOpen={showTaskForm}
-      task={editingTask ?? undefined}
-    />
-  {/if}
+  <TaskForm
+    isOpen={showTaskForm}
+    task={editingTask ?? undefined}
+  />
 
   <!--
     Delete confirmation modal.
@@ -235,19 +231,20 @@
     Learning Note - Component Composition:
     We use our ConfirmationModal component instead of browser confirm().
     This provides better UX and consistency with our design system.
+    
+    Note: Always rendered (not wrapped in {#if}) to allow proper
+    modal transitions. The Modal component handles visibility.
   -->
-  {#if showDeleteConfirmation}
-    <ConfirmationModal
-      isOpen={showDeleteConfirmation}
-      title="Delete Task"
-      message="Are you sure you want to delete this task? This action cannot be undone."
-      confirmText="Delete"
-      cancelText="Cancel"
-      confirmVariant="danger"
-      onConfirm={handleConfirmDelete}
-      onCancel={handleCancelDelete}
-    />
-  {/if}
+  <ConfirmationModal
+    isOpen={showDeleteConfirmation}
+    title="Delete Task"
+    message="Are you sure you want to delete this task? This action cannot be undone."
+    confirmText="Delete"
+    cancelText="Cancel"
+    confirmVariant="danger"
+    onConfirm={handleConfirmDelete}
+    onCancel={handleCancelDelete}
+  />
 </div>
 
 <!--

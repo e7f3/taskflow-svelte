@@ -1,6 +1,10 @@
 /**
  * Modal dialog container.
  * Uses native <dialog> element for accessibility.
+ *
+ * Learning Note - Dialog Transitions:
+ * We add CSS transitions for smooth open/close animations.
+ * The dialog fades in and scales up when opening.
  */
 .dialog {
   width: 100%;
@@ -11,16 +15,71 @@
   border-radius: var(--border-radius);
 
   background: #fff;
+
+  /* Transition for smooth appearance */
+  opacity: 0;
   box-shadow: var(--shadow-hover);
+  transform: scale(0.95);
+
+  transition: opacity 200ms ease-out,
+    transform 200ms ease-out,
+    overlay 200ms ease-out allow-discrete,
+    display 200ms ease-out allow-discrete;
+}
+
+/**
+ * Dialog when open - full opacity and normal scale.
+ */
+.dialog[open] {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/**
+ * Starting state for @starting-style.
+ * This enables transitions when the dialog first appears.
+ */
+@starting-style {
+  .dialog[open] {
+    opacity: 0;
+    transform: scale(0.95);
+  }
 }
 
 /**
  * Dialog backdrop (shown when modal is open).
- * Blurred background for focus.
+ * Blurred background for focus with fade transition.
+ *
+ * Learning Note:
+ * The ::backdrop pseudo-element can be transitioned!
+ * We fade it in/out for a smooth modal experience.
  */
 .dialog::backdrop {
   background: rgb(0 0 0 / 0.6);
   backdrop-filter: blur(4px);
+
+  /* Transition for smooth fade */
+  opacity: 0;
+
+  transition: opacity 200ms ease-out,
+    overlay 200ms ease-out allow-discrete,
+    display 200ms ease-out allow-discrete;
+}
+
+/**
+ * Backdrop when dialog is open.
+ */
+.dialog[open]::backdrop {
+  opacity: 1;
+}
+
+/**
+ * Starting state for backdrop transition.
+ */
+@starting-style {
+  .dialog[open]::backdrop {
+    opacity: 0;
+  }
 }
 
 /**
