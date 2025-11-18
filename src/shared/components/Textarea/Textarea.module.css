@@ -16,6 +16,10 @@
   resize: vertical;
 }
 
+.textarea:hover:not(:disabled) {
+  border-color: var(--color-border-hover);
+}
+
 .textarea:focus {
   outline: none;
   border-color: var(--color-border-focus);

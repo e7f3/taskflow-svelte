@@ -18,6 +18,10 @@
   cursor: pointer;
 }
 
+.select:hover:not(:disabled) {
+  border-color: var(--color-border-hover);
+}
+
 .select:focus {
   outline: none;
   border-color: var(--color-border-focus);

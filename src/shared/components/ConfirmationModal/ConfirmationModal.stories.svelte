@@ -1,3 +1,10 @@
+<!--
+  Storybook stories for ConfirmationModal component.
+  
+  Learning Note - Modal Stories in Storybook:
+  ConfirmationModal uses Modal which renders to document.body.
+  We use `inline: false` to render in an iframe for proper isolation.
+-->
 <script module>
   import { defineMeta } from '@storybook/addon-svelte-csf';
 
@@ -6,6 +13,9 @@
     tags: ['autodocs'],
     parameters: {
       layout: 'fullscreen',
+      docs: { 
+        story: { inline: false }, // Opens stories in iframe - isolated!
+      },
     },
   });
 </script>
