@@ -36,7 +36,7 @@ jobs:
         run: pnpm build-storybook
 
       - name: Upload preview artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: preview-${{ github.event.pull_request.number }}
           path: |
