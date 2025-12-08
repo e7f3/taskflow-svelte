@@ -38,20 +38,20 @@
     "@stylistic/stylelint-plugin": "^4.0.0",
     "@sveltejs/vite-plugin-svelte": "^5.0.3",
     "@testing-library/jest-dom": "^6.9.1",
-    "@testing-library/svelte": "^5.2.8",
+    "@testing-library/svelte": "^5.2.9",
     "@testing-library/user-event": "^14.6.1",
     "@tsconfig/svelte": "^5.0.4",
     "@types/node": "^24.10.0",
     "@typescript-eslint/eslint-plugin": "^8.46.4",
     "@typescript-eslint/parser": "^8.46.4",
-    "@vitest/browser-playwright": "4.0.8",
-    "@vitest/coverage-v8": "4.0.8",
+    "@vitest/browser-playwright": "4.0.15",
+    "@vitest/coverage-v8": "4.0.15",
     "eslint": "^9.39.1",
     "eslint-import-resolver-typescript": "^4.4.4",
     "eslint-plugin-import": "^2.32.0",
     "eslint-plugin-svelte": "^3.13.0",
     "jsdom": "^27.1.0",
-    "playwright": "^1.56.1",
+    "playwright": "^1.57.0",
     "postcss-html": "^1.8.0",
     "storybook": "^10.0.6",
     "stylelint": "^16.25.0",
@@ -65,6 +65,6 @@
     "typescript": "^5.7.2",
     "typescript-eslint": "^8.46.4",
     "vite": "^6.0.7",
-    "vitest": "^4.0.8"
+    "vitest": "^4.0.15"
   }
 }
